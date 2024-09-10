@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pssor\\source\\repos\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj": {}
+    "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pssor\\source\\repos\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj": {
+    "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pssor\\source\\repos\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj",
+        "projectUniqueName": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj",
         "projectName": "NOSQL-Project",
-        "projectPath": "C:\\Users\\pssor\\source\\repos\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj",
+        "projectPath": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\NOSQL-Project\\NOSQL-Project\\NOSQL-Project.csproj",
         "packagesPath": "C:\\Users\\pssor\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pssor\\source\\repos\\NOSQL-Project\\NOSQL-Project\\obj\\",
+        "outputPath": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\NOSQL-Project\\NOSQL-Project\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -53,6 +53,10 @@
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.28.0, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [
