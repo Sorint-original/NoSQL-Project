@@ -26,6 +26,10 @@ namespace Model
         [BsonRepresentation(BsonType.String)]
         public Status Status { get; set; }
 
+        [BsonElement("Priority")]
+        [BsonRepresentation(BsonType.String)]
+        public Priority Priority { get; set; }
+
         [BsonElement("Creation_Time")]
         public DateTime CreationTime { get; set; }
 
@@ -49,4 +53,9 @@ namespace Model
 enum Status
 {
     open, pending, closed
+}
+
+enum Priority
+{
+    Low,Normal,High
 }
