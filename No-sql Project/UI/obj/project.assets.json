@@ -331,6 +331,54 @@
         "runtime": {
           "lib/net6.0/ZstdSharp.dll": {}
         }
+      },
+      "DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Model": "1.0.0",
+          "MongoDB.Bson": "2.29.0",
+          "MongoDB.Driver": "2.29.0",
+          "System.Configuration.ConfigurationManager": "8.0.0"
+        },
+        "compile": {
+          "bin/placeholder/DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DAL.dll": {}
+        }
+      },
+      "Model/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MongoDB.Bson": "2.29.0",
+          "MongoDB.Driver": "2.29.0",
+          "System.Configuration.ConfigurationManager": "8.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Model.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Model.dll": {}
+        }
+      },
+      "Service/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "DAL": "1.0.0",
+          "Model": "1.0.0",
+          "MongoDB.Bson": "2.29.0",
+          "MongoDB.Driver": "2.29.0",
+          "System.Configuration.ConfigurationManager": "8.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Service.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Service.dll": {}
+        }
       }
     }
   },
@@ -885,12 +933,29 @@
         "zstdsharp.port.0.7.3.nupkg.sha512",
         "zstdsharp.port.nuspec"
       ]
+    },
+    "DAL/1.0.0": {
+      "type": "project",
+      "path": "../DAL/DAL.csproj",
+      "msbuildProject": "../DAL/DAL.csproj"
+    },
+    "Model/1.0.0": {
+      "type": "project",
+      "path": "../Model/Model.csproj",
+      "msbuildProject": "../Model/Model.csproj"
+    },
+    "Service/1.0.0": {
+      "type": "project",
+      "path": "../Service/Service.csproj",
+      "msbuildProject": "../Service/Service.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
+      "Model >= 1.0.0",
       "MongoDB.Bson >= 2.29.0",
       "MongoDB.Driver >= 2.29.0",
+      "Service >= 1.0.0",
       "System.Configuration.ConfigurationManager >= 8.0.0"
     ]
   },
@@ -926,7 +991,14 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Model\\Model.csproj"
+            },
+            "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Service\\Service.csproj": {
+              "projectPath": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Service\\Service.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
