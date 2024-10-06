@@ -7,7 +7,7 @@ using Model;
 
 namespace DAL
 {
-    internal class TicketDAO
+    internal class TicketDAO : BaseDAO
     {
     }
 }
