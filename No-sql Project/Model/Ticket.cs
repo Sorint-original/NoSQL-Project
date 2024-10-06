@@ -36,13 +36,14 @@ namespace Model
         [BsonElement("Solution_Time")]
         public DateTime SolutionTime { get; set; }
 
-        public Ticket(ObjectId id, ObjectId Employeeid, string Title, string Description, Status Status, DateTime CreationTime, DateTime SolutionTime)
+        public Ticket(ObjectId id, ObjectId Employeeid, string Title, string Description, Status Status, Priority Priority, DateTime CreationTime, DateTime SolutionTime)
         {
             this.Id = id;
             this.EmployeeId = Employeeid;
             this.Title = Title;
             this.Description = Description;
             this.Status = Status;
+            this.Priority = Priority;
             this.CreationTime = CreationTime;
             this.SolutionTime = SolutionTime;
         }
@@ -50,12 +51,12 @@ namespace Model
 }
 
 
-enum Status
+public enum Status
 {
     open, pending, closed
 }
 
-enum Priority
+public enum Priority
 {
     Low,Normal,High
 }
