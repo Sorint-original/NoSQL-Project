@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class Ticket
+    public class Ticket
     {
         [BsonElement("_id")]
         public ObjectId Id { get; set; }

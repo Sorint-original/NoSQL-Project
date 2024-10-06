@@ -9,7 +9,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Model
 {
-    internal class Employee
+    public class Employee
     {
         [BsonElement("_id")]
         public ObjectId Id { get; set; }
