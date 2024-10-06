@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 
 namespace Model
 {
@@ -23,10 +26,12 @@ namespace Model
         public string Description { get; set; }
 
         [BsonElement("Status")]
+        [JsonConverter(typeof(StringEnumConverter))]
         [BsonRepresentation(BsonType.String)]
         public Status Status { get; set; }
 
         [BsonElement("Priority")]
+        [JsonConverter(typeof(StringEnumConverter))]
         [BsonRepresentation(BsonType.String)]
         public Priority Priority { get; set; }
 

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using static MongoDB.Driver.WriteConcern;
 
 namespace DAL
 {
@@ -52,10 +55,25 @@ namespace DAL
         }
 
         //Update tickets
+        public void UpdateTicket(Ticket ticket)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t =>t.Id, ticket.Id);
+            _ticketsCollection.ReplaceOneAsync(filter, ticket);
+            //it updates all the atributes of the ticket
+        }
 
         //Delete tickets
+        public void DeleteTicket(Ticket ticket)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
+            _ticketsCollection.DeleteOneAsync(filter);
+        }
 
         //GetAlltickets by status
-
+        public List<Ticket> GetTicketsByStatus(Status Status)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
+            return _ticketsCollection.Find(filter).ToList();
+        }
     }
 }
