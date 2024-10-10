@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 
 namespace Model
 {
@@ -27,6 +29,7 @@ namespace Model
         public string Password { get; set; }
 
         [BsonElement("Role")]
+        [JsonConverter(typeof(StringEnumConverter))]
         [BsonRepresentation(BsonType.String)]
         public Role Role { get; set; }
 
@@ -42,7 +45,7 @@ namespace Model
 
     }
 
-    enum Role
+    public enum Role
     {
         regular, admin
     }
