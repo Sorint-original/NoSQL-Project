@@ -75,6 +75,7 @@
             LoginB.TabIndex = 4;
             LoginB.Text = "Login";
             LoginB.UseVisualStyleBackColor = true;
+            LoginB.Click += LoginB_Click;
             // 
             // Login
             // 
