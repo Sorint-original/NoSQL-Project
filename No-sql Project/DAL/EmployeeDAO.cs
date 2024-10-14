@@ -15,7 +15,7 @@ namespace DAL
         private readonly IMongoCollection<Employee> _employeeCollection;
         public EmployeeDAO() : base()
         {
-            _employeeCollection = GetCollection<Employee>("Employee");
+            _employeeCollection = GetCollection<Employee>("Employees");
         }
 
         //GetAllEmployees(order by Username)
@@ -26,11 +26,10 @@ namespace DAL
         }
         
         //GetEmployeeByUsername
-        public List<Employee> GetEmployeesByUsername(ObjectId username)
+        public List<Employee> GetEmployeesByUsername(string username)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.UserName, username);
-            var sort = Builders<Employee>.Sort.Ascending(e => e.UserName);
-            return _employeeCollection.Find(filter).Sort(sort).ToList();
+            return _employeeCollection.Find(filter).ToList();
         }
     }
 }
