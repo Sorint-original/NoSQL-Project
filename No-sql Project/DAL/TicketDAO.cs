@@ -75,5 +75,35 @@ namespace DAL
             var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
             return _ticketsCollection.Find(filter).ToList();
         }
+
+        // Get the status precentages
+        public async Task<string> GetStatusPrecentagesForSpecificEmployee(Employee employee)
+        {
+            int totalAmountOfTickets = GetTicketsByEmployeeId(employee.Id).Count;
+            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new {status = Group.Key, total = Group.Sum(U => 1)});
+            var GroupStatuses = await singleFieldAggregate.ToListAsync();
+            string status = "";
+            foreach (var group in GroupStatuses)
+            {
+                status += $"{group.status} : {(group.total / totalAmountOfTickets)*100}, ";
+            }
+            //var result = new Task<string>(() => status);
+            return status;
+        }
+        public async Task<string> GetStatusPercentageForAllTickets()
+        {
+            int totalAmountOfTickets = GetAllTickets().Count;
+            var singleFieldAggregate = _ticketsCollection.Aggregate().Group(t => t.Status, Group => new { status = Group.Key, total = Group.Sum(U => 1) });
+            var GroupStatuses = await singleFieldAggregate.ToListAsync();
+            string status = "";
+            foreach (var group in GroupStatuses)
+            {
+                status += $"{group.status} : {(group.total / totalAmountOfTickets) * 100}, ";
+            }
+            //var result = new Task<string>(() => status);
+            return status;
+        }
     }
 }
+; 
