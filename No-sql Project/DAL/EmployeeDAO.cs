@@ -31,5 +31,31 @@ namespace DAL
             var filter = Builders<Employee>.Filter.Eq(e => e.UserName, username);
             return _employeeCollection.Find(filter).ToList();
         }
+        public void CreateEmployee(ObjectId Id, string UserName, string Name, string Email, string Password, Role role)
+        {
+            var newEmplyoyee = new Employee(
+                ObjectId.GenerateNewId(),   // Generate a new ObjectId
+                UserName,
+                Name,
+                Email,
+                Password,
+                role
+                        
+            );
+
+           _employeeCollection.InsertOne(newEmplyoyee);
+            Console.WriteLine("Employee created successfully.");
+        }
+        public void UpdateEmployee (Employee employee)
+        {
+            var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
+            _employeeCollection.ReplaceOneAsync(filter,employee);
+            
+        }
+        public void DeleteEmpliyee (Employee employee)
+        {
+            var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
+            _employeeCollection.DeleteOneAsync(filter);
+        }
     }
 }
