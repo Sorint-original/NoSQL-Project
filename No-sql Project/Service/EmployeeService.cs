@@ -13,11 +13,19 @@ namespace Service
     {
         EmployeeDAO employeeDAO = new EmployeeDAO();
 
-        public List<Employee> GetEmployeesByUsername(string username)
+        public Employee GetEmployeesByUsername(string username)
         {
 
             List<Employee> list = employeeDAO.GetEmployeesByUsername(username);
-            return list;
+            if(list.Count > 0)
+            {
+                return list[0];
+
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public List<Employee> GetAllEmployee()

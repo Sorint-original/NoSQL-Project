@@ -16,7 +16,7 @@ namespace UI
         {
             //Getting the employee by username
             string Username = UsernameTB.Text;
-            Employee employee = employeeService.GetEmployeesByUsername(Username)[0];
+            Employee employee = employeeService.GetEmployeesByUsername(Username);
         }
     }
 }
