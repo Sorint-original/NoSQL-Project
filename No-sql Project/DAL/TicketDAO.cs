@@ -47,7 +47,7 @@ namespace DAL
                 Status.open,
                 priority,
                 DateTime.UtcNow,
-                DateTime.MinValue            // Set SolutionTime to MinValue as it's not resolved yet
+                new DateTime()            // Create an empty DateTime, practically a null
             );
 
             _ticketsCollection.InsertOne(newTicket);
