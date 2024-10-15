@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            mainListView = new ListView();
+            MainListView = new ListView();
             AddB = new Button();
             UpdateB = new Button();
             DeleteB = new Button();
             SuspendLayout();
             // 
-            // mainListView
+            // MainListView
             // 
-            mainListView.Location = new Point(29, 73);
-            mainListView.Name = "mainListView";
-            mainListView.Size = new Size(564, 289);
-            mainListView.TabIndex = 0;
-            mainListView.UseCompatibleStateImageBehavior = false;
+            MainListView.Location = new Point(29, 73);
+            MainListView.Name = "MainListView";
+            MainListView.Size = new Size(564, 289);
+            MainListView.TabIndex = 0;
+            MainListView.UseCompatibleStateImageBehavior = false;
             // 
             // AddB
             // 
@@ -50,6 +50,7 @@
             AddB.TabIndex = 1;
             AddB.Text = "Add";
             AddB.UseVisualStyleBackColor = true;
+            AddB.Click += AddB_Click;
             // 
             // UpdateB
             // 
@@ -59,6 +60,7 @@
             UpdateB.TabIndex = 2;
             UpdateB.Text = "Update";
             UpdateB.UseVisualStyleBackColor = true;
+            UpdateB.Click += UpdateB_Click;
             // 
             // DeleteB
             // 
@@ -68,6 +70,7 @@
             DeleteB.TabIndex = 3;
             DeleteB.Text = "Delete";
             DeleteB.UseVisualStyleBackColor = true;
+            DeleteB.Click += DeleteB_Click;
             // 
             // ListMainForm
             // 
@@ -77,7 +80,7 @@
             Controls.Add(DeleteB);
             Controls.Add(UpdateB);
             Controls.Add(AddB);
-            Controls.Add(mainListView);
+            Controls.Add(MainListView);
             Name = "ListMainForm";
             Text = "ListMainForm";
             ResumeLayout(false);
@@ -85,7 +88,7 @@
 
         #endregion
 
-        private ListView mainListView;
+        private ListView MainListView;
         private Button AddB;
         private Button UpdateB;
         private Button DeleteB;

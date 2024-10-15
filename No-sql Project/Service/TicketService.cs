@@ -1,28 +1,33 @@
 ﻿using System.Collections.Generic;
 using DAL;
 using Model;
+using MongoDB.Bson;
+using MongoDB.Driver;
 namespace Service
 {
     public class TicketService
     {
         private TicketDAO ticketDAO;
         private TicketFiltering ticketFiltering;
-        private List<Ticket> preloadedTickets; // load the tickt form the database once and reuse them when needed
 
         public TicketService()
         {
             ticketDAO = new TicketDAO();
             ticketFiltering = new TicketFiltering();
-            preloadedTickets = ticketDAO.GetAllTickets();
         }
          public List<Ticket> GetAllTickets()
         {
-            return preloadedTickets; //  Return the preloaded tickets instead of querying the database again
+            return ticketDAO.GetAllTickets(); ; 
         }
 
-        public List<Ticket> FilterTickets(string keyword)
+        public List<Ticket> FilterTickets(List<Ticket> list, string keyword)
         {
-            return ticketFiltering.Filtertickets(preloadedTickets, keyword);
+            return ticketFiltering.Filtertickets( list, keyword);
+        }
+
+        public List<Ticket> GetTicketsByEmployeeId(ObjectId employeeId)
+        {
+            return ticketDAO.GetTicketsByEmployeeId(employeeId);
         }
     }
 }
