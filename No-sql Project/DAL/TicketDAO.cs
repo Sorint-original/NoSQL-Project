@@ -76,7 +76,7 @@ namespace DAL
             return _ticketsCollection.Find(filter).ToList();
         }
 
-        // Get the status precentages
+        // Get the status precentages for employee's tickets
         public async Task<string> GetStatusPrecentagesForSpecificEmployee(Employee employee)
         {
             int totalAmountOfTickets = GetTicketsByEmployeeId(employee.Id).Count;
@@ -86,11 +86,13 @@ namespace DAL
             string status = "";
             foreach (var group in GroupStatuses)
             {
-                status += $"{group.status} : {(group.total / totalAmountOfTickets)*100}, ";
+                status += $"{group.status}: {(group.total / totalAmountOfTickets)*100} ";
             }
             //var result = new Task<string>(() => status);
             return status;
         }
+
+        // Get the status precentages for all tickets
         public async Task<string> GetStatusPercentageForAllTickets()
         {
             int totalAmountOfTickets = GetAllTickets().Count;
@@ -99,7 +101,7 @@ namespace DAL
             string status = "";
             foreach (var group in GroupStatuses)
             {
-                status += $"{group.status} : {(group.total / totalAmountOfTickets) * 100}, ";
+                status += $"{group.status}: {(group.total / totalAmountOfTickets) * 100} ";
             }
             //var result = new Task<string>(() => status);
             return status;
