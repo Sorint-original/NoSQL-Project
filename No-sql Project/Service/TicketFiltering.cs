@@ -17,8 +17,14 @@ namespace Service
             {
                 //check if the keyword matches the tickts Statuse , priorty , title ,id .description
                 
-                if(ticket.Status.ToString().Contains(keyword , StringComparison.OrdinalIgnoreCase)) 
+                if(ticket.Status.ToString().Contains(keyword , StringComparison.OrdinalIgnoreCase) ||  ticket.Priority.ToString().Contains(keyword ,StringComparison.OrdinalIgnoreCase) ||
+                        ticket.Title.Contains(keyword , StringComparison.OrdinalIgnoreCase) || ticket.Description.Contains(keyword , StringComparison.OrdinalIgnoreCase) )
+                {
+                    filteredTickets.Add(ticket); //if matched add to the filterd tickets 
+                }
             }
+
+            return filteredTickets;
         }
     }
 }
