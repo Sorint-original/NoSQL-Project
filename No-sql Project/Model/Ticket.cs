@@ -39,7 +39,7 @@ namespace Model
         public DateTime CreationTime { get; set; }
 
         [BsonElement("Solution_Time")]
-        public DateTime SolutionTime { get; set; }
+        public Nullable<DateTime> SolutionTime { get; set; }
 
         public Ticket(ObjectId id, ObjectId Employeeid, string Title, string Description, Status Status, Priority Priority, DateTime CreationTime, DateTime SolutionTime)
         {
@@ -58,7 +58,7 @@ namespace Model
 
 public enum Status
 {
-    open, pending, closed
+    open, pending, resolved, closed
 }
 
 public enum Priority
