@@ -12,7 +12,7 @@ using static MongoDB.Driver.WriteConcern;
 
 namespace DAL
 {
-    internal class TicketDAO : BaseDAO
+    public class TicketDAO : BaseDAO
     {
         private readonly IMongoCollection<Ticket> _ticketsCollection;
 
