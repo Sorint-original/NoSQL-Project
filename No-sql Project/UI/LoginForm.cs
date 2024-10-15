@@ -3,11 +3,11 @@ using Service;
 
 namespace UI
 {
-    public partial class Login : Form
+    public partial class LoginForm : Form
     {
 
         EmployeeService employeeService = new EmployeeService();
-        public Login()
+        public LoginForm()
         {
             InitializeComponent();
         }
