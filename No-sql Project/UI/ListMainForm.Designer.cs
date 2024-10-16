@@ -33,6 +33,11 @@
             UpdateB = new Button();
             DeleteB = new Button();
             DescriptionBox = new TextBox();
+            AdminTicketPanel = new Panel();
+            ArchSelectedB = new Button();
+            ArchListB = new Button();
+            LogoutB = new Button();
+            AdminTicketPanel.SuspendLayout();
             SuspendLayout();
             // 
             // MainListView
@@ -84,11 +89,50 @@
             DescriptionBox.Size = new Size(171, 162);
             DescriptionBox.TabIndex = 4;
             // 
+            // AdminTicketPanel
+            // 
+            AdminTicketPanel.Controls.Add(ArchListB);
+            AdminTicketPanel.Controls.Add(ArchSelectedB);
+            AdminTicketPanel.Location = new Point(599, 73);
+            AdminTicketPanel.Name = "AdminTicketPanel";
+            AdminTicketPanel.Size = new Size(198, 182);
+            AdminTicketPanel.TabIndex = 5;
+            // 
+            // ArchSelectedB
+            // 
+            ArchSelectedB.Location = new Point(52, 35);
+            ArchSelectedB.Name = "ArchSelectedB";
+            ArchSelectedB.Size = new Size(104, 47);
+            ArchSelectedB.TabIndex = 0;
+            ArchSelectedB.Text = "Archive selected";
+            ArchSelectedB.UseVisualStyleBackColor = true;
+            // 
+            // ArchListB
+            // 
+            ArchListB.Location = new Point(52, 100);
+            ArchListB.Name = "ArchListB";
+            ArchListB.Size = new Size(104, 47);
+            ArchListB.TabIndex = 1;
+            ArchListB.Text = "Archive current list";
+            ArchListB.UseVisualStyleBackColor = true;
+            // 
+            // LogoutB
+            // 
+            LogoutB.Location = new Point(713, 12);
+            LogoutB.Name = "LogoutB";
+            LogoutB.Size = new Size(75, 23);
+            LogoutB.TabIndex = 6;
+            LogoutB.Text = "Log out";
+            LogoutB.UseVisualStyleBackColor = true;
+            LogoutB.Click += LogoutB_Click;
+            // 
             // ListMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(LogoutB);
+            Controls.Add(AdminTicketPanel);
             Controls.Add(DescriptionBox);
             Controls.Add(DeleteB);
             Controls.Add(UpdateB);
@@ -96,6 +140,7 @@
             Controls.Add(MainListView);
             Name = "ListMainForm";
             Text = "ListMainForm";
+            AdminTicketPanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -107,5 +152,9 @@
         private Button UpdateB;
         private Button DeleteB;
         private TextBox DescriptionBox;
+        private Panel AdminTicketPanel;
+        private Button ArchSelectedB;
+        private Button ArchListB;
+        private Button LogoutB;
     }
 }

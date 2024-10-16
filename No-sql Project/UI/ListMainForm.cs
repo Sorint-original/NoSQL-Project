@@ -25,7 +25,6 @@ namespace UI
         {
             InitializeComponent();
             LogedEmployee = employee;
-            showTickets = true;
             MainListView.View = View.Details;
             ticektService = new TicketService();
             employeeService = new EmployeeService();
@@ -34,6 +33,7 @@ namespace UI
 
         public void FormSetup()
         {
+            showTickets = true;
             SetupListStructure();
             if (LogedEmployee.Role == Role.admin)
             {
@@ -46,8 +46,27 @@ namespace UI
                 CurrentCase = ListDisplayCase.SpecificEmployeeTickets;
                 QuerryedEmployee = LogedEmployee;
             }
+            ShowTicektSpecificPanels();
             RefreshListView();
 
+        }
+
+        public void ShowTicektSpecificPanels()
+        {
+            //show ticket panels
+            if (admin)
+            {
+                AdminTicketPanel.Show();
+            }
+            //hide employee panels
+        }
+
+        public void ShowEmployeeSpecificPanels()
+        {
+            //show employee panels
+
+            //hide Ticket panels
+            AdminTicketPanel.Hide();
         }
 
         public void SetupListStructure()
@@ -170,8 +189,8 @@ namespace UI
                 DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selceted items", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    //Set the status of all selected tickets to closed + warning box
-                    foreach (ListViewItem item in MainListView.SelectedItems)
+                   
+                    foreach (ListViewItem item in MainListView.SelectedItems)//goes through all selected items
                     {
                         DeleteItem(item);
                     }
@@ -182,28 +201,36 @@ namespace UI
             }
         }
 
-        private void DeleteItem(ListViewItem item)
+        private void DeleteItem(ListViewItem item)// 
         {
             if (showTickets)
             {
+                // "Deleted" tickets have their status set to closed
                 Ticket ticket = (Ticket)item.Tag;
                 ticket.Status = Status.closed;
                 ticektService.UpdateTicket(ticket);
             }
             else
             {
+                // Employees are removed from the database
                 Employee employee = (Employee)item.Tag;
                 employeeService.DeleteEmployee(employee);
             }
         }
 
-        private void MainListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void MainListView_SelectedIndexChanged(object sender, EventArgs e)// this methods activates each time the user presses and selects or unelects an element in the listview
         {
-            if (showTickets && MainListView.SelectedItems.Count > 0) 
+            if (showTickets && MainListView.SelectedItems.Count > 0)
             {
-                Ticket ticket = (Ticket)MainListView.SelectedItems[0].Tag;  
+                //it dislays the description of the ticket in a specific description box
+                Ticket ticket = (Ticket)MainListView.SelectedItems[0].Tag;
                 DescriptionBox.Text = ticket.Description;
             }
+        }
+
+        private void LogoutB_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
