@@ -32,6 +32,7 @@
             AddB = new Button();
             UpdateB = new Button();
             DeleteB = new Button();
+            DescriptionBox = new TextBox();
             SuspendLayout();
             // 
             // MainListView
@@ -41,6 +42,7 @@
             MainListView.Size = new Size(564, 289);
             MainListView.TabIndex = 0;
             MainListView.UseCompatibleStateImageBehavior = false;
+            MainListView.SelectedIndexChanged += MainListView_SelectedIndexChanged;
             // 
             // AddB
             // 
@@ -72,11 +74,22 @@
             DeleteB.UseVisualStyleBackColor = true;
             DeleteB.Click += DeleteB_Click;
             // 
+            // DescriptionBox
+            // 
+            DescriptionBox.BackColor = SystemColors.Window;
+            DescriptionBox.Location = new Point(617, 261);
+            DescriptionBox.Multiline = true;
+            DescriptionBox.Name = "DescriptionBox";
+            DescriptionBox.ReadOnly = true;
+            DescriptionBox.Size = new Size(171, 162);
+            DescriptionBox.TabIndex = 4;
+            // 
             // ListMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(DescriptionBox);
             Controls.Add(DeleteB);
             Controls.Add(UpdateB);
             Controls.Add(AddB);
@@ -84,6 +97,7 @@
             Name = "ListMainForm";
             Text = "ListMainForm";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -92,5 +106,6 @@
         private Button AddB;
         private Button UpdateB;
         private Button DeleteB;
+        private TextBox DescriptionBox;
     }
 }

@@ -146,7 +146,7 @@ namespace UI
 
         private void UpdateB_Click(object sender, EventArgs e)//Update button functionality
         {
-            if(MainListView.SelectedItems.Count > 0) // if nothing is selected in the list it does nothing
+            if (MainListView.SelectedItems.Count > 0) // if nothing is selected in the list it does nothing
             {
                 Form form;
                 if (showTickets)//it opens the respective creation form based on which objects are displayed
@@ -162,16 +162,16 @@ namespace UI
             }
         }
 
-        
+
         private void DeleteB_Click(object sender, EventArgs e) // Delete button functionality
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
             {
-                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selceted items","Delete Warning", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selceted items", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     //Set the status of all selected tickets to closed + warning box
-                    foreach (ListViewItem item  in MainListView.SelectedItems)
+                    foreach (ListViewItem item in MainListView.SelectedItems)
                     {
                         DeleteItem(item);
                     }
@@ -184,7 +184,7 @@ namespace UI
 
         private void DeleteItem(ListViewItem item)
         {
-            if (showTickets) 
+            if (showTickets)
             {
                 Ticket ticket = (Ticket)item.Tag;
                 ticket.Status = Status.closed;
@@ -192,8 +192,17 @@ namespace UI
             }
             else
             {
-                Employee employee= (Employee)item.Tag;
+                Employee employee = (Employee)item.Tag;
                 employeeService.DeleteEmployee(employee);
+            }
+        }
+
+        private void MainListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (showTickets && MainListView.SelectedItems.Count > 0) 
+            {
+                Ticket ticket = (Ticket)MainListView.SelectedItems[0].Tag;  
+                DescriptionBox.Text = ticket.Description;
             }
         }
     }
