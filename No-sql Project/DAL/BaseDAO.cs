@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualBasic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Configuration;
 
 
 namespace DAL
@@ -19,10 +20,9 @@ namespace DAL
         public BaseDAO()
         {
             //client = new MongoClient(ConfigurationManager.ConnectionStrings["mongoconnectionstring"].ConnectionString);
-            client = new MongoClient("mongodb+srv://Group4:123123123@cluster0.zgkxj.mongodb.net/");
-            //connect to a specific database
-
-            database = client.GetDatabase("ManagementSystem");
+             string connectionString = ConfigurationManager.AppSettings["mongoconnectionstring"];
+            IMongoClient mongoClient = new MongoClient(connectionString);
+            database = mongoClient.GetDatabase("ManagementSystem");
         }
 
         //method to allow the ticket and employee classes  to access collection

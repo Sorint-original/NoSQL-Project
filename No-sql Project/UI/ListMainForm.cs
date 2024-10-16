@@ -122,7 +122,7 @@ namespace UI
                     AddTicketsToList(ticektService.GetAllTickets());
                     break;
                 case ListDisplayCase.SpecificEmployeeTickets:
-                    AddTicketsToList(ticektService.GetTicketsByEmployeeId(QuerryedEmployee.Id));
+                    AddTicketsToList(ticektService.GetTicketsByEmployeeId(QuerryedEmployee));
                     break;
             }
         }

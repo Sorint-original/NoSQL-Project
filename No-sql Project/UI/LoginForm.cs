@@ -24,7 +24,7 @@ namespace UI
             string password = PasswordTB.Text;
 
             // Authenticate the employee
-            Employee employee = employeeService.Login(username, password);
+            Employee employee = Login(username, password);
 
             if (employee == null)
             {
@@ -37,6 +37,16 @@ namespace UI
             listMainForm.Show();  // Show the ListMainForm
             this.Hide();  // Hide the current login form
 
+        }
+
+        public Employee Login(string username, string password)
+        {
+            Employee employee = employeeService.GetEmployeesByUsername(username);
+            if (employee != null && employee.Password == password)
+            {
+                return employee;  // Login successful, return employee
+            }
+            return null;  // Invalid credentials
         }
 
     }
