@@ -25,9 +25,9 @@ namespace Service
             return ticketFiltering.Filtertickets( list, keyword);
         }
 
-        public List<Ticket> GetTicketsByEmployeeId(ObjectId employeeId)
+        public List<Ticket> GetTicketsByEmployeeId(Employee employee)
         {
-            return ticketDAO.GetTicketsByEmployeeId(employeeId);
+            return ticketDAO.GetTicketsByEmployeeId(employee);
         }
 
         public void UpdateTicket(Ticket ticket)

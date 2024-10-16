@@ -29,29 +29,17 @@ namespace DAL
         }
 
         //GetTiketsByEmployeeId
-        public List<Ticket> GetTicketsByEmployeeId(ObjectId employeeId)
+        public List<Ticket> GetTicketsByEmployeeId(Employee employee)
         {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employeeId);
+            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
             var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
             return _ticketsCollection.Find(filter).Sort(sort).ToList();
         }
 
         //create a new ticket
-        public void CreateTicket(ObjectId employeeId, string title, string description, Priority priority)
+        public void CreateTicket(Ticket ticket)
         {
-            var newTicket = new Ticket(
-                ObjectId.GenerateNewId(),   // Generate a new ObjectId
-                employeeId,
-                title,
-                description,
-                Status.open,
-                priority,
-                DateTime.UtcNow,
-                DateTime.MinValue          // The minimum value will reprezent null
-            );
-
-            _ticketsCollection.InsertOne(newTicket);
-            Console.WriteLine("Ticket created successfully.");
+            _ticketsCollection.InsertOne(ticket);
         }
 
         //Update tickets
@@ -79,7 +67,7 @@ namespace DAL
         // Get the status precentages for employee's tickets
         public async Task<string> GetStatusPrecentagesForSpecificEmployee(Employee employee)
         {
-            int totalAmountOfTickets = GetTicketsByEmployeeId(employee.Id).Count;
+            int totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
             var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
             var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new {status = Group.Key, total = Group.Sum(U => 1)});
             var GroupStatuses = await singleFieldAggregate.ToListAsync();
