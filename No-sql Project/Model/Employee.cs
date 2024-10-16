@@ -33,6 +33,9 @@ namespace Model
         [BsonRepresentation(BsonType.String)]
         public Role Role { get; set; }
 
+        [BsonElement("IsDeleted")]
+        public bool IsDeleted { get; set; }
+
         public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role)
         {
             this.Id = Id;
@@ -49,4 +52,5 @@ namespace Model
     {
         regular, admin
     }
+
 }
