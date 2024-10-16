@@ -28,12 +28,24 @@ namespace Service
             }
         }
 
+        // validate login credentials
+        public Employee Login(string username, string password)
+        {
+            Employee employee = GetEmployeesByUsername(username); 
+            if (employee != null && employee.Password == password)
+            {
+                return employee;  // Login successful, return employee
+            }
+            return null;  // Invalid credentials
+        }
+
+
         public List<Employee> GetAllEmployee()
         {
             List<Employee> list = employeeDAO.GetAllEmployee();
             return list;
         }
-
+      
         public void DeleteEmployee(Employee employee) 
         { 
             employeeDAO.DeleteEmployee(employee); 
@@ -41,3 +53,6 @@ namespace Service
 
     }
 }
+
+    
+
