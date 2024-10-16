@@ -45,7 +45,12 @@ namespace Service
             List<Employee> list = employeeDAO.GetAllEmployee();
             return list;
         }
-       
+      
+        public void DeleteEmployee(Employee employee) 
+        { 
+            employeeDAO.DeleteEmployee(employee); 
+        }
+
     }
 }
 
