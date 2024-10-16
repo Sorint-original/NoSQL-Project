@@ -34,14 +34,15 @@
             DeleteB = new Button();
             DescriptionBox = new TextBox();
             AdminTicketPanel = new Panel();
-            ArchSelectedB = new Button();
             ArchListB = new Button();
+            ArchSelectedB = new Button();
             LogoutB = new Button();
             AdminTicketPanel.SuspendLayout();
             SuspendLayout();
             // 
             // MainListView
             // 
+            MainListView.FullRowSelect = true;
             MainListView.Location = new Point(29, 73);
             MainListView.Name = "MainListView";
             MainListView.Size = new Size(564, 289);
@@ -98,15 +99,6 @@
             AdminTicketPanel.Size = new Size(198, 182);
             AdminTicketPanel.TabIndex = 5;
             // 
-            // ArchSelectedB
-            // 
-            ArchSelectedB.Location = new Point(52, 35);
-            ArchSelectedB.Name = "ArchSelectedB";
-            ArchSelectedB.Size = new Size(104, 47);
-            ArchSelectedB.TabIndex = 0;
-            ArchSelectedB.Text = "Archive selected";
-            ArchSelectedB.UseVisualStyleBackColor = true;
-            // 
             // ArchListB
             // 
             ArchListB.Location = new Point(52, 100);
@@ -115,6 +107,15 @@
             ArchListB.TabIndex = 1;
             ArchListB.Text = "Archive current list";
             ArchListB.UseVisualStyleBackColor = true;
+            // 
+            // ArchSelectedB
+            // 
+            ArchSelectedB.Location = new Point(52, 35);
+            ArchSelectedB.Name = "ArchSelectedB";
+            ArchSelectedB.Size = new Size(104, 47);
+            ArchSelectedB.TabIndex = 0;
+            ArchSelectedB.Text = "Archive selected";
+            ArchSelectedB.UseVisualStyleBackColor = true;
             // 
             // LogoutB
             // 

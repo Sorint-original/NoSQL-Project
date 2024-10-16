@@ -131,21 +131,21 @@ namespace UI
         public void SetupListviewTicket()
         {
             MainListView.Columns.Clear();
-            MainListView.Columns.Add("Title");
-            MainListView.Columns.Add("Status");
-            MainListView.Columns.Add("Priority");
-            MainListView.Columns.Add("Creation Date");
-            MainListView.Columns.Add("Solution Date");
+            MainListView.Columns.Add("Title", MainListView.Width/5);
+            MainListView.Columns.Add("Status", MainListView.Width / 5);
+            MainListView.Columns.Add("Priority", MainListView.Width / 5);
+            MainListView.Columns.Add("Creation Date", MainListView.Width / 5);
+            MainListView.Columns.Add("Solution Date", MainListView.Width / 5);
         }
 
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
             MainListView.Columns.Clear();
-            MainListView.Columns.Add("UserName");
-            MainListView.Columns.Add("Name");
-            MainListView.Columns.Add("Email");
-            MainListView.Columns.Add("Role");
+            MainListView.Columns.Add("UserName", MainListView.Width / 4);
+            MainListView.Columns.Add("Name", MainListView.Width / 4);
+            MainListView.Columns.Add("Email", MainListView.Width / 4);
+            MainListView.Columns.Add("Role", MainListView.Width / 4);
         }
 
         private void AddB_Click(object sender, EventArgs e)// add object functionality
