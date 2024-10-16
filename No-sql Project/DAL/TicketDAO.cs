@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -65,35 +66,30 @@ namespace DAL
         }
 
         // Get the status precentages for employee's tickets
-        public string GetStatusPrecentagesForSpecificEmployee(Employee employee)
+        public Dictionary<Status,int> GetPercentagesForTickets(Employee employee = null)
         {
-            int totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
-            var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new {status = Group.Key, total = Group.Sum(U => 1)});
+            Dictionary<Status, int> percentages = new Dictionary<Status, int>();
+            int totalAmountOfTickets ;
+            FilterDefinition<Ticket> filter;
+            if (employee != null) {
+                 totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
+                filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            }
+            else
+            {
+                totalAmountOfTickets = GetAllTickets().Count;
+                filter = Builders<Ticket>.Filter.Empty;
+            }
+            var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new { status = Group.Key, total = Group.Sum(U => 1) });
             var GroupStatuses = singleFieldAggregate.ToList();
-            string status = "";
+
             foreach (var group in GroupStatuses)
             {
-                status += $"{group.status}: {(group.total / totalAmountOfTickets)*100} ";
+                percentages.Add(group.status, group.total);
             }
-            //var result = new Task<string>(() => status);
-            return status;
+            return percentages;
         }
 
-        // Get the status precentages for all tickets
-        public string GetStatusPercentageForAllTickets()
-        {
-            int totalAmountOfTickets = GetAllTickets().Count;
-            var singleFieldAggregate = _ticketsCollection.Aggregate().Group(t => t.Status, Group => new { status = Group.Key, total = Group.Sum(U => 1) });
-            var GroupStatuses = singleFieldAggregate.ToList();
-            string status = "";
-            foreach (var group in GroupStatuses)
-            {
-                status += $"{group.status}: {(group.total / totalAmountOfTickets) * 100} ";
-            }
-            //var result = new Task<string>(() => status);
-            return status;
-        }
     }
 }
 ; 
