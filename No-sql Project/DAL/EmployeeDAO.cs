@@ -38,13 +38,13 @@ namespace DAL
         public void UpdateEmployee (Employee employee)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
-            _employeeCollection.ReplaceOneAsync(filter,employee);
+            _employeeCollection.ReplaceOne(filter,employee);
             
         }
         public void DeleteEmployee (Employee employee)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
-            _employeeCollection.DeleteOneAsync(filter);
+            _employeeCollection.DeleteOne(filter);
         }
     }
 }

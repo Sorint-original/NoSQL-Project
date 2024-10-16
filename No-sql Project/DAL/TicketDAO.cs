@@ -46,7 +46,7 @@ namespace DAL
         public void UpdateTicket(Ticket ticket)
         {
             var filter = Builders<Ticket>.Filter.Eq(t =>t.Id, ticket.Id);
-            _ticketsCollection.ReplaceOneAsync(filter, ticket);
+            _ticketsCollection.ReplaceOne(filter, ticket);
             //it updates all the atributes of the ticket
         }
 
@@ -54,7 +54,7 @@ namespace DAL
         public void DeleteTicket(Ticket ticket)
         {
             var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
-            _ticketsCollection.DeleteOneAsync(filter);
+            _ticketsCollection.DeleteOne(filter);
         }
 
         //GetAlltickets by status
@@ -65,12 +65,12 @@ namespace DAL
         }
 
         // Get the status precentages for employee's tickets
-        public async Task<string> GetStatusPrecentagesForSpecificEmployee(Employee employee)
+        public string GetStatusPrecentagesForSpecificEmployee(Employee employee)
         {
             int totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
             var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
             var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new {status = Group.Key, total = Group.Sum(U => 1)});
-            var GroupStatuses = await singleFieldAggregate.ToListAsync();
+            var GroupStatuses = singleFieldAggregate.ToList();
             string status = "";
             foreach (var group in GroupStatuses)
             {
@@ -81,11 +81,11 @@ namespace DAL
         }
 
         // Get the status precentages for all tickets
-        public async Task<string> GetStatusPercentageForAllTickets()
+        public string GetStatusPercentageForAllTickets()
         {
             int totalAmountOfTickets = GetAllTickets().Count;
             var singleFieldAggregate = _ticketsCollection.Aggregate().Group(t => t.Status, Group => new { status = Group.Key, total = Group.Sum(U => 1) });
-            var GroupStatuses = await singleFieldAggregate.ToListAsync();
+            var GroupStatuses = singleFieldAggregate.ToList();
             string status = "";
             foreach (var group in GroupStatuses)
             {
