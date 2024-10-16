@@ -52,7 +52,7 @@ namespace DAL
             _employeeCollection.ReplaceOneAsync(filter,employee);
             
         }
-        public void DeleteEmpliyee (Employee employee)
+        public void DeleteEmployee (Employee employee)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
             _employeeCollection.DeleteOneAsync(filter);
