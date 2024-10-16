@@ -111,6 +111,7 @@ namespace UI
         //Add the columns in the listview to display tickets
         public void SetupListviewTicket()
         {
+            MainListView.Columns.Clear();
             MainListView.Columns.Add("Title");
             MainListView.Columns.Add("Status");
             MainListView.Columns.Add("Priority");
@@ -121,6 +122,7 @@ namespace UI
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
+            MainListView.Columns.Clear();
             MainListView.Columns.Add("UserName");
             MainListView.Columns.Add("Name");
             MainListView.Columns.Add("Email");
@@ -132,7 +134,7 @@ namespace UI
             Form form;
             if (showTickets)//it opens the respective creation form based on which objects are displayed
             {
-                form = new TicketCreateForm();
+                form = new TicketCreateForm(admin);
             }
             else
             {
@@ -149,7 +151,7 @@ namespace UI
                 Form form;
                 if (showTickets)//it opens the respective creation form based on which objects are displayed
                 {
-                    form = new TicketCreateForm((Ticket)MainListView.SelectedItems[0].Tag);
+                    form = new TicketCreateForm(admin, (Ticket)MainListView.SelectedItems[0].Tag);
                 }
                 else
                 {
@@ -165,15 +167,33 @@ namespace UI
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
             {
-                if (showTickets)
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selceted items","Delete Warning", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 {
                     //Set the status of all selected tickets to closed + warning box
+                    foreach (ListViewItem item  in MainListView.SelectedItems)
+                    {
+                        DeleteItem(item);
+                    }
+
                 }
-                else
-                {
-                    // Delete from the database all selected employees + warning box
-                }
+
                 RefreshListView();
+            }
+        }
+
+        private void DeleteItem(ListViewItem item)
+        {
+            if (showTickets) 
+            {
+                Ticket ticket = (Ticket)item.Tag;
+                ticket.Status = Status.closed;
+                ticektService.UpdateTicket(ticket);
+            }
+            else
+            {
+                Employee employee= (Employee)item.Tag;
+                employeeService.DeleteEmployee(employee);
             }
         }
     }

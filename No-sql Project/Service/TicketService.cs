@@ -29,5 +29,10 @@ namespace Service
         {
             return ticketDAO.GetTicketsByEmployeeId(employeeId);
         }
+
+        public void UpdateTicket(Ticket ticket)
+        {
+            ticketDAO.UpdateTicket(ticket);
+        }
     }
 }

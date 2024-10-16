@@ -34,5 +34,10 @@ namespace Service
             return list;
         }
 
+        public void DeleteEmployee(Employee employee) 
+        { 
+            employeeDAO.DeleteEmployee(employee); 
+        }
+
     }
 }
