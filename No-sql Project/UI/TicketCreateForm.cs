@@ -13,7 +13,7 @@ namespace UI
 {
     public partial class TicketCreateForm : Form
     {
-        public TicketCreateForm(bool admin, Ticket ticket = null)
+        public TicketCreateForm(Role role, Ticket ticket = null)
         {
             InitializeComponent();
         }

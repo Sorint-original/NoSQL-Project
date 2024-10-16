@@ -14,7 +14,6 @@ namespace UI
 {
     public partial class ListMainForm : Form
     {
-        private bool admin; // the acces the logged employee will get
         private bool showTickets; // If the list displays tickets or emplyees
         private Employee LogedEmployee;
         private TicketService ticektService;
@@ -37,12 +36,10 @@ namespace UI
             SetupListStructure();
             if (LogedEmployee.Role == Role.admin)
             {
-                admin = true;
                 CurrentCase = ListDisplayCase.AllTickets;
             }
             else
             {
-                admin = false;
                 CurrentCase = ListDisplayCase.SpecificEmployeeTickets;
                 QuerryedEmployee = LogedEmployee;
             }
@@ -54,7 +51,7 @@ namespace UI
         public void ShowTicektSpecificPanels()
         {
             //show ticket panels
-            if (admin)
+            if (LogedEmployee.Role == Role.admin)
             {
                 AdminTicketPanel.Show();
             }
@@ -153,7 +150,7 @@ namespace UI
             Form form;
             if (showTickets)//it opens the respective creation form based on which objects are displayed
             {
-                form = new TicketCreateForm(admin);
+                form = new TicketCreateForm(LogedEmployee.Role);
             }
             else
             {
@@ -170,7 +167,7 @@ namespace UI
                 Form form;
                 if (showTickets)//it opens the respective creation form based on which objects are displayed
                 {
-                    form = new TicketCreateForm(admin, (Ticket)MainListView.SelectedItems[0].Tag);
+                    form = new TicketCreateForm(LogedEmployee.Role, (Ticket)MainListView.SelectedItems[0].Tag);
                 }
                 else
                 {
