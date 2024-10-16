@@ -35,11 +35,12 @@ namespace Model
         [BsonRepresentation(BsonType.String)]
         public Priority Priority { get; set; }
 
-        [BsonElement("Creation_Time")]
+        [BsonElement("Creation_Date")]
         public DateTime CreationTime { get; set; }
 
-        [BsonElement("Solution_Time")]
+        [BsonElement("Solution_Date")]
         public Nullable<DateTime> SolutionTime { get; set; }
+       
 
         public Ticket(ObjectId id, ObjectId Employeeid, string Title, string Description, Status Status, Priority Priority, DateTime CreationTime, DateTime SolutionTime)
         {

@@ -47,7 +47,7 @@ namespace DAL
                 Status.open,
                 priority,
                 DateTime.UtcNow,
-                new DateTime()            // Create an empty DateTime, practically a null
+                DateTime.MinValue          // The minimum value will reprezent null
             );
 
             _ticketsCollection.InsertOne(newTicket);
