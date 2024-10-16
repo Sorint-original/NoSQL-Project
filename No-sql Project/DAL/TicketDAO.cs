@@ -16,10 +16,12 @@ namespace DAL
     public class TicketDAO : BaseDAO
     {
         private readonly IMongoCollection<Ticket> _ticketsCollection;
+        private readonly IMongoCollection<Ticket> _archiveCollection;
 
         public TicketDAO() : base()
         {
             _ticketsCollection = GetCollection<Ticket>("Tickets");
+            _archiveCollection = GetCollection<Ticket>("Archive");
         }
 
         //GetAllTickets(order by Status)
@@ -66,9 +68,9 @@ namespace DAL
         }
 
         // Get the status precentages for employee's tickets
-        public Dictionary<Status,int> GetPercentagesForTickets(Employee employee = null)
+        public Dictionary<Status,float> GetPercentagesForTickets(Employee employee = null)
         {
-            Dictionary<Status, int> percentages = new Dictionary<Status, int>();
+            Dictionary<Status, float> percentages = new Dictionary<Status, float>();
             int totalAmountOfTickets ;
             FilterDefinition<Ticket> filter;
             if (employee != null) {
@@ -85,11 +87,55 @@ namespace DAL
 
             foreach (var group in GroupStatuses)
             {
-                percentages.Add(group.status, group.total);
+                percentages.Add(group.status, (group.total/ totalAmountOfTickets)*100);
             }
             return percentages;
         }
 
+        // INDIVIDUAL FEATURE SORIN TICKET ARCHIVING
+        public void ArchiveAllTicketsBeforeDate(DateTime Date)
+        {
+            List<Ticket> tickets = GetTicketsBeforeDate(Date);
+            TransferTickets(tickets);
+        }
+
+        public List<Ticket> GetTicketsBeforeDate(DateTime Date)
+        {
+            var filter = Builders<Ticket>.Filter.Lte(t => t.CreationTime, Date);
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
+            List<Ticket> tickets = _ticketsCollection.Find(filter).Sort(sort).ToList();
+            return tickets;
+        }
+
+        public void TransferTickets(List<Ticket> tickets)
+        {
+            foreach (Ticket ticket in tickets)
+            {
+                DeleteTicket(ticket);
+                AddInArchive(ticket);
+            }
+
+        }
+
+        public void AddInArchive(Ticket ticket)
+        {
+            _archiveCollection.InsertOne(ticket);
+        }
+
+        // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
+
+        public List<Ticket> SortTicketsByPriority()
+        {
+            //sorting and returning the filterd tickets by high, medium and low priority
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
+            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
+        }
+        public List<Ticket> GetTicketsByPriority(Priority priority)
+        {
+            //sorting and returning the filterd tickets by one priority
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
+            return _ticketsCollection.Find(filter).ToList();
+        }
     }
 }
 ; 
