@@ -17,7 +17,7 @@ namespace Service
         }
          public List<Ticket> GetAllTickets()
         {
-            return ticketDAO.GetAllTickets(); ; 
+            return ticketDAO.GetAllTickets();
         }
 
         public List<Ticket> FilterTickets(List<Ticket> list, string keyword)
