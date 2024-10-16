@@ -213,14 +213,13 @@ namespace UI
             {
                 // "Deleted" tickets have their status set to closed
                 Ticket ticket = (Ticket)item.Tag;
-                ticket.Status = Status.closed;
-                ticektService.UpdateTicket(ticket);
+                ticektService.CloseTicket(ticket);
             }
             else
             {
                 // Employees are removed from the database
                 Employee employee = (Employee)item.Tag;
-                employeeService.DeleteEmployee(employee);
+                employeeService.DeactivateEmployee(employee);
             }
         }
 

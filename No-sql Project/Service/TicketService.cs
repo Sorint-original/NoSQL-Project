@@ -28,6 +28,12 @@ namespace Service
             ticketDAO.UpdateTicket(ticket);
         }
 
+        public void CloseTicket(Ticket ticket)
+        {
+            ticket.Status = Status.closed;
+            UpdateTicket(ticket);
+        }
+
         // INDIVIDUAL FEATURE LAITH FILTERING A GIVEN LIST 
         public List<Ticket> Filtertickets(List<Ticket> tickets, string keyword)
         {
