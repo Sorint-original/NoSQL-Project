@@ -230,7 +230,9 @@ namespace UI
 
         private void LogoutB_Click(object sender, EventArgs e)
         {
-
+            LoginForm form = new LoginForm();
+            form.Show();
+            this.Hide();
         }
     }
 }
