@@ -3,6 +3,7 @@ using DAL;
 using Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using ZstdSharp.Unsafe;
 namespace Service
 {
     public class TicketService
@@ -12,15 +13,6 @@ namespace Service
         public TicketService()
         {
             ticketDAO = new TicketDAO();
-        }
-         public List<Ticket> GetAllTickets()
-        {
-            return ticketDAO.GetAllTickets();
-        }
-
-        public List<Ticket> GetTicketsByEmployeeId(Employee employee)
-        {
-            return ticketDAO.GetTicketsByEmployeeId(employee);
         }
 
         public void UpdateTicket(Ticket ticket)
@@ -51,6 +43,59 @@ namespace Service
             }
 
             return filteredTickets;
+        }
+
+        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, SortDefinition<Ticket> sort)
+        {
+            return ticketDAO.CustomQuerry(filters, sort);
+        }
+
+        //Methods that return filtres or sorts for custom querrys in listView
+        //get filter based on employee
+        public FilterDefinition<Ticket> FilterTicketsByEmployee(Employee employee)
+        {
+            return ticketDAO.FilterTicketsByEmployee(employee);
+        }
+        // get sort based on status
+        public SortDefinition<Ticket> SortByStatus()
+        {
+            return ticketDAO.SortByStatus();
+        }
+
+        //Filter tickets by status
+        public FilterDefinition<Ticket> FilterByStatus(Status Status)
+        {
+            return ticketDAO.FilterByStatus(Status);
+        }
+
+        // get sort based on creation date
+        public SortDefinition<Ticket> SortByCreationDate()
+        {
+            return ticketDAO.SortByCreationDate();
+        }
+
+        //Filter tickets created before a specific date
+        public FilterDefinition<Ticket> FilterBeforeSpecificDate(DateTime Date)
+        {
+            return ticketDAO.FilterBeforeSpecificDate(Date);
+        }
+
+        //Filter tickets created after a specific date
+        public FilterDefinition<Ticket> FilterAfterSpecificDate(DateTime Date)
+        {
+            return ticketDAO.FilterAfterSpecificDate(Date);
+        }
+
+        // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
+        public SortDefinition<Ticket> SortTicketsByPriority()
+        {
+            //sorting and returning the filterd tickets by high, medium and low priority
+            return ticketDAO.SortTicketsByPriority();
+        }
+        public FilterDefinition<Ticket> GetTicketsByPriority(Priority priority)
+        {
+            //sorting and returning the filterd tickets by one priority
+            return ticketDAO.GetTicketsByPriority(priority);
         }
     }
 }

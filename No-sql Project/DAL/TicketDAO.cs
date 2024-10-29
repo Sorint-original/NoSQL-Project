@@ -24,21 +24,6 @@ namespace DAL
             _archiveCollection = GetCollection<Ticket>("Archive");
         }
 
-        //GetAllTickets(order by Status)
-        public List<Ticket> GetAllTickets()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
-        }
-
-        //GetTiketsByEmployeeId
-        public List<Ticket> GetTicketsByEmployeeId(Employee employee)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return _ticketsCollection.Find(filter).Sort(sort).ToList();
-        }
-
         //create a new ticket
         public void CreateTicket(Ticket ticket)
         {
@@ -84,6 +69,20 @@ namespace DAL
             }
             return percentages;
         }
+        //GetAllTickets(order by Status)
+        private List<Ticket> GetAllTickets()
+        {
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
+        }
+
+        //GetTiketsByEmployeeId
+        private List<Ticket> GetTicketsByEmployeeId(Employee employee)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return _ticketsCollection.Find(filter).Sort(sort).ToList();
+        }
 
         // INDIVIDUAL FEATURE SORIN TICKET ARCHIVING
         public void ArchiveTickets(List<Ticket> tickets)
@@ -104,8 +103,23 @@ namespace DAL
 
         public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, SortDefinition<Ticket> sort)
         {
-            var filter = CombineFilters(filters);
-            return _ticketsCollection.Find(filter).Sort(sort).ToList();
+            FilterDefinition<Ticket> filter;
+            if (filters.Count == 0)
+            {
+                filter = FilterDefinition<Ticket>.Empty;
+            }
+            else
+            {
+                filter = CombineFilters(filters);
+            }
+            if (sort == null)
+            {
+                return _ticketsCollection.Find(filter).ToList();
+            }
+            else
+            {
+                return _ticketsCollection.Find(filter).Sort(sort).ToList();
+            }
         }
 
         private FilterDefinition<Ticket> CombineFilters(List<FilterDefinition<Ticket>> filters)

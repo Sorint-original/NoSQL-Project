@@ -1,4 +1,5 @@
 ﻿using Model;
+using MongoDB.Driver;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -16,16 +17,15 @@ namespace UI
     {
         private bool showTickets; // If the list displays tickets or emplyees
         private Employee LogedEmployee;
-        private TicketService ticektService;
+        private TicketService ticketService;
         private EmployeeService employeeService;
-        private ListDisplayCase CurrentCase;
         private Employee QuerryedEmployee;
         public ListMainForm(Employee employee)
         {
             InitializeComponent();
             LogedEmployee = employee;
             MainListView.View = View.Details;
-            ticektService = new TicketService();
+            ticketService = new TicketService();
             employeeService = new EmployeeService();
             FormSetup();
         }
@@ -36,11 +36,10 @@ namespace UI
             SetupListStructure();
             if (LogedEmployee.Role == Role.admin)
             {
-                CurrentCase = ListDisplayCase.AllTickets;
+                QuerryedEmployee = null;
             }
             else
             {
-                CurrentCase = ListDisplayCase.SpecificEmployeeTickets;
                 QuerryedEmployee = LogedEmployee;
             }
             ShowTicektSpecificPanels();
@@ -120,15 +119,31 @@ namespace UI
         public void RefreshListView()
         {
             MainListView.Items.Clear();
-            switch (CurrentCase)
+            if (showTickets)
             {
-                case ListDisplayCase.AllTickets:
-                    AddTicketsToList(ticektService.GetAllTickets());
-                    break;
-                case ListDisplayCase.SpecificEmployeeTickets:
-                    AddTicketsToList(ticektService.GetTicketsByEmployeeId(QuerryedEmployee));
-                    break;
+                AddTicketsToList(ticketService.CustomQuerry(GetFilters(), GetSort()));
             }
+            else
+            {
+
+            }
+        }
+
+        public List<FilterDefinition<Ticket>> GetFilters()
+        {
+            List<FilterDefinition<Ticket>> filters = new List<FilterDefinition<Ticket>>();
+            //checks if it filters by an employee id
+            if(QuerryedEmployee != null)
+            {
+                filters.Add(ticketService.FilterTicketsByEmployee(QuerryedEmployee));
+            }
+            return filters;
+        }
+
+        public SortDefinition<Ticket> GetSort()
+        {
+            var sort = ticketService.SortByStatus();
+            return sort;
         }
 
         //Add the columns in the listview to display tickets
@@ -192,7 +207,7 @@ namespace UI
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
             {
-                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selceted items", "Delete Warning", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selected items", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                    
@@ -213,7 +228,7 @@ namespace UI
             {
                 // "Deleted" tickets have their status set to closed
                 Ticket ticket = (Ticket)item.Tag;
-                ticektService.CloseTicket(ticket);
+                ticketService.CloseTicket(ticket);
             }
             else
             {
@@ -240,9 +255,4 @@ namespace UI
             this.Hide();
         }
     }
-}
-
-public enum ListDisplayCase
-{
-    AllTickets,SpecificEmployeeTickets
 }
