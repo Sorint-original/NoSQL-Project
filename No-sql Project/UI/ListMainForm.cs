@@ -86,7 +86,14 @@ namespace UI
                 li.SubItems.Add(ticket.Status.ToString());
                 li.SubItems.Add(ticket.Priority.ToString());
                 li.SubItems.Add(ticket.CreationTime.ToString());
-                li.SubItems.Add(ticket.SolutionTime.ToString());
+                if(ticket.SolutionTime == DateTime.MinValue)
+                {
+                    li.SubItems.Add("NA");
+                }
+                else
+                {
+                    li.SubItems.Add(ticket.SolutionTime.ToString());
+                }
 
                 li.Tag = ticket;   // link lecturer object to listview item
                 MainListView.Items.Add(li);
@@ -127,22 +134,24 @@ namespace UI
         //Add the columns in the listview to display tickets
         public void SetupListviewTicket()
         {
+            int columnWidth = (MainListView.Width - 10) / 5;
             MainListView.Columns.Clear();
-            MainListView.Columns.Add("Title", MainListView.Width/5);
-            MainListView.Columns.Add("Status", MainListView.Width / 5);
-            MainListView.Columns.Add("Priority", MainListView.Width / 5);
-            MainListView.Columns.Add("Creation Date", MainListView.Width / 5);
-            MainListView.Columns.Add("Solution Date", MainListView.Width / 5);
+            MainListView.Columns.Add("Title", columnWidth);
+            MainListView.Columns.Add("Status", columnWidth);
+            MainListView.Columns.Add("Priority", columnWidth);
+            MainListView.Columns.Add("Creation Date", columnWidth);
+            MainListView.Columns.Add("Solution Date", columnWidth);
         }
 
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
+            int columnWidth = (MainListView.Width - 10)/ 4;
             MainListView.Columns.Clear();
-            MainListView.Columns.Add("UserName", MainListView.Width / 4);
-            MainListView.Columns.Add("Name", MainListView.Width / 4);
-            MainListView.Columns.Add("Email", MainListView.Width / 4);
-            MainListView.Columns.Add("Role", MainListView.Width / 4);
+            MainListView.Columns.Add("UserName", columnWidth);
+            MainListView.Columns.Add("Name", columnWidth);
+            MainListView.Columns.Add("Email", columnWidth);
+            MainListView.Columns.Add("Role", columnWidth);
         }
 
         private void AddB_Click(object sender, EventArgs e)// add object functionality
@@ -204,14 +213,13 @@ namespace UI
             {
                 // "Deleted" tickets have their status set to closed
                 Ticket ticket = (Ticket)item.Tag;
-                ticket.Status = Status.closed;
-                ticektService.UpdateTicket(ticket);
+                ticektService.CloseTicket(ticket);
             }
             else
             {
                 // Employees are removed from the database
                 Employee employee = (Employee)item.Tag;
-                employeeService.DeleteEmployee(employee);
+                employeeService.DeactivateEmployee(employee);
             }
         }
 

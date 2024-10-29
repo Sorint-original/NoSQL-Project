@@ -16,27 +16,8 @@ namespace Service
         public Employee GetEmployeesByUsername(string username)
         {
 
-            List<Employee> list = employeeDAO.GetEmployeesByUsername(username);
-            if(list.Count > 0)
-            {
-                return list[0];
+            return employeeDAO.GetEmployeeByUsername(username);
 
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        // validate login credentials
-        public Employee Login(string username, string password)
-        {
-            Employee employee = GetEmployeesByUsername(username); 
-            if (employee != null && employee.Password == password)
-            {
-                return employee;  // Login successful, return employee
-            }
-            return null;  // Invalid credentials
         }
 
 
@@ -51,6 +32,16 @@ namespace Service
             employeeDAO.DeleteEmployee(employee); 
         }
 
+        public void UpdateEmployee(Employee employee)
+        {
+            employeeDAO.UpdateEmployee(employee);
+        }
+
+        public void DeactivateEmployee(Employee employee)
+        {
+            employee.IsDeleted = true;
+            UpdateEmployee(employee);
+        }
     }
 }
 
