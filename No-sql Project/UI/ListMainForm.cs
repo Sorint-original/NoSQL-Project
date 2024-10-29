@@ -41,6 +41,7 @@ namespace UI
             else
             {
                 QuerryedEmployee = LogedEmployee;
+                AdminTicketPanel.Hide();
             }
             ShowTicektSpecificPanels();
             RefreshListView();
