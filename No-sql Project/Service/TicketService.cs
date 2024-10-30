@@ -26,6 +26,16 @@ namespace Service
             UpdateTicket(ticket);
         }
 
+        //Individual FEATURE SORIN ARCHIVING
+        public void ArchiveTickets(List<Ticket> tickets)
+        {
+            foreach (Ticket ticket in tickets)
+            {
+                ticketDAO.DeleteTicket(ticket);
+                ticketDAO.AddInArchive(ticket);
+            }
+        }
+
         // INDIVIDUAL FEATURE LAITH FILTERING A GIVEN LIST 
         public List<Ticket> FilterTickets(List<Ticket> tickets, string keyword)
         {

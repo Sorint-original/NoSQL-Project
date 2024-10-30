@@ -233,7 +233,7 @@ namespace UI
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
             {
-                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selected items", "Delete Warning", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selected items?", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
 
@@ -261,6 +261,35 @@ namespace UI
                 // Employees are removed from the database
                 Employee employee = (Employee)item.Tag;
                 employeeService.DeactivateEmployee(employee);
+            }
+        }
+
+        private void ArchListB_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show($"Are you sure you want to archive the current list of tickets?", "Archive Warning", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                ticketService.ArchiveTickets(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+            }
+            RefreshListView();
+        }
+
+        private void ArchSelectedB_Click(object sender, EventArgs e)
+        {
+            if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
+            {
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to archive the selected tickets?", "Archive Warning", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    List<Ticket> tickets = new List<Ticket>();
+                    foreach (ListViewItem item in MainListView.SelectedItems)//goes through all selected items
+                    {
+                        tickets.Add((Ticket)item.Tag);
+                    }
+                    ticketService.ArchiveTickets(tickets);
+                }
+
+                RefreshListView();
             }
         }
 
@@ -320,6 +349,5 @@ namespace UI
                 TicketDatePanel.Show();
             }
         }
-
     }
 }

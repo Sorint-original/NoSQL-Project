@@ -38,13 +38,6 @@ namespace DAL
             //it updates all the atributes of the ticket
         }
 
-        //Delete tickets
-        public void DeleteTicket(Ticket ticket)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
-            _ticketsCollection.DeleteOne(filter);
-        }
-
         // Get the status precentages for employee's tickets
         public Dictionary<Status,float> GetPercentagesForTickets(Employee employee = null)
         {
@@ -85,18 +78,17 @@ namespace DAL
         }
 
         // INDIVIDUAL FEATURE SORIN TICKET ARCHIVING
-        public void ArchiveTickets(List<Ticket> tickets)
-        {
-            foreach (Ticket ticket in tickets)
-            {
-                DeleteTicket(ticket);
-                AddInArchive(ticket);
-            }
-        }
 
         public void AddInArchive(Ticket ticket)
         {
             _archiveCollection.InsertOne(ticket);
+        }
+
+        //Delete tickets
+        public void DeleteTicket(Ticket ticket)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
+            _ticketsCollection.DeleteOne(filter);
         }
 
         // Methods to handle complexed custom and unpredictable querries from the listView
