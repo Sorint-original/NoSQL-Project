@@ -64,5 +64,5 @@ public enum Status
 
 public enum Priority
 {
-    Low,Normal,High
+    low,normal,high
 }
