@@ -44,8 +44,10 @@ namespace UI
                 QuerryedEmployee = LogedEmployee;
                 AdminTicketPanel.Hide();
             }
+            
             ShowTicektSpecificPanels();
             RefreshListView();
+            TicketDatePanel.Hide();
 
         }
 
@@ -56,15 +58,30 @@ namespace UI
             {
                 AdminTicketPanel.Show();
             }
+            TicketFilterPanel.Show();
+            checkBoxFilterDate.Show();
+            DescriptionBox.Show();
+            ResultPanel.Show();
+            TicketDatePanel.Hide();
+            checkBoxFilterDate.Checked = false;
             //hide employee panels
+            SelectSpecificEmployeeTicket.Hide();
+            EmployeePanel.Hide();
         }
 
         public void ShowEmployeeSpecificPanels()
         {
             //show employee panels
+            EmployeePanel.Show();
+            SelectSpecificEmployeeTicket.Show();
 
             //hide Ticket panels
             AdminTicketPanel.Hide();
+            TicketFilterPanel.Hide();
+            checkBoxFilterDate.Hide();
+            TicketDatePanel.Hide();
+            DescriptionBox.Hide();
+            ResultPanel.Hide();
         }
 
         public void SetupListStructure()
@@ -111,6 +128,7 @@ namespace UI
                 li.SubItems.Add(employee.Name);
                 li.SubItems.Add(employee.Email);
                 li.SubItems.Add(employee.Role.ToString());
+                li.SubItems.Add(employee.IsDeleted.ToString());
 
                 li.Tag = employee;   // link lecturer object to listview item
                 MainListView.Items.Add(li);
@@ -250,6 +268,7 @@ namespace UI
         public void SetupListviewTicket()
         {
             int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
             MainListView.Columns.Clear();
             MainListView.Columns.Add("Title", columnWidth);
             MainListView.Columns.Add("Status", columnWidth);
@@ -267,12 +286,14 @@ namespace UI
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
-            int columnWidth = (MainListView.Width - 10) / 4;
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
             MainListView.Columns.Clear();
             MainListView.Columns.Add("UserName", columnWidth);
             MainListView.Columns.Add("Name", columnWidth);
             MainListView.Columns.Add("Email", columnWidth);
             MainListView.Columns.Add("Role", columnWidth);
+            MainListView.Columns.Add("Status", columnWidth);
         }
 
         private void AddB_Click(object sender, EventArgs e)// add object functionality
@@ -371,6 +392,34 @@ namespace UI
         {
             MainListView.Items.Clear();
             AddTicketsToList(FilterTickets());
+        }
+
+        private void employeeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowEmployeeSpecificPanels();
+            showTickets = false;
+            SetupListStructure();
+            RefreshListView();
+        }
+
+        private void ticketsToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ShowTicektSpecificPanels();
+            showTickets = true;
+            SetupListStructure();
+            RefreshListView();
+        }
+
+        private void checkBoxFilterDate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkBoxFilterDate.Checked)
+            {
+                TicketDatePanel.Hide();
+            }
+            else
+            {
+                TicketDatePanel.Show();
+            }
         }
     }
 }
