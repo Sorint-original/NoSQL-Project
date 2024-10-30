@@ -20,6 +20,7 @@ namespace UI
         private TicketService ticketService;
         private EmployeeService employeeService;
         private Employee QuerryedEmployee;
+        private List<Ticket> unfileredTicketList;
         public ListMainForm(Employee employee)
         {
             InitializeComponent();
@@ -123,12 +124,18 @@ namespace UI
             MainListView.Items.Clear();
             if (showTickets)
             {
-                AddTicketsToList(ticketService.CustomQuerry(GetFilters(), GetSort()));
+                unfileredTicketList = ticketService.CustomQuerry(GetFilters(), GetSort());
+                AddTicketsToList(FilterTickets());
             }
             else
             {
 
             }
+        }
+
+        public List<Ticket> FilterTickets()
+        {
+            return ticketService.Filtertickets(unfileredTicketList, FilterResultTextBox.Text);
         }
 
         public List<FilterDefinition<Ticket>> GetFilters()
@@ -152,11 +159,12 @@ namespace UI
                 filters.Add(getPriorityFilter());
             }
             //check date filters
-            if (checkBoxFilterDate.Checked) {
+            if (checkBoxFilterDate.Checked)
+            {
                 DateTime StartDate = StarterDateTime.Value;
                 DateTime EndDate = EndDateTime.Value;
                 int dateCase = CheckDateErrors(StartDate, EndDate);
-                if (dateCase >0)
+                if (dateCase > 0)
                 {
                     GetErrorMessage(dateCase);
                     return null;
@@ -176,7 +184,7 @@ namespace UI
             {
                 return 1;
             }
-            else if(StartDate > DateTime.Now)
+            else if (StartDate > DateTime.Now)
             {
                 return 2;
             }
@@ -188,7 +196,7 @@ namespace UI
             switch (errorcase)
             {
                 case 1:
-                    MessageBox.Show("the start date can't be after the end date", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("the start date can't be after the end date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case 2:
                     MessageBox.Show("the start date can't be in the future", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -199,7 +207,8 @@ namespace UI
 
         public FilterDefinition<Ticket> getStatusFilter()
         {
-            switch (StatusBox.SelectedIndex) {
+            switch (StatusBox.SelectedIndex)
+            {
                 case 1:
                     return ticketService.FilterByStatus(Status.open);
                 case 2:
@@ -354,8 +363,14 @@ namespace UI
 
         private void UpdateListButton_Click(object sender, EventArgs e)
         {
+            FilterResultTextBox.Text = string.Empty;
             RefreshListView();
         }
 
+        private void FilterResultTextBox_TextChanged(object sender, EventArgs e)
+        {
+            MainListView.Items.Clear();
+            AddTicketsToList(FilterTickets());
+        }
     }
 }
