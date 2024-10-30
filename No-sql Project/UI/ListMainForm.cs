@@ -86,9 +86,9 @@ namespace UI
 
         public void SetupListStructure()
         {
+            SetupTicketFilterUI();
             if (showTickets)
             {
-                SetupTicketFilterUI();
                 SetupListviewTicket();
             }
             else
@@ -282,6 +282,9 @@ namespace UI
             PriorityBox.SelectedIndex = 0;
             StatusBox.SelectedIndex = 0;
             SortByBoxTickets.SelectedIndex = 0;
+            RoleComboBox.SelectedIndex = 0;
+            StatusComboBox.SelectedIndex = 0;
+            SortByComboBox.SelectedIndex = 0;
         }
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()

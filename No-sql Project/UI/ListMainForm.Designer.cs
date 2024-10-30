@@ -152,7 +152,6 @@
             AdminTicketPanel.Name = "AdminTicketPanel";
             AdminTicketPanel.Size = new Size(242, 68);
             AdminTicketPanel.TabIndex = 5;
-            AdminTicketPanel.Paint += AdminTicketPanel_Paint;
             // 
             // ArchSelectedB
             // 
