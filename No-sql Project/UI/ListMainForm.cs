@@ -135,17 +135,62 @@ namespace UI
         {
             List<FilterDefinition<Ticket>> filters = new List<FilterDefinition<Ticket>>();
             //checks if it filters by an employee id
-            if(QuerryedEmployee != null)
+            if (QuerryedEmployee != null)
             {
                 filters.Add(ticketService.FilterTicketsByEmployee(QuerryedEmployee));
             }
+            //check tile search
+
+            //check Status filter 
+            if (StatusBox.SelectedIndex > 0)
+            {
+                filters.Add(getStatusFilter());
+            }
+            //check Priority filter
+            if (PriorityBox.SelectedIndex > 0)
+            {
+                filters.Add(getPriorityFilter());
+            }
             return filters;
         }
+        public FilterDefinition<Ticket> getStatusFilter()
+        {
+            switch (StatusBox.SelectedIndex) {
+                case 1:
+                    return ticketService.FilterByStatus(Status.open);
+                case 2:
+                    return ticketService.FilterByStatus(Status.pending);
+                case 3:
+                    return ticketService.FilterByStatus(Status.resolved);
+                case 4:
+                    return ticketService.FilterByStatus(Status.closed);
+            }
+            return null;
+        }
 
+        public FilterDefinition<Ticket> getPriorityFilter()
+        {
+            switch (PriorityBox.SelectedIndex)
+            {
+                case 1:
+                    return ticketService.FilterTicketsByPriority(Priority.high);
+                case 2:
+                    return ticketService.FilterTicketsByPriority(Priority.normal);
+                case 3:
+                    return ticketService.FilterTicketsByPriority(Priority.low);
+            }
+            return null;
+        }
         public SortDefinition<Ticket> GetSort()
         {
-            var sort = ticketService.SortByStatus();
-            return sort;
+            switch (SortByBoxTickets.SelectedIndex)
+            {
+                case 0:
+                    return ticketService.SortByCreationDateDescending();
+                case 1:
+                    return ticketService.SortByCreationDateAscending();
+            }
+            return null;
         }
 
         //Add the columns in the listview to display tickets
@@ -263,9 +308,10 @@ namespace UI
             this.Hide();
         }
 
-        private void AdminTicketPanel_Paint(object sender, PaintEventArgs e)
+        private void UpdateListButton_Click(object sender, EventArgs e)
         {
-
+            RefreshListView();
         }
+
     }
 }
