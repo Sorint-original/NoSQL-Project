@@ -187,7 +187,7 @@ namespace DAL
             var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
             return sort;
         }
-        public FilterDefinition<Ticket> GetTicketsByPriority(Priority priority)
+        public FilterDefinition<Ticket> FilterTicketsByPriority(Priority priority)
         {
             //sorting and returning the filterd tickets by one priority
             var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);

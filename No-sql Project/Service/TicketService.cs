@@ -97,10 +97,10 @@ namespace Service
             //sorting and returning the filterd tickets by high, medium and low priority
             return ticketDAO.SortTicketsByPriority();
         }
-        public FilterDefinition<Ticket> GetTicketsByPriority(Priority priority)
+        public FilterDefinition<Ticket> FilterTicketsByPriority(Priority priority)
         {
             //sorting and returning the filterd tickets by one priority
-            return ticketDAO.GetTicketsByPriority(priority);
+            return ticketDAO.FilterTicketsByPriority(priority);
         }
     }
 }
