@@ -42,7 +42,7 @@
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
-            tb_search = new TextBox();
+            TitleTextbox_search = new TextBox();
             PriorityBox = new ComboBox();
             StatusBox = new ComboBox();
             StarterDateTime = new DateTimePicker();
@@ -50,7 +50,7 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            SortByBox = new ComboBox();
+            SortByBoxTickets = new ComboBox();
             label8 = new Label();
             FilterResultTextBox = new TextBox();
             FilterByDateButton = new Button();
@@ -216,13 +216,13 @@
             label4.TabIndex = 16;
             label4.Text = "Title:";
             // 
-            // tb_search
+            // TitleTextbox_search
             // 
-            tb_search.Location = new Point(33, 98);
-            tb_search.Name = "tb_search";
-            tb_search.PlaceholderText = "Search";
-            tb_search.Size = new Size(132, 27);
-            tb_search.TabIndex = 18;
+            TitleTextbox_search.Location = new Point(33, 98);
+            TitleTextbox_search.Name = "TitleTextbox_search";
+            TitleTextbox_search.PlaceholderText = "Search";
+            TitleTextbox_search.Size = new Size(132, 27);
+            TitleTextbox_search.TabIndex = 18;
             // 
             // PriorityBox
             // 
@@ -286,15 +286,15 @@
             label7.TabIndex = 25;
             label7.Text = "Sort by:";
             // 
-            // SortByBox
+            // SortByBoxTickets
             // 
-            SortByBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            SortByBox.FormattingEnabled = true;
-            SortByBox.Items.AddRange(new object[] { "New to Old", "Old to New" });
-            SortByBox.Location = new Point(438, 98);
-            SortByBox.Name = "SortByBox";
-            SortByBox.Size = new Size(126, 28);
-            SortByBox.TabIndex = 26;
+            SortByBoxTickets.DropDownStyle = ComboBoxStyle.DropDownList;
+            SortByBoxTickets.FormattingEnabled = true;
+            SortByBoxTickets.Items.AddRange(new object[] { "New to Old", "Old to New" });
+            SortByBoxTickets.Location = new Point(438, 98);
+            SortByBoxTickets.Name = "SortByBoxTickets";
+            SortByBoxTickets.Size = new Size(126, 28);
+            SortByBoxTickets.TabIndex = 26;
             // 
             // label8
             // 
@@ -343,6 +343,7 @@
             employeeToolStripMenuItem.Name = "employeeToolStripMenuItem";
             employeeToolStripMenuItem.Size = new Size(89, 24);
             employeeToolStripMenuItem.Text = "Employee";
+            employeeToolStripMenuItem.Click += employeeToolStripMenuItem_Click;
             // 
             // ListMainForm
             // 
@@ -354,7 +355,7 @@
             Controls.Add(UpdateListButton);
             Controls.Add(FilterResultTextBox);
             Controls.Add(label8);
-            Controls.Add(SortByBox);
+            Controls.Add(SortByBoxTickets);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -362,7 +363,7 @@
             Controls.Add(StarterDateTime);
             Controls.Add(StatusBox);
             Controls.Add(PriorityBox);
-            Controls.Add(tb_search);
+            Controls.Add(TitleTextbox_search);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -401,7 +402,7 @@
         private Label label2;
         private Label label3;
         private Label label4;
-        private TextBox tb_search;
+        private TextBox TitleTextbox_search;
         private ComboBox PriorityBox;
         private ComboBox StatusBox;
         private DateTimePicker StarterDateTime;
@@ -409,7 +410,7 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private ComboBox SortByBox;
+        private ComboBox SortByBoxTickets;
         private Button UpdateListButton;
         private Label label8;
         private TextBox FilterResultTextBox;
