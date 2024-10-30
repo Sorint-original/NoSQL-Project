@@ -38,10 +38,10 @@
             ArchListB = new Button();
             UpdateListButton = new Button();
             LogoutB = new Button();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
+            FilterOnLabel = new Label();
+            PriorityLabel = new Label();
+            StatusLabel = new Label();
+            TitleLabel = new Label();
             TitleTextbox_search = new TextBox();
             PriorityBox = new ComboBox();
             StatusBox = new ComboBox();
@@ -49,7 +49,7 @@
             EndDateTime = new DateTimePicker();
             label5 = new Label();
             label6 = new Label();
-            label7 = new Label();
+            TicketSortByLabel = new Label();
             SortByBoxTickets = new ComboBox();
             label8 = new Label();
             FilterResultTextBox = new TextBox();
@@ -57,10 +57,26 @@
             ticketsToolStripMenuItem = new ToolStripMenuItem();
             employeeToolStripMenuItem = new ToolStripMenuItem();
             TicketFilterPanel = new Panel();
+            EmployeePanel = new Panel();
+            StatusComboBox = new ComboBox();
+            RoleComboBox = new ComboBox();
+            SortByComboBox = new ComboBox();
+            label1 = new Label();
+            textBox1 = new TextBox();
+            EmployeeSortByLabel = new Label();
+            label9 = new Label();
+            RoleLabel = new Label();
+            EmployeeStatusLabel = new Label();
             checkBoxFilterDate = new CheckBox();
+            TicketDatePanel = new Panel();
+            ResultPanel = new Panel();
+            SelectSpecificEmployeeTicket = new Button();
             AdminTicketPanel.SuspendLayout();
             menuStrip1.SuspendLayout();
             TicketFilterPanel.SuspendLayout();
+            EmployeePanel.SuspendLayout();
+            TicketDatePanel.SuspendLayout();
+            ResultPanel.SuspendLayout();
             SuspendLayout();
             // 
             // MainListView
@@ -79,6 +95,7 @@
             // AddB
             // 
             AddB.BackColor = Color.FromArgb(38, 38, 38);
+            AddB.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             AddB.Location = new Point(33, 542);
             AddB.Margin = new Padding(3, 4, 3, 4);
             AddB.Name = "AddB";
@@ -91,6 +108,7 @@
             // UpdateB
             // 
             UpdateB.BackColor = Color.FromArgb(38, 38, 38);
+            UpdateB.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             UpdateB.Location = new Point(149, 542);
             UpdateB.Margin = new Padding(3, 4, 3, 4);
             UpdateB.Name = "UpdateB";
@@ -103,6 +121,7 @@
             // DeleteB
             // 
             DeleteB.BackColor = Color.FromArgb(38, 38, 38);
+            DeleteB.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             DeleteB.Location = new Point(265, 542);
             DeleteB.Margin = new Padding(3, 4, 3, 4);
             DeleteB.Name = "DeleteB";
@@ -179,44 +198,44 @@
             LogoutB.UseVisualStyleBackColor = false;
             LogoutB.Click += LogoutB_Click;
             // 
-            // label1
+            // FilterOnLabel
             // 
-            label1.AutoSize = true;
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(33, 44);
-            label1.Name = "label1";
-            label1.Size = new Size(66, 20);
-            label1.TabIndex = 8;
-            label1.Text = "Filter on:";
+            FilterOnLabel.AutoSize = true;
+            FilterOnLabel.ForeColor = Color.White;
+            FilterOnLabel.Location = new Point(33, 44);
+            FilterOnLabel.Name = "FilterOnLabel";
+            FilterOnLabel.Size = new Size(66, 20);
+            FilterOnLabel.TabIndex = 8;
+            FilterOnLabel.Text = "Filter on:";
             // 
-            // label2
+            // PriorityLabel
             // 
-            label2.AutoSize = true;
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(276, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(59, 20);
-            label2.TabIndex = 11;
-            label2.Text = "Priority:";
+            PriorityLabel.AutoSize = true;
+            PriorityLabel.ForeColor = Color.White;
+            PriorityLabel.Location = new Point(276, 9);
+            PriorityLabel.Name = "PriorityLabel";
+            PriorityLabel.Size = new Size(59, 20);
+            PriorityLabel.TabIndex = 11;
+            PriorityLabel.Text = "Priority:";
             // 
-            // label3
+            // StatusLabel
             // 
-            label3.AutoSize = true;
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(139, 9);
-            label3.Name = "label3";
-            label3.Size = new Size(52, 20);
-            label3.TabIndex = 15;
-            label3.Text = "Status:";
+            StatusLabel.AutoSize = true;
+            StatusLabel.ForeColor = Color.White;
+            StatusLabel.Location = new Point(139, 9);
+            StatusLabel.Name = "StatusLabel";
+            StatusLabel.Size = new Size(52, 20);
+            StatusLabel.TabIndex = 15;
+            StatusLabel.Text = "Status:";
             // 
-            // label4
+            // TitleLabel
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(3, 9);
-            label4.Name = "label4";
-            label4.Size = new Size(41, 20);
-            label4.TabIndex = 16;
-            label4.Text = "Title:";
+            TitleLabel.AutoSize = true;
+            TitleLabel.Location = new Point(3, 9);
+            TitleLabel.Name = "TitleLabel";
+            TitleLabel.Size = new Size(41, 20);
+            TitleLabel.TabIndex = 16;
+            TitleLabel.Text = "Title:";
             // 
             // TitleTextbox_search
             // 
@@ -248,14 +267,14 @@
             // 
             // StarterDateTime
             // 
-            StarterDateTime.Location = new Point(456, 540);
+            StarterDateTime.Location = new Point(61, 2);
             StarterDateTime.Name = "StarterDateTime";
             StarterDateTime.Size = new Size(250, 27);
             StarterDateTime.TabIndex = 21;
             // 
             // EndDateTime
             // 
-            EndDateTime.Location = new Point(456, 582);
+            EndDateTime.Location = new Point(61, 44);
             EndDateTime.Name = "EndDateTime";
             EndDateTime.Size = new Size(250, 27);
             EndDateTime.TabIndex = 22;
@@ -264,7 +283,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(400, 541);
+            label5.Location = new Point(5, 3);
             label5.Name = "label5";
             label5.Size = new Size(46, 20);
             label5.TabIndex = 23;
@@ -273,20 +292,20 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(403, 587);
+            label6.Location = new Point(8, 49);
             label6.Name = "label6";
             label6.Size = new Size(32, 20);
             label6.TabIndex = 24;
             label6.Text = "Till:";
             // 
-            // label7
+            // TicketSortByLabel
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(405, 8);
-            label7.Name = "label7";
-            label7.Size = new Size(59, 20);
-            label7.TabIndex = 25;
-            label7.Text = "Sort by:";
+            TicketSortByLabel.AutoSize = true;
+            TicketSortByLabel.Location = new Point(405, 8);
+            TicketSortByLabel.Name = "TicketSortByLabel";
+            TicketSortByLabel.Size = new Size(59, 20);
+            TicketSortByLabel.TabIndex = 25;
+            TicketSortByLabel.Text = "Sort by:";
             // 
             // SortByBoxTickets
             // 
@@ -301,7 +320,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(752, 189);
+            label8.Location = new Point(11, 14);
             label8.Name = "label8";
             label8.Size = new Size(95, 20);
             label8.TabIndex = 29;
@@ -309,7 +328,7 @@
             // 
             // FilterResultTextBox
             // 
-            FilterResultTextBox.Location = new Point(752, 212);
+            FilterResultTextBox.Location = new Point(11, 41);
             FilterResultTextBox.Name = "FilterResultTextBox";
             FilterResultTextBox.Size = new Size(242, 27);
             FilterResultTextBox.TabIndex = 30;
@@ -329,12 +348,14 @@
             ticketsToolStripMenuItem.Name = "ticketsToolStripMenuItem";
             ticketsToolStripMenuItem.Size = new Size(68, 24);
             ticketsToolStripMenuItem.Text = "Tickets";
+            ticketsToolStripMenuItem.Click += ticketsToolStripMenuItem_Click_1;
             // 
             // employeeToolStripMenuItem
             // 
             employeeToolStripMenuItem.Name = "employeeToolStripMenuItem";
             employeeToolStripMenuItem.Size = new Size(89, 24);
             employeeToolStripMenuItem.Text = "Employee";
+            employeeToolStripMenuItem.Click += employeeToolStripMenuItem_Click;
             // 
             // TicketFilterPanel
             // 
@@ -342,14 +363,112 @@
             TicketFilterPanel.Controls.Add(PriorityBox);
             TicketFilterPanel.Controls.Add(StatusBox);
             TicketFilterPanel.Controls.Add(TitleTextbox_search);
-            TicketFilterPanel.Controls.Add(label4);
-            TicketFilterPanel.Controls.Add(label7);
-            TicketFilterPanel.Controls.Add(label3);
-            TicketFilterPanel.Controls.Add(label2);
-            TicketFilterPanel.Location = new Point(33, 67);
+            TicketFilterPanel.Controls.Add(TitleLabel);
+            TicketFilterPanel.Controls.Add(TicketSortByLabel);
+            TicketFilterPanel.Controls.Add(StatusLabel);
+            TicketFilterPanel.Controls.Add(PriorityLabel);
+            TicketFilterPanel.Location = new Point(33, 72);
             TicketFilterPanel.Name = "TicketFilterPanel";
             TicketFilterPanel.Size = new Size(541, 66);
             TicketFilterPanel.TabIndex = 33;
+            // 
+            // EmployeePanel
+            // 
+            EmployeePanel.Controls.Add(StatusComboBox);
+            EmployeePanel.Controls.Add(RoleComboBox);
+            EmployeePanel.Controls.Add(SortByComboBox);
+            EmployeePanel.Controls.Add(label1);
+            EmployeePanel.Controls.Add(textBox1);
+            EmployeePanel.Controls.Add(EmployeeSortByLabel);
+            EmployeePanel.Controls.Add(label9);
+            EmployeePanel.Controls.Add(RoleLabel);
+            EmployeePanel.Controls.Add(EmployeeStatusLabel);
+            EmployeePanel.Location = new Point(33, 80);
+            EmployeePanel.Name = "EmployeePanel";
+            EmployeePanel.Size = new Size(541, 58);
+            EmployeePanel.TabIndex = 25;
+            // 
+            // StatusComboBox
+            // 
+            StatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            StatusComboBox.FormattingEnabled = true;
+            StatusComboBox.Items.AddRange(new object[] { "Active", "Inactive\t" });
+            StatusComboBox.Location = new Point(284, 26);
+            StatusComboBox.Name = "StatusComboBox";
+            StatusComboBox.Size = new Size(110, 28);
+            StatusComboBox.TabIndex = 27;
+            // 
+            // RoleComboBox
+            // 
+            RoleComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            RoleComboBox.FormattingEnabled = true;
+            RoleComboBox.Items.AddRange(new object[] { "Employee", "Admin\t" });
+            RoleComboBox.Location = new Point(148, 25);
+            RoleComboBox.Name = "RoleComboBox";
+            RoleComboBox.Size = new Size(110, 28);
+            RoleComboBox.TabIndex = 28;
+            // 
+            // SortByComboBox
+            // 
+            SortByComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            SortByComboBox.FormattingEnabled = true;
+            SortByComboBox.Items.AddRange(new object[] { "Username", "Name", "Email", "Role" });
+            SortByComboBox.Location = new Point(406, 26);
+            SortByComboBox.Name = "SortByComboBox";
+            SortByComboBox.Size = new Size(110, 28);
+            SortByComboBox.TabIndex = 29;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, -1);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 20);
+            label1.TabIndex = 41;
+            label1.Text = "Name:";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(3, 26);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Search";
+            textBox1.Size = new Size(125, 27);
+            textBox1.TabIndex = 40;
+            // 
+            // EmployeeSortByLabel
+            // 
+            EmployeeSortByLabel.AutoSize = true;
+            EmployeeSortByLabel.Location = new Point(406, -1);
+            EmployeeSortByLabel.Name = "EmployeeSortByLabel";
+            EmployeeSortByLabel.Size = new Size(59, 20);
+            EmployeeSortByLabel.TabIndex = 39;
+            EmployeeSortByLabel.Text = "Sort by:";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(3, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(0, 20);
+            label9.TabIndex = 36;
+            // 
+            // RoleLabel
+            // 
+            RoleLabel.AutoSize = true;
+            RoleLabel.Location = new Point(148, -1);
+            RoleLabel.Name = "RoleLabel";
+            RoleLabel.Size = new Size(42, 20);
+            RoleLabel.TabIndex = 37;
+            RoleLabel.Text = "Role:";
+            // 
+            // EmployeeStatusLabel
+            // 
+            EmployeeStatusLabel.AutoSize = true;
+            EmployeeStatusLabel.Location = new Point(284, -1);
+            EmployeeStatusLabel.Name = "EmployeeStatusLabel";
+            EmployeeStatusLabel.Size = new Size(52, 20);
+            EmployeeStatusLabel.TabIndex = 38;
+            EmployeeStatusLabel.Text = "Status:";
             // 
             // checkBoxFilterDate
             // 
@@ -360,6 +479,38 @@
             checkBoxFilterDate.TabIndex = 34;
             checkBoxFilterDate.Text = "Filter by date";
             checkBoxFilterDate.UseVisualStyleBackColor = true;
+            checkBoxFilterDate.CheckedChanged += checkBoxFilterDate_CheckedChanged;
+            // 
+            // TicketDatePanel
+            // 
+            TicketDatePanel.Controls.Add(EndDateTime);
+            TicketDatePanel.Controls.Add(StarterDateTime);
+            TicketDatePanel.Controls.Add(label5);
+            TicketDatePanel.Controls.Add(label6);
+            TicketDatePanel.Location = new Point(395, 542);
+            TicketDatePanel.Name = "TicketDatePanel";
+            TicketDatePanel.Size = new Size(311, 76);
+            TicketDatePanel.TabIndex = 35;
+            // 
+            // ResultPanel
+            // 
+            ResultPanel.Controls.Add(label8);
+            ResultPanel.Controls.Add(FilterResultTextBox);
+            ResultPanel.Location = new Point(741, 137);
+            ResultPanel.Name = "ResultPanel";
+            ResultPanel.Size = new Size(250, 74);
+            ResultPanel.TabIndex = 42;
+            // 
+            // SelectSpecificEmployeeTicket
+            // 
+            SelectSpecificEmployeeTicket.BackColor = Color.FromArgb(38, 38, 38);
+            SelectSpecificEmployeeTicket.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            SelectSpecificEmployeeTicket.Location = new Point(380, 542);
+            SelectSpecificEmployeeTicket.Name = "SelectSpecificEmployeeTicket";
+            SelectSpecificEmployeeTicket.Size = new Size(110, 57);
+            SelectSpecificEmployeeTicket.TabIndex = 42;
+            SelectSpecificEmployeeTicket.Text = "Select Employee Ticket";
+            SelectSpecificEmployeeTicket.UseVisualStyleBackColor = false;
             // 
             // ListMainForm
             // 
@@ -367,16 +518,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(40, 44, 52);
             ClientSize = new Size(1032, 623);
+            Controls.Add(SelectSpecificEmployeeTicket);
+            Controls.Add(ResultPanel);
+            Controls.Add(EmployeePanel);
             Controls.Add(checkBoxFilterDate);
             Controls.Add(TicketFilterPanel);
             Controls.Add(UpdateListButton);
-            Controls.Add(FilterResultTextBox);
-            Controls.Add(label8);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(EndDateTime);
-            Controls.Add(StarterDateTime);
-            Controls.Add(label1);
+            Controls.Add(FilterOnLabel);
             Controls.Add(LogoutB);
             Controls.Add(AdminTicketPanel);
             Controls.Add(DescriptionBox);
@@ -385,6 +533,7 @@
             Controls.Add(AddB);
             Controls.Add(MainListView);
             Controls.Add(menuStrip1);
+            Controls.Add(TicketDatePanel);
             ForeColor = Color.White;
             MainMenuStrip = menuStrip1;
             Margin = new Padding(3, 4, 3, 4);
@@ -394,6 +543,12 @@
             menuStrip1.PerformLayout();
             TicketFilterPanel.ResumeLayout(false);
             TicketFilterPanel.PerformLayout();
+            EmployeePanel.ResumeLayout(false);
+            EmployeePanel.PerformLayout();
+            TicketDatePanel.ResumeLayout(false);
+            TicketDatePanel.PerformLayout();
+            ResultPanel.ResumeLayout(false);
+            ResultPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -409,10 +564,10 @@
         private Button ArchSelectedB;
         private Button ArchListB;
         private Button LogoutB;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
+        private Label FilterOnLabel;
+        private Label PriorityLabel;
+        private Label StatusLabel;
+        private Label TitleLabel;
         private TextBox TitleTextbox_search;
         private ComboBox PriorityBox;
         private ComboBox StatusBox;
@@ -420,7 +575,7 @@
         private DateTimePicker EndDateTime;
         private Label label5;
         private Label label6;
-        private Label label7;
+        private Label TicketSortByLabel;
         private ComboBox SortByBoxTickets;
         private Button UpdateListButton;
         private Label label8;
@@ -430,5 +585,18 @@
         private ToolStripMenuItem employeeToolStripMenuItem;
         private Panel TicketFilterPanel;
         private CheckBox checkBoxFilterDate;
+        private Panel TicketDatePanel;
+        private Panel EmployeePanel;
+        private TextBox textBox1;
+        private Label EmployeeSortByLabel;
+        private Label label9;
+        private Label RoleLabel;
+        private Label EmployeeStatusLabel;
+        private Label label1;
+        private ComboBox StatusComboBox;
+        private ComboBox RoleComboBox;
+        private ComboBox SortByComboBox;
+        private Panel ResultPanel;
+        private Button SelectSpecificEmployeeTicket;
     }
 }
