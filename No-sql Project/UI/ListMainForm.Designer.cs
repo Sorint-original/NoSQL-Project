@@ -163,6 +163,7 @@
             ArchSelectedB.TabIndex = 0;
             ArchSelectedB.Text = "Archive selected";
             ArchSelectedB.UseVisualStyleBackColor = false;
+            ArchSelectedB.Click += ArchSelectedB_Click;
             // 
             // ArchListB
             // 
@@ -174,6 +175,7 @@
             ArchListB.TabIndex = 1;
             ArchListB.Text = "Archive current list";
             ArchListB.UseVisualStyleBackColor = false;
+            ArchListB.Click += ArchListB_Click;
             // 
             // UpdateListButton
             // 
