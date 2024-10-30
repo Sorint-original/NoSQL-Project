@@ -44,7 +44,7 @@ namespace UI
                 QuerryedEmployee = LogedEmployee;
                 AdminTicketPanel.Hide();
             }
-            
+
             ShowTicektSpecificPanels();
             RefreshListView();
             TicketDatePanel.Hide();
@@ -143,7 +143,7 @@ namespace UI
             if (showTickets)
             {
                 List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
-                if(filters != null)
+                if (filters != null)
                 {
                     unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
                     AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
@@ -300,7 +300,7 @@ namespace UI
             RefreshListView();
         }
 
-        private void ticketsToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void ticketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowTicektSpecificPanels();
             showTickets = true;
@@ -319,5 +319,6 @@ namespace UI
                 TicketDatePanel.Show();
             }
         }
+
     }
 }

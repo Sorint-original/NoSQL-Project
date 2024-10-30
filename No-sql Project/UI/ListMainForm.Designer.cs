@@ -248,7 +248,7 @@
             // 
             PriorityBox.DropDownStyle = ComboBoxStyle.DropDownList;
             PriorityBox.FormattingEnabled = true;
-            PriorityBox.Items.AddRange(new object[] { "All", "High", "Middle", "Low" });
+            PriorityBox.Items.AddRange(new object[] { "All", "Low", "Normal", "High" });
             PriorityBox.Location = new Point(276, 39);
             PriorityBox.Name = "PriorityBox";
             PriorityBox.Size = new Size(110, 28);
@@ -347,7 +347,7 @@
             ticketsToolStripMenuItem.Name = "ticketsToolStripMenuItem";
             ticketsToolStripMenuItem.Size = new Size(68, 24);
             ticketsToolStripMenuItem.Text = "Tickets";
-            ticketsToolStripMenuItem.Click += ticketsToolStripMenuItem_Click_1;
+            ticketsToolStripMenuItem.Click += ticketsToolStripMenuItem_Click;
             // 
             // employeeToolStripMenuItem
             // 

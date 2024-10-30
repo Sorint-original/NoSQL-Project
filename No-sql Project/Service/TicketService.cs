@@ -65,12 +65,12 @@ namespace Service
             }
 
             //check Status filter 
-            if (status != null)
+            if ((int)status != 0)
             {
                 filters.Add(FilterByStatus(status));
             }
             //check Priority filter
-            if (priority != null)
+            if ((int)priority != 0)
             {
                 filters.Add(FilterByPriority(priority));
             }
