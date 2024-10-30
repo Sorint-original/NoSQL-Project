@@ -154,9 +154,15 @@ namespace DAL
         }
 
         // get sort based on creation date
-        public SortDefinition<Ticket> SortByCreationDate()
+        public SortDefinition<Ticket> SortByCreationDateAscending()
         {
             var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
+            return sort;
+        }
+
+        public SortDefinition<Ticket> SortByCreationDateDecending()
+        {
+            var sort = Builders<Ticket>.Sort.Descending(t => t.CreationTime);
             return sort;
         }
 
