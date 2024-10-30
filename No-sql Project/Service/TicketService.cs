@@ -69,9 +69,14 @@ namespace Service
         }
 
         // get sort based on creation date
-        public SortDefinition<Ticket> SortByCreationDate()
+        public SortDefinition<Ticket> SortByCreationDateAscending()
         {
-            return ticketDAO.SortByCreationDate();
+            return ticketDAO.SortByCreationDateAscending();
+        }
+
+        public SortDefinition<Ticket> SortByCreationDateDescending()
+        {
+            return ticketDAO.SortByCreationDateDescending();
         }
 
         //Filter tickets created before a specific date

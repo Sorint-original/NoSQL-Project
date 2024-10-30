@@ -37,7 +37,6 @@ namespace UI
             if (LogedEmployee.Role == Role.admin)
             {
                 QuerryedEmployee = null;
-                CurrentCase = ListDisplayCase.AllTickets;
                 PriorityBox.SelectedIndex = 0;
                 StatusBox.SelectedIndex = 0;
                 SortByBox.SelectedIndex = 0;
