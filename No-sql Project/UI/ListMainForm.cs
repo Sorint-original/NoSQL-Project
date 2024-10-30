@@ -139,12 +139,12 @@ namespace UI
         //Refreshs the elements in the listview based on the currnt display case
         public void RefreshListView()
         {
-            MainListView.Items.Clear();
             if (showTickets)
             {
                 List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
                 if (filters != null)
                 {
+                    MainListView.Items.Clear();
                     unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
                     AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
                 }
@@ -155,6 +155,7 @@ namespace UI
             }
             else
             {
+                MainListView.Items.Clear();
                 // to complete
             }
         }
@@ -191,7 +192,7 @@ namespace UI
             MainListView.Columns.Add("Name", columnWidth);
             MainListView.Columns.Add("Email", columnWidth);
             MainListView.Columns.Add("Role", columnWidth);
-            MainListView.Columns.Add("Status", columnWidth);
+            MainListView.Columns.Add("Active", columnWidth);
         }
 
         private void AddB_Click(object sender, EventArgs e)// add object functionality

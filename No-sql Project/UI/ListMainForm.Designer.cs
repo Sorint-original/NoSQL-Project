@@ -184,6 +184,7 @@
             UpdateListButton.TabIndex = 28;
             UpdateListButton.Text = "Update list";
             UpdateListButton.UseVisualStyleBackColor = false;
+            UpdateListButton.Click += UpdateListButton_Click;
             // 
             // LogoutB
             // 
