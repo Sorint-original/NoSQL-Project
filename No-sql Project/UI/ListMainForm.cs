@@ -37,6 +37,10 @@ namespace UI
             if (LogedEmployee.Role == Role.admin)
             {
                 QuerryedEmployee = null;
+                CurrentCase = ListDisplayCase.AllTickets;
+                PriorityBox.SelectedIndex = 0;
+                StatusBox.SelectedIndex = 0;
+                SortByBox.SelectedIndex = 0;
             }
             else
             {
@@ -86,7 +90,7 @@ namespace UI
                 li.SubItems.Add(ticket.Status.ToString());
                 li.SubItems.Add(ticket.Priority.ToString());
                 li.SubItems.Add(ticket.CreationTime.ToString());
-                if(ticket.SolutionTime == DateTime.MinValue)
+                if (ticket.SolutionTime == DateTime.MinValue)
                 {
                     li.SubItems.Add("NA");
                 }
@@ -162,7 +166,7 @@ namespace UI
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
-            int columnWidth = (MainListView.Width - 10)/ 4;
+            int columnWidth = (MainListView.Width - 10) / 4;
             MainListView.Columns.Clear();
             MainListView.Columns.Add("UserName", columnWidth);
             MainListView.Columns.Add("Name", columnWidth);
@@ -211,7 +215,7 @@ namespace UI
                 DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selected items", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                   
+
                     foreach (ListViewItem item in MainListView.SelectedItems)//goes through all selected items
                     {
                         DeleteItem(item);
@@ -254,6 +258,11 @@ namespace UI
             LoginForm form = new LoginForm();
             form.Show();
             this.Hide();
+        }
+
+        private void AdminTicketPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

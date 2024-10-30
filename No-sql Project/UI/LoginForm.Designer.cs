@@ -38,56 +38,69 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(39, 22);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(45, 29);
             label1.Name = "label1";
-            label1.Size = new Size(66, 15);
+            label1.Size = new Size(82, 20);
             label1.TabIndex = 0;
             label1.Text = "Username: ";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(39, 67);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(45, 89);
             label2.Name = "label2";
-            label2.Size = new Size(63, 15);
+            label2.Size = new Size(77, 20);
             label2.TabIndex = 1;
             label2.Text = "Password: ";
             // 
             // UsernameTB
             // 
-            UsernameTB.Location = new Point(158, 19);
+            UsernameTB.BackColor = Color.FromArgb(38, 38, 38);
+            UsernameTB.ForeColor = Color.White;
+            UsernameTB.Location = new Point(181, 25);
+            UsernameTB.Margin = new Padding(3, 4, 3, 4);
             UsernameTB.Name = "UsernameTB";
-            UsernameTB.Size = new Size(100, 23);
+            UsernameTB.Size = new Size(114, 27);
             UsernameTB.TabIndex = 2;
             // 
             // PasswordTB
             // 
-            PasswordTB.Location = new Point(158, 64);
+            PasswordTB.BackColor = Color.FromArgb(38, 38, 38);
+            PasswordTB.ForeColor = Color.White;
+            PasswordTB.Location = new Point(181, 85);
+            PasswordTB.Margin = new Padding(3, 4, 3, 4);
             PasswordTB.Name = "PasswordTB";
-            PasswordTB.Size = new Size(100, 23);
+            PasswordTB.Size = new Size(114, 27);
             PasswordTB.TabIndex = 3;
             // 
             // LoginB
             // 
-            LoginB.Location = new Point(158, 100);
+            LoginB.BackColor = Color.FromArgb(38, 38, 38);
+            LoginB.ForeColor = Color.White;
+            LoginB.Location = new Point(181, 133);
+            LoginB.Margin = new Padding(3, 4, 3, 4);
             LoginB.Name = "LoginB";
-            LoginB.Size = new Size(75, 23);
+            LoginB.Size = new Size(86, 31);
             LoginB.TabIndex = 4;
             LoginB.Text = "Login";
-            LoginB.UseVisualStyleBackColor = true;
+            LoginB.UseVisualStyleBackColor = false;
             LoginB.Click += LoginB_Click;
             // 
-            // Login
+            // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(311, 135);
+            BackColor = Color.FromArgb(40, 44, 52);
+            ClientSize = new Size(355, 180);
             Controls.Add(LoginB);
             Controls.Add(PasswordTB);
             Controls.Add(UsernameTB);
             Controls.Add(label2);
             Controls.Add(label1);
-            Name = "Login";
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "LoginForm";
             Text = "Login";
             ResumeLayout(false);
             PerformLayout();
