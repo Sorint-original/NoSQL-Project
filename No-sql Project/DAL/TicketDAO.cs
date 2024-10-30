@@ -160,7 +160,7 @@ namespace DAL
             return sort;
         }
 
-        public SortDefinition<Ticket> SortByCreationDateDecending()
+        public SortDefinition<Ticket> SortByCreationDateDescending()
         {
             var sort = Builders<Ticket>.Sort.Descending(t => t.CreationTime);
             return sort;
