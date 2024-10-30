@@ -28,7 +28,7 @@ namespace DAL
         //GetEmployeeByUsername
         public Employee GetEmployeeByUsername(string username)
         {
-            var filter = Builders<Employee>.Filter.Eq(e => e.UserName, username);
+            var filter = Builders<Employee>.Filter.Eq(e => e.UserName, username) & Builders<Employee>.Filter.Eq(e => e.IsDeleted, false);
             return _employeeCollection.Find(filter).Single();
         }
         public void CreateEmployee(Employee employee)

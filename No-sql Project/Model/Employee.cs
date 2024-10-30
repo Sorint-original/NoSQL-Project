@@ -36,7 +36,7 @@ namespace Model
         [BsonElement("IsDeleted")]
         public bool IsDeleted { get; set; }
 
-        public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role)
+        public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role, bool IsDeleted = false)
         {
             this.Id = Id;
             this.UserName = UserName;
@@ -44,6 +44,7 @@ namespace Model
             this.Email = Email;
             this.Password = Password;
             this.Role = Role;
+            this.IsDeleted = IsDeleted;
         }
 
     }

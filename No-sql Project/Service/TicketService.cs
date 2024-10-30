@@ -27,7 +27,7 @@ namespace Service
         }
 
         // INDIVIDUAL FEATURE LAITH FILTERING A GIVEN LIST 
-        public List<Ticket> Filtertickets(List<Ticket> tickets, string keyword)
+        public List<Ticket> FilterTickets(List<Ticket> tickets, string keyword)
         {
             List<Ticket> filteredTickets = new List<Ticket>(); // to hold the filterd ticket 
 
@@ -54,53 +54,62 @@ namespace Service
         //get filter based on employee
         public FilterDefinition<Ticket> FilterTicketsByEmployee(Employee employee)
         {
-            return ticketDAO.FilterTicketsByEmployee(employee);
+            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            return filter;
         }
         // get sort based on status
         public SortDefinition<Ticket> SortByStatus()
         {
-            return ticketDAO.SortByStatus();
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return sort;
         }
 
         //Filter tickets by status
         public FilterDefinition<Ticket> FilterByStatus(Status Status)
         {
-            return ticketDAO.FilterByStatus(Status);
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
+            return filter;
         }
 
         // get sort based on creation date
         public SortDefinition<Ticket> SortByCreationDateAscending()
         {
-            return ticketDAO.SortByCreationDateAscending();
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
+            return sort;
         }
 
         public SortDefinition<Ticket> SortByCreationDateDescending()
         {
-            return ticketDAO.SortByCreationDateDescending();
+            var sort = Builders<Ticket>.Sort.Descending(t => t.CreationTime);
+            return sort;
         }
 
         //Filter tickets created before a specific date
         public FilterDefinition<Ticket> FilterBeforeSpecificDate(DateTime Date)
         {
-            return ticketDAO.FilterBeforeSpecificDate(Date);
+            var filter = Builders<Ticket>.Filter.Lte(t => t.CreationTime, Date);
+            return filter;
         }
 
         //Filter tickets created after a specific date
         public FilterDefinition<Ticket> FilterAfterSpecificDate(DateTime Date)
         {
-            return ticketDAO.FilterAfterSpecificDate(Date);
+            var filter = Builders<Ticket>.Filter.Gte(t => t.CreationTime, Date);
+            return filter;
         }
 
         // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
         public SortDefinition<Ticket> SortTicketsByPriority()
         {
             //sorting and returning the filterd tickets by high, medium and low priority
-            return ticketDAO.SortTicketsByPriority();
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
+            return sort;
         }
         public FilterDefinition<Ticket> FilterTicketsByPriority(Priority priority)
         {
             //sorting and returning the filterd tickets by one priority
-            return ticketDAO.FilterTicketsByPriority(priority);
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
+            return filter;
         }
     }
 }

@@ -132,68 +132,6 @@ namespace DAL
             return filter;
         }
 
-        //Methods that return filtres or sorts for custom querrys in listView
-        //get filter based on employee
-        public FilterDefinition<Ticket> FilterTicketsByEmployee(Employee employee)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
-            return filter;
-        }
-        // get sort based on status
-        public SortDefinition<Ticket> SortByStatus()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return sort;
-        }
-
-        //Filter tickets by status
-        public FilterDefinition<Ticket> FilterByStatus(Status Status)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
-            return filter;
-        }
-
-        // get sort based on creation date
-        public SortDefinition<Ticket> SortByCreationDateAscending()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
-            return sort;
-        }
-
-        public SortDefinition<Ticket> SortByCreationDateDescending()
-        {
-            var sort = Builders<Ticket>.Sort.Descending(t => t.CreationTime);
-            return sort;
-        }
-
-        //Filter tickets created before a specific date
-        public FilterDefinition<Ticket> FilterBeforeSpecificDate(DateTime Date)
-        {
-            var filter = Builders<Ticket>.Filter.Lte(t => t.CreationTime, Date);
-            return filter;
-        }
-
-        //Filter tickets created after a specific date
-        public FilterDefinition<Ticket> FilterAfterSpecificDate(DateTime Date)
-        {
-            var filter = Builders<Ticket>.Filter.Gte(t => t.CreationTime, Date);
-            return filter;
-        }
-
-        // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
-        public SortDefinition<Ticket> SortTicketsByPriority()
-        {
-            //sorting and returning the filterd tickets by high, medium and low priority
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
-            return sort;
-        }
-        public FilterDefinition<Ticket> FilterTicketsByPriority(Priority priority)
-        {
-            //sorting and returning the filterd tickets by one priority
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
-            return filter;
-        }
-
     }
 }
 ; 

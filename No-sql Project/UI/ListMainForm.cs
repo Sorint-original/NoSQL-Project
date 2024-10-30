@@ -142,18 +142,13 @@ namespace UI
             MainListView.Items.Clear();
             if (showTickets)
             {
-                unfileredTicketList = ticketService.CustomQuerry(GetFilters(), GetSort());
-                AddTicketsToList(FilterTickets());
+                unfileredTicketList = ticketService.CustomQuerry(GetFilters(),GetSort());
+                AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
             }
             else
             {
-
+                // to complete
             }
-        }
-
-        public List<Ticket> FilterTickets()
-        {
-            return ticketService.Filtertickets(unfileredTicketList, FilterResultTextBox.Text);
         }
 
         public List<FilterDefinition<Ticket>> GetFilters()
