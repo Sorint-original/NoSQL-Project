@@ -37,9 +37,6 @@ namespace UI
             if (LogedEmployee.Role == Role.admin)
             {
                 QuerryedEmployee = null;
-                PriorityBox.SelectedIndex = 0;
-                StatusBox.SelectedIndex = 0;
-                SortByBox.SelectedIndex = 0;
             }
             else
             {
@@ -73,6 +70,7 @@ namespace UI
         {
             if (showTickets)
             {
+                SetupTicketFilterUI();
                 SetupListviewTicket();
             }
             else
@@ -162,6 +160,12 @@ namespace UI
             MainListView.Columns.Add("Solution Date", columnWidth);
         }
 
+        public void SetupTicketFilterUI()
+        {
+            PriorityBox.SelectedIndex = 0;
+            StatusBox.SelectedIndex = 0;
+            SortByBoxTickets.SelectedIndex = 0;
+        }
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
