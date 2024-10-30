@@ -343,7 +343,6 @@
             employeeToolStripMenuItem.Name = "employeeToolStripMenuItem";
             employeeToolStripMenuItem.Size = new Size(89, 24);
             employeeToolStripMenuItem.Text = "Employee";
-            employeeToolStripMenuItem.Click += employeeToolStripMenuItem_Click;
             // 
             // ListMainForm
             // 
