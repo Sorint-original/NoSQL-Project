@@ -59,10 +59,10 @@ namespace Model
 
 public enum Status
 {
-    open, pending, resolved, closed
+    open=1, pending, resolved, closed
 }
 
 public enum Priority
 {
-    low,normal,high
+    low=1,normal,high
 }

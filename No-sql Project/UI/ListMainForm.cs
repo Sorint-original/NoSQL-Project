@@ -142,121 +142,21 @@ namespace UI
             MainListView.Items.Clear();
             if (showTickets)
             {
-                unfileredTicketList = ticketService.CustomQuerry(GetFilters(),GetSort());
-                AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+                List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
+                if(filters != null)
+                {
+                    unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
+                    AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+                }
+                else
+                {
+                    MessageBox.Show("The date filters was incorectly entered", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
                 // to complete
             }
-        }
-
-        public List<FilterDefinition<Ticket>> GetFilters()
-        {
-            List<FilterDefinition<Ticket>> filters = new List<FilterDefinition<Ticket>>();
-            //checks if it filters by an employee id
-            if (QuerryedEmployee != null)
-            {
-                filters.Add(ticketService.FilterTicketsByEmployee(QuerryedEmployee));
-            }
-            //check tile search
-
-            //check Status filter 
-            if (StatusBox.SelectedIndex > 0)
-            {
-                filters.Add(getStatusFilter());
-            }
-            //check Priority filter
-            if (PriorityBox.SelectedIndex > 0)
-            {
-                filters.Add(getPriorityFilter());
-            }
-            //check date filters
-            if (checkBoxFilterDate.Checked)
-            {
-                DateTime StartDate = StarterDateTime.Value;
-                DateTime EndDate = EndDateTime.Value;
-                int dateCase = CheckDateErrors(StartDate, EndDate);
-                if (dateCase > 0)
-                {
-                    GetErrorMessage(dateCase);
-                    return null;
-                }
-                else
-                {
-                    filters.Add(ticketService.FilterAfterSpecificDate(StartDate));
-                    filters.Add(ticketService.FilterAfterSpecificDate(EndDate));
-                }
-            }
-            return filters;
-        }
-
-        public int CheckDateErrors(DateTime StartDate, DateTime EndDate)
-        {
-            if (StartDate > EndDate)
-            {
-                return 1;
-            }
-            else if (StartDate > DateTime.Now)
-            {
-                return 2;
-            }
-            return 0;
-        }
-
-        public void GetErrorMessage(int errorcase)
-        {
-            switch (errorcase)
-            {
-                case 1:
-                    MessageBox.Show("the start date can't be after the end date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                case 2:
-                    MessageBox.Show("the start date can't be in the future", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-
-            }
-        }
-
-        public FilterDefinition<Ticket> getStatusFilter()
-        {
-            switch (StatusBox.SelectedIndex)
-            {
-                case 1:
-                    return ticketService.FilterByStatus(Status.open);
-                case 2:
-                    return ticketService.FilterByStatus(Status.pending);
-                case 3:
-                    return ticketService.FilterByStatus(Status.resolved);
-                case 4:
-                    return ticketService.FilterByStatus(Status.closed);
-            }
-            return null;
-        }
-
-        public FilterDefinition<Ticket> getPriorityFilter()
-        {
-            switch (PriorityBox.SelectedIndex)
-            {
-                case 1:
-                    return ticketService.FilterTicketsByPriority(Priority.high);
-                case 2:
-                    return ticketService.FilterTicketsByPriority(Priority.normal);
-                case 3:
-                    return ticketService.FilterTicketsByPriority(Priority.low);
-            }
-            return null;
-        }
-        public SortDefinition<Ticket> GetSort()
-        {
-            switch (SortByBoxTickets.SelectedIndex)
-            {
-                case 0:
-                    return ticketService.SortByCreationDateDescending();
-                case 1:
-                    return ticketService.SortByCreationDateAscending();
-            }
-            return null;
         }
 
         //Add the columns in the listview to display tickets
@@ -389,7 +289,7 @@ namespace UI
         private void FilterResultTextBox_TextChanged(object sender, EventArgs e)
         {
             MainListView.Items.Clear();
-            AddTicketsToList(FilterTickets());
+            AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
         }
 
         private void employeeToolStripMenuItem_Click(object sender, EventArgs e)

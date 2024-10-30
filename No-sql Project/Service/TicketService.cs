@@ -50,6 +50,70 @@ namespace Service
             return ticketDAO.CustomQuerry(filters, sort);
         }
 
+        public List<FilterDefinition<Ticket>> GetFilters(Employee querryedEmployee, string titleSearch, Status status, Priority priority, bool FilterDate, DateTime StartDate, DateTime EndDate)
+        {
+            List<FilterDefinition<Ticket>> filters = new List<FilterDefinition<Ticket>>();
+            //checks if it filters by an employee id
+            if (querryedEmployee != null)
+            {
+                filters.Add(FilterTicketsByEmployee(querryedEmployee));
+            }
+            //check title search
+            if (titleSearch != null)
+            {
+
+            }
+
+            //check Status filter 
+            if (status != null)
+            {
+                filters.Add(FilterByStatus(status));
+            }
+            //check Priority filter
+            if (priority != null)
+            {
+                filters.Add(FilterByPriority(priority));
+            }
+            //check date filters
+            if (FilterDate)
+            {
+                if (!CheckDatesAreCorrect(StartDate, EndDate))
+                {
+                    return null;
+                }
+                else
+                {
+                    filters.Add(FilterAfterSpecificDate(StartDate));
+                    filters.Add(FilterAfterSpecificDate(EndDate));
+                }
+            }
+            return filters;
+        }
+
+        public bool CheckDatesAreCorrect(DateTime StartDate, DateTime EndDate)
+        {
+            if (StartDate > EndDate)
+            {
+                return false;
+            }
+            else if (StartDate > DateTime.Now)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public SortDefinition<Ticket> GetSort(int Index)
+        {
+            switch (Index)
+            {
+                case 0:
+                    return SortByCreationDateDescending();
+                case 1:
+                    return SortByCreationDateAscending();
+            }
+            return null;
+        }
         //Methods that return filtres or sorts for custom querrys in listView
         //get filter based on employee
         public FilterDefinition<Ticket> FilterTicketsByEmployee(Employee employee)
@@ -99,13 +163,13 @@ namespace Service
         }
 
         // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
-        public SortDefinition<Ticket> SortTicketsByPriority()
+        public SortDefinition<Ticket> SortByPriority()
         {
             //sorting and returning the filterd tickets by high, medium and low priority
             var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
             return sort;
         }
-        public FilterDefinition<Ticket> FilterTicketsByPriority(Priority priority)
+        public FilterDefinition<Ticket> FilterByPriority(Priority priority)
         {
             //sorting and returning the filterd tickets by one priority
             var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
