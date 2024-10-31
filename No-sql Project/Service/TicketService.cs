@@ -185,9 +185,9 @@ namespace Service
             var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
             return filter;
         }
-        public Dictionary<Status, float> GetPercentages()
+        public Dictionary<Status, float> GetPercentages(Employee employee)
         {
-            return ticketDAO.GetPercentagesForTickets();
+            return ticketDAO.GetPercentagesForTickets(employee);
         }
     }
 }

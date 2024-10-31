@@ -42,7 +42,7 @@ namespace DAL
         public Dictionary<Status,float> GetPercentagesForTickets(Employee employee = null)
         {
             Dictionary<Status, float> percentages = new Dictionary<Status, float>();
-            int totalAmountOfTickets ;
+            float totalAmountOfTickets ;
             FilterDefinition<Ticket> filter;
             if (employee != null) {
                  totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
