@@ -78,6 +78,7 @@
             PendingLabel = new Label();
             ResolvedLabel = new Label();
             ClosedLabel = new Label();
+            AccessLabel = new Label();
             AdminTicketPanel.SuspendLayout();
             menuStrip.SuspendLayout();
             TicketFilterPanel.SuspendLayout();
@@ -585,12 +586,22 @@
             ClosedLabel.Size = new Size(0, 20);
             ClosedLabel.TabIndex = 47;
             // 
+            // AccessLabel
+            // 
+            AccessLabel.AutoSize = true;
+            AccessLabel.Location = new Point(316, 49);
+            AccessLabel.Name = "AccessLabel";
+            AccessLabel.Size = new Size(122, 20);
+            AccessLabel.TabIndex = 44;
+            AccessLabel.Text = "You are accesing:";
+            // 
             // ListMainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(40, 44, 52);
             ClientSize = new Size(1032, 623);
+            Controls.Add(AccessLabel);
             Controls.Add(panel2);
             Controls.Add(SelectSpecificEmployeeTicket);
             Controls.Add(ResultPanel);
@@ -681,5 +692,6 @@
         private Label PendingLabel;
         private Label ResolvedLabel;
         private Label ClosedLabel;
+        private Label AccessLabel;
     }
 }

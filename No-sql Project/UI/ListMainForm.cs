@@ -45,6 +45,7 @@ namespace UI
                 AdminTicketPanel.Hide();
                 menuStrip.Hide();
             }
+            UpdateAccessLabel();
             ShowTicektSpecificPanels();
             RefreshListView();
             TicketDatePanel.Hide();
@@ -392,6 +393,17 @@ namespace UI
             else
             {
                 ClosedLabel.Text = "Closed: 0%";
+            }
+        }
+        private void UpdateAccessLabel()
+        {
+            if (QuerryedEmployee == null)
+            {
+                AccessLabel.Text = "You are accessing: All tickets";
+            }
+            else
+            {
+                AccessLabel.Text = $"You are accessing: {QuerryedEmployee.UserName} tickets";
             }
         }
 
