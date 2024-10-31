@@ -48,6 +48,7 @@ namespace UI
             UpdateAccessLabel();
             ShowTicektSpecificPanels();
             RefreshListView();
+            EndDateTime.Value = EndDateTime.Value.AddDays(1);
             TicketDatePanel.Hide();
 
         }
@@ -63,10 +64,12 @@ namespace UI
             checkBoxFilterDate.Show();
             DescriptionBox.Show();
             ResultPanel.Show();
-            TicketDatePanel.Hide();
+            PercentagesPanel.Show();
+            AccessLabel.Show();
             checkBoxFilterDate.Checked = false;
             //hide employee panels
-            SelectSpecificEmployeeTickets.Hide();
+            SelectSpecificEmployeeTicket.Hide();
+            TicketDatePanel.Hide();
             EmployeePanel.Hide();
         }
 
@@ -83,6 +86,8 @@ namespace UI
             TicketDatePanel.Hide();
             DescriptionBox.Hide();
             ResultPanel.Hide();
+            PercentagesPanel.Hide();
+            AccessLabel.Hide();
         }
 
         public void SetupListStructure()
