@@ -68,7 +68,7 @@ namespace UI
             AccessLabel.Show();
             checkBoxFilterDate.Checked = false;
             //hide employee panels
-            SelectSpecificEmployeeTicket.Hide();
+            SelectSpecificEmployeeTickets.Hide();
             TicketDatePanel.Hide();
             EmployeePanel.Hide();
         }
