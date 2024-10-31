@@ -102,5 +102,9 @@ namespace Service
             //sorting and returning the filterd tickets by one priority
             return ticketDAO.FilterTicketsByPriority(priority);
         }
+        public Dictionary<Status, float> GetPercentages()
+        {
+            return ticketDAO.GetPercentagesForTickets();
+        }
     }
 }

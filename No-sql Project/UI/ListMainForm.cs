@@ -43,6 +43,7 @@ namespace UI
             {
                 QuerryedEmployee = LogedEmployee;
                 AdminTicketPanel.Hide();
+                menuStrip.Hide();
             }
             
             ShowTicektSpecificPanels();
@@ -421,5 +422,10 @@ namespace UI
                 TicketDatePanel.Show();
             }
         }
+        private void UpdatePercentages()
+        {
+            Dictionary<Status, float> Percentages = ticketService .GetPercentages();
+        }
+
     }
 }

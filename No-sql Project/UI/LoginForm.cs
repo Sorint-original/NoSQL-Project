@@ -29,7 +29,7 @@ namespace UI
             if (employee == null)
             {
                 // Show an error message if login fails
-                MessageBox.Show("Invalid username or password. Please try again.","ERROR");
+                MessageBox.Show("Invalid username or password. Please try again.", "ERROR");
                 return;
             }
             ListMainForm listMainForm = new ListMainForm(employee);  // Create an instance of the ListMainForm
@@ -49,6 +49,21 @@ namespace UI
             return null;  // Invalid credentials
         }
 
+        private void ClearFieldsLabel_Click(object sender, EventArgs e)
+        {
+            ClearAndFocus();
+        }
+        public void ClearAndFocus()
+        {
+            UsernameTB.Clear();
+            PasswordTB.Clear();
+            UsernameTB.Focus();
+        }
+
+        private void ExitLabel_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
-    }
+}
 
