@@ -66,7 +66,7 @@ namespace UI
             TicketDatePanel.Hide();
             checkBoxFilterDate.Checked = false;
             //hide employee panels
-            SelectSpecificEmployeeTicket.Hide();
+            SelectSpecificEmployeeTickets.Hide();
             EmployeePanel.Hide();
         }
 
@@ -74,7 +74,7 @@ namespace UI
         {
             //show employee panels
             EmployeePanel.Show();
-            SelectSpecificEmployeeTicket.Show();
+            SelectSpecificEmployeeTickets.Show();
 
             //hide Ticket panels
             AdminTicketPanel.Hide();
@@ -329,6 +329,8 @@ namespace UI
         {
             ShowEmployeeSpecificPanels();
             showTickets = false;
+            QuerryedEmployee = null;
+            UpdateAccessLabel();
             SetupListStructure();
             RefreshListView();
         }
@@ -336,6 +338,8 @@ namespace UI
         private void ticketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowTicektSpecificPanels();
+            QuerryedEmployee = null;
+            UpdateAccessLabel();
             showTickets = true;
             SetupListStructure();
             RefreshListView();
@@ -352,9 +356,6 @@ namespace UI
                 TicketDatePanel.Show();
             }
         }
-            
-                
-                
         private void UpdatePercentages()
         {
             Dictionary<Status, float> Percentages = ticketService.GetPercentages(QuerryedEmployee);
@@ -407,5 +408,20 @@ namespace UI
             }
         }
 
+        private void SelectSpecificEmployeeTickets_Click(object sender, EventArgs e)
+        {
+            if (MainListView.SelectedItems.Count > 0) {
+                QuerryedEmployee = (Employee)MainListView.SelectedItems[0].Tag;
+                UpdateAccessLabel();
+                showTickets = true;
+                ShowTicektSpecificPanels();
+                SetupListStructure();
+                RefreshListView();
+            }
+            else
+            {
+                MessageBox.Show($"You need to select an employee to see his specific tickets", "Error", MessageBoxButtons.OK);
+            }
+        }
     }
 }
