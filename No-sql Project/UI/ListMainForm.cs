@@ -45,7 +45,6 @@ namespace UI
                 AdminTicketPanel.Hide();
                 menuStrip.Hide();
             }
-
             ShowTicektSpecificPanels();
             RefreshListView();
             TicketDatePanel.Hide();
@@ -142,6 +141,7 @@ namespace UI
         {
             if (showTickets)
             {
+                UpdatePercentages();
                 List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
                 if (filters != null)
                 {
@@ -157,7 +157,7 @@ namespace UI
             else
             {
                 MainListView.Items.Clear();
-                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text,(Role)RoleComboBox.SelectedIndex,ActivityComboBox.SelectedIndex==0);
+                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
                 AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
             }
         }
@@ -351,9 +351,48 @@ namespace UI
                 TicketDatePanel.Show();
             }
         }
+            
+                
+                
         private void UpdatePercentages()
         {
-            Dictionary<Status, float> Percentages = ticketService .GetPercentages();
+            Dictionary<Status, float> Percentages = ticketService.GetPercentages(QuerryedEmployee);
+            if (Percentages.ContainsKey(Status.open))
+            {
+                OpenLabel.Text = $"Open: {Percentages[Status.open]}%";
+
+            }
+            else
+            {
+                OpenLabel.Text = "Open: 0%";
+            }
+            if (Percentages.ContainsKey(Status.pending))
+            {
+                PendingLabel.Text = $"Pending: {Percentages[Status.pending]}%";
+
+            }
+            else
+            {
+                PendingLabel.Text = "Pending: 0%";
+            }
+            if (Percentages.ContainsKey(Status.resolved))
+            {
+                ResolvedLabel.Text = $"Resolved: {Percentages[Status.resolved]}%";
+
+            }
+            else
+            {
+                ResolvedLabel.Text = "Resolved: 0%";
+            }
+            if (Percentages.ContainsKey(Status.closed))
+            {
+                ClosedLabel.Text = $"Closed: {Percentages[Status.closed]}%";
+
+            }
+            else
+            {
+                ClosedLabel.Text = "Closed: 0%";
+            }
         }
 
     }
