@@ -53,7 +53,7 @@
             SortByBoxTickets = new ComboBox();
             label8 = new Label();
             FilterResultTextBox = new TextBox();
-            menuStrip1 = new MenuStrip();
+            menuStrip = new MenuStrip();
             ticketsToolStripMenuItem = new ToolStripMenuItem();
             employeeToolStripMenuItem = new ToolStripMenuItem();
             TicketFilterPanel = new Panel();
@@ -72,7 +72,7 @@
             ResultPanel = new Panel();
             SelectSpecificEmployeeTicket = new Button();
             AdminTicketPanel.SuspendLayout();
-            menuStrip1.SuspendLayout();
+            menuStrip.SuspendLayout();
             TicketFilterPanel.SuspendLayout();
             EmployeePanel.SuspendLayout();
             TicketDatePanel.SuspendLayout();
@@ -334,16 +334,16 @@
             FilterResultTextBox.Size = new Size(212, 23);
             FilterResultTextBox.TabIndex = 30;
             // 
-            // menuStrip1
+            // menuStrip
             // 
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { ticketsToolStripMenuItem, employeeToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(5, 2, 0, 2);
-            menuStrip1.Size = new Size(903, 24);
-            menuStrip1.TabIndex = 32;
-            menuStrip1.Text = "menuStrip1";
+            menuStrip.ImageScalingSize = new Size(20, 20);
+            menuStrip.Items.AddRange(new ToolStripItem[] { ticketsToolStripMenuItem, employeeToolStripMenuItem });
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Padding = new Padding(5, 2, 0, 2);
+            menuStrip.Size = new Size(903, 24);
+            menuStrip.TabIndex = 32;
+            menuStrip.Text = "menuStrip1";
             // 
             // ticketsToolStripMenuItem
             // 
@@ -544,14 +544,14 @@
             Controls.Add(UpdateB);
             Controls.Add(AddB);
             Controls.Add(MainListView);
-            Controls.Add(menuStrip1);
+            Controls.Add(menuStrip);
             Controls.Add(TicketDatePanel);
             ForeColor = Color.White;
-            MainMenuStrip = menuStrip1;
+            MainMenuStrip = menuStrip;
             Name = "ListMainForm";
             AdminTicketPanel.ResumeLayout(false);
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
             TicketFilterPanel.ResumeLayout(false);
             TicketFilterPanel.PerformLayout();
             EmployeePanel.ResumeLayout(false);
@@ -591,7 +591,7 @@
         private Button UpdateListButton;
         private Label label8;
         private TextBox FilterResultTextBox;
-        private MenuStrip menuStrip1;
+        private MenuStrip menuStrip;
         private ToolStripMenuItem ticketsToolStripMenuItem;
         private ToolStripMenuItem employeeToolStripMenuItem;
         private Panel TicketFilterPanel;
