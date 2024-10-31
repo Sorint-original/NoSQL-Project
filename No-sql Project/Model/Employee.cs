@@ -51,7 +51,7 @@ namespace Model
 
     public enum Role
     {
-        regular, admin
+        regular=1, admin
     }
 
 }

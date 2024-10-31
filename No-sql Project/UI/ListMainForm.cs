@@ -156,7 +156,8 @@ namespace UI
             else
             {
                 MainListView.Items.Clear();
-                // to complete
+                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text,(Role)RoleComboBox.SelectedIndex,!(ActivityComboBox.SelectedIndex==0));
+                AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
             }
         }
 
@@ -179,8 +180,8 @@ namespace UI
             StatusBox.SelectedIndex = 0;
             SortByBoxTickets.SelectedIndex = 0;
             RoleComboBox.SelectedIndex = 0;
-            StatusComboBox.SelectedIndex = 0;
-            SortByComboBox.SelectedIndex = 0;
+            ActivityComboBox.SelectedIndex = 0;
+            SortByBoxEmployee.SelectedIndex = 0;
         }
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
