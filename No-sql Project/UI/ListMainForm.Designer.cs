@@ -73,7 +73,7 @@
             panel1 = new Panel();
             SelectSpecificEmployeeTicket = new Button();
             PercentagesLabel = new Label();
-            panel2 = new Panel();
+            PercentagesPanel = new Panel();
             OpenLabel = new Label();
             PendingLabel = new Label();
             ResolvedLabel = new Label();
@@ -85,7 +85,7 @@
             EmployeePanel.SuspendLayout();
             TicketDatePanel.SuspendLayout();
             ResultPanel.SuspendLayout();
-            panel2.SuspendLayout();
+            PercentagesPanel.SuspendLayout();
             SuspendLayout();
             // 
             // MainListView
@@ -289,7 +289,6 @@
             EndDateTime.Name = "EndDateTime";
             EndDateTime.Size = new Size(250, 27);
             EndDateTime.TabIndex = 22;
-            EndDateTime.Value = new DateTime(2024, 10, 30, 0, 0, 0, 0);
             // 
             // label5
             // 
@@ -542,17 +541,17 @@
             PercentagesLabel.TabIndex = 31;
             PercentagesLabel.Text = "Percentages:";
             // 
-            // panel2
+            // PercentagesPanel
             // 
-            panel2.Controls.Add(OpenLabel);
-            panel2.Controls.Add(PercentagesLabel);
-            panel2.Controls.Add(PendingLabel);
-            panel2.Controls.Add(ResolvedLabel);
-            panel2.Controls.Add(ClosedLabel);
-            panel2.Location = new Point(744, 218);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(247, 89);
-            panel2.TabIndex = 43;
+            PercentagesPanel.Controls.Add(OpenLabel);
+            PercentagesPanel.Controls.Add(PercentagesLabel);
+            PercentagesPanel.Controls.Add(PendingLabel);
+            PercentagesPanel.Controls.Add(ResolvedLabel);
+            PercentagesPanel.Controls.Add(ClosedLabel);
+            PercentagesPanel.Location = new Point(744, 218);
+            PercentagesPanel.Name = "PercentagesPanel";
+            PercentagesPanel.Size = new Size(247, 89);
+            PercentagesPanel.TabIndex = 43;
             // 
             // OpenLabel
             // 
@@ -602,7 +601,7 @@
             BackColor = Color.FromArgb(40, 44, 52);
             ClientSize = new Size(1032, 623);
             Controls.Add(AccessLabel);
-            Controls.Add(panel2);
+            Controls.Add(PercentagesPanel);
             Controls.Add(SelectSpecificEmployeeTicket);
             Controls.Add(ResultPanel);
             Controls.Add(EmployeePanel);
@@ -634,8 +633,8 @@
             TicketDatePanel.PerformLayout();
             ResultPanel.ResumeLayout(false);
             ResultPanel.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            PercentagesPanel.ResumeLayout(false);
+            PercentagesPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -687,7 +686,7 @@
         private Button SelectSpecificEmployeeTicket;
         private Label PercentagesLabel;
         private Panel panel1;
-        private Panel panel2;
+        private Panel PercentagesPanel;
         private Label OpenLabel;
         private Label PendingLabel;
         private Label ResolvedLabel;
