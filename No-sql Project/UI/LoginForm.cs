@@ -24,12 +24,12 @@ namespace UI
             string password = PasswordTB.Text;
 
             // Authenticate the employee
-            Employee employee = employeeService.Login(username, password);
+            Employee employee = Login(username, password);
 
             if (employee == null)
             {
                 // Show an error message if login fails
-                MessageBox.Show("Invalid username or password. Please try again.","ERROR");
+                MessageBox.Show("Invalid username or password. Please try again.", "ERROR");
                 return;
             }
             ListMainForm listMainForm = new ListMainForm(employee);  // Create an instance of the ListMainForm
@@ -39,6 +39,31 @@ namespace UI
 
         }
 
+        public Employee Login(string username, string password)
+        {
+            Employee employee = employeeService.GetEmployeesByUsername(username);
+            if (employee != null && employee.Password == password)
+            {
+                return employee;  // Login successful, return employee
+            }
+            return null;  // Invalid credentials
+        }
+
+        private void ClearFieldsLabel_Click(object sender, EventArgs e)
+        {
+            ClearAndFocus();
+        }
+        public void ClearAndFocus()
+        {
+            UsernameTB.Clear();
+            PasswordTB.Clear();
+            UsernameTB.Focus();
+        }
+
+        private void ExitLabel_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
-    }
+}
 

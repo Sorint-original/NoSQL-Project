@@ -26,36 +26,56 @@ namespace DAL
         }
         
         //GetEmployeeByUsername
-        public List<Employee> GetEmployeesByUsername(string username)
+        public Employee GetEmployeeByUsername(string username)
         {
-            var filter = Builders<Employee>.Filter.Eq(e => e.UserName, username);
-            return _employeeCollection.Find(filter).ToList();
+            var filter = Builders<Employee>.Filter.Eq(e => e.UserName, username) & Builders<Employee>.Filter.Eq(e => e.IsActive, true);
+            return _employeeCollection.Find(filter).Single();
         }
-        public void CreateEmployee(ObjectId Id, string UserName, string Name, string Email, string Password, Role role)
+        public void CreateEmployee(Employee employee)
         {
-            var newEmplyoyee = new Employee(
-                ObjectId.GenerateNewId(),   // Generate a new ObjectId
-                UserName,
-                Name,
-                Email,
-                Password,
-                role
-                        
-            );
-
-           _employeeCollection.InsertOne(newEmplyoyee);
-            Console.WriteLine("Employee created successfully.");
+           _employeeCollection.InsertOne(employee);
         }
         public void UpdateEmployee (Employee employee)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
-            _employeeCollection.ReplaceOneAsync(filter,employee);
+            _employeeCollection.ReplaceOne(filter,employee);
             
         }
         public void DeleteEmployee (Employee employee)
         {
             var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
-            _employeeCollection.DeleteOneAsync(filter);
+            _employeeCollection.DeleteOne(filter);
+        }
+
+        public List<Employee> CustomQuerry(List<FilterDefinition<Employee>> filters, SortDefinition<Employee> sort)
+        {
+            FilterDefinition<Employee> filter;
+            if (filters.Count == 0)
+            {
+                filter = FilterDefinition<Employee>.Empty;
+            }
+            else
+            {
+                filter = CombineFilters(filters);
+            }
+            if (sort == null)
+            {
+                return _employeeCollection.Find(filter).ToList();
+            }
+            else
+            {
+                return _employeeCollection.Find(filter).Sort(sort).ToList();
+            }
+        }
+
+        private FilterDefinition<Employee> CombineFilters(List<FilterDefinition<Employee>> filters)
+        {
+            FilterDefinition<Employee> filter = filters[0];
+            for (int i = 1; i < filters.Count; i++)
+            {
+                filter = filter & filters[i];
+            }
+            return filter;
         }
     }
 }

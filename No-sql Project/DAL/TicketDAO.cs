@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -15,97 +16,114 @@ namespace DAL
     public class TicketDAO : BaseDAO
     {
         private readonly IMongoCollection<Ticket> _ticketsCollection;
+        private readonly IMongoCollection<Ticket> _archiveCollection;
 
         public TicketDAO() : base()
         {
             _ticketsCollection = GetCollection<Ticket>("Tickets");
-        }
-
-        //GetAllTickets(order by Status)
-        public List<Ticket> GetAllTickets()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
-        }
-
-        //GetTiketsByEmployeeId
-        public List<Ticket> GetTicketsByEmployeeId(ObjectId employeeId)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employeeId);
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return _ticketsCollection.Find(filter).Sort(sort).ToList();
+            _archiveCollection = GetCollection<Ticket>("Archive");
         }
 
         //create a new ticket
-        public void CreateTicket(ObjectId employeeId, string title, string description, Priority priority)
+        public void CreateTicket(Ticket ticket)
         {
-            var newTicket = new Ticket(
-                ObjectId.GenerateNewId(),   // Generate a new ObjectId
-                employeeId,
-                title,
-                description,
-                Status.open,
-                priority,
-                DateTime.UtcNow,
-                DateTime.MinValue          // The minimum value will reprezent null
-            );
-
-            _ticketsCollection.InsertOne(newTicket);
-            Console.WriteLine("Ticket created successfully.");
+            _ticketsCollection.InsertOne(ticket);
         }
 
         //Update tickets
         public void UpdateTicket(Ticket ticket)
         {
             var filter = Builders<Ticket>.Filter.Eq(t =>t.Id, ticket.Id);
-            _ticketsCollection.ReplaceOneAsync(filter, ticket);
+            _ticketsCollection.ReplaceOne(filter, ticket);
             //it updates all the atributes of the ticket
+        }
+
+        // Get the status precentages for employee's tickets
+        public Dictionary<Status,float> GetPercentagesForTickets(Employee employee = null)
+        {
+            Dictionary<Status, float> percentages = new Dictionary<Status, float>();
+            float totalAmountOfTickets ;
+            FilterDefinition<Ticket> filter;
+            if (employee != null) {
+                 totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
+                filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            }
+            else
+            {
+                totalAmountOfTickets = GetAllTickets().Count;
+                filter = Builders<Ticket>.Filter.Empty;
+            }
+            var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new { status = Group.Key, total = Group.Sum(U => 1) });
+            var GroupStatuses = singleFieldAggregate.ToList();
+
+            foreach (var group in GroupStatuses)
+            {
+                percentages.Add(group.status, (group.total/ totalAmountOfTickets)*100);
+            }
+            return percentages;
+        }
+        //GetAllTickets(order by Status)
+        private List<Ticket> GetAllTickets()
+        {
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
+        }
+
+        //GetTiketsByEmployeeId
+        private List<Ticket> GetTicketsByEmployeeId(Employee employee)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return _ticketsCollection.Find(filter).Sort(sort).ToList();
+        }
+
+        // INDIVIDUAL FEATURE SORIN TICKET ARCHIVING
+
+        public void AddInArchive(Ticket ticket)
+        {
+            _archiveCollection.InsertOne(ticket);
         }
 
         //Delete tickets
         public void DeleteTicket(Ticket ticket)
         {
             var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
-            _ticketsCollection.DeleteOneAsync(filter);
+            _ticketsCollection.DeleteOne(filter);
         }
 
-        //GetAlltickets by status
-        public List<Ticket> GetTicketsByStatus(Status Status)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
-            return _ticketsCollection.Find(filter).ToList();
-        }
+        // Methods to handle complexed custom and unpredictable querries from the listView
 
-        // Get the status precentages for employee's tickets
-        public async Task<string> GetStatusPrecentagesForSpecificEmployee(Employee employee)
+        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, SortDefinition<Ticket> sort)
         {
-            int totalAmountOfTickets = GetTicketsByEmployeeId(employee.Id).Count;
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
-            var singleFieldAggregate = _ticketsCollection.Aggregate().Match(filter).Group(t => t.Status, Group => new {status = Group.Key, total = Group.Sum(U => 1)});
-            var GroupStatuses = await singleFieldAggregate.ToListAsync();
-            string status = "";
-            foreach (var group in GroupStatuses)
+            FilterDefinition<Ticket> filter;
+            if (filters.Count == 0)
             {
-                status += $"{group.status}: {(group.total / totalAmountOfTickets)*100} ";
+                filter = FilterDefinition<Ticket>.Empty;
             }
-            //var result = new Task<string>(() => status);
-            return status;
+            else
+            {
+                filter = CombineFilters(filters);
+            }
+            if (sort == null)
+            {
+                return _ticketsCollection.Find(filter).ToList();
+            }
+            else
+            {
+                return _ticketsCollection.Find(filter).Sort(sort).ToList();
+            }
         }
 
-        // Get the status precentages for all tickets
-        public async Task<string> GetStatusPercentageForAllTickets()
+        private FilterDefinition<Ticket> CombineFilters(List<FilterDefinition<Ticket>> filters)
         {
-            int totalAmountOfTickets = GetAllTickets().Count;
-            var singleFieldAggregate = _ticketsCollection.Aggregate().Group(t => t.Status, Group => new { status = Group.Key, total = Group.Sum(U => 1) });
-            var GroupStatuses = await singleFieldAggregate.ToListAsync();
-            string status = "";
-            foreach (var group in GroupStatuses)
+            FilterDefinition<Ticket> filter = filters[0];
+            for (int i = 1; i < filters.Count; i++) 
             {
-                status += $"{group.status}: {(group.total / totalAmountOfTickets) * 100} ";
+                filter = filter & filters[i];
             }
-            //var result = new Task<string>(() => status);
-            return status;
+            return filter;
         }
+
     }
 }
 ; 

@@ -1,4 +1,5 @@
 ﻿using Model;
+using MongoDB.Driver;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -14,19 +15,18 @@ namespace UI
 {
     public partial class ListMainForm : Form
     {
-        private bool admin; // the acces the logged employee will get
         private bool showTickets; // If the list displays tickets or emplyees
         private Employee LogedEmployee;
-        private TicketService ticektService;
+        private TicketService ticketService;
         private EmployeeService employeeService;
-        private ListDisplayCase CurrentCase;
         private Employee QuerryedEmployee;
+        private List<Ticket> unfileredTicketList;
         public ListMainForm(Employee employee)
         {
             InitializeComponent();
             LogedEmployee = employee;
             MainListView.View = View.Details;
-            ticektService = new TicketService();
+            ticketService = new TicketService();
             employeeService = new EmployeeService();
             FormSetup();
         }
@@ -37,40 +37,62 @@ namespace UI
             SetupListStructure();
             if (LogedEmployee.Role == Role.admin)
             {
-                admin = true;
-                CurrentCase = ListDisplayCase.AllTickets;
+                QuerryedEmployee = null;
             }
             else
             {
-                admin = false;
-                CurrentCase = ListDisplayCase.SpecificEmployeeTickets;
                 QuerryedEmployee = LogedEmployee;
+                AdminTicketPanel.Hide();
+                menuStrip.Hide();
             }
+            UpdateAccessLabel();
             ShowTicektSpecificPanels();
             RefreshListView();
+            EndDateTime.Value = EndDateTime.Value.AddDays(1);
+            TicketDatePanel.Hide();
 
         }
 
         public void ShowTicektSpecificPanels()
         {
             //show ticket panels
-            if (admin)
+            if (LogedEmployee.Role == Role.admin)
             {
                 AdminTicketPanel.Show();
             }
+            TicketFilterPanel.Show();
+            checkBoxFilterDate.Show();
+            DescriptionBox.Show();
+            ResultPanel.Show();
+            PercentagesPanel.Show();
+            AccessLabel.Show();
+            checkBoxFilterDate.Checked = false;
             //hide employee panels
+            SelectSpecificEmployeeTicket.Hide();
+            TicketDatePanel.Hide();
+            EmployeePanel.Hide();
         }
 
         public void ShowEmployeeSpecificPanels()
         {
             //show employee panels
+            EmployeePanel.Show();
+            SelectSpecificEmployeeTickets.Show();
 
             //hide Ticket panels
             AdminTicketPanel.Hide();
+            TicketFilterPanel.Hide();
+            checkBoxFilterDate.Hide();
+            TicketDatePanel.Hide();
+            DescriptionBox.Hide();
+            ResultPanel.Hide();
+            PercentagesPanel.Hide();
+            AccessLabel.Hide();
         }
 
         public void SetupListStructure()
         {
+            SetupTicketFilterUI();
             if (showTickets)
             {
                 SetupListviewTicket();
@@ -89,7 +111,14 @@ namespace UI
                 li.SubItems.Add(ticket.Status.ToString());
                 li.SubItems.Add(ticket.Priority.ToString());
                 li.SubItems.Add(ticket.CreationTime.ToString());
-                li.SubItems.Add(ticket.SolutionTime.ToString());
+                if (ticket.SolutionTime == DateTime.MinValue)
+                {
+                    li.SubItems.Add("NA");
+                }
+                else
+                {
+                    li.SubItems.Add(ticket.SolutionTime.ToString());
+                }
 
                 li.Tag = ticket;   // link lecturer object to listview item
                 MainListView.Items.Add(li);
@@ -105,6 +134,7 @@ namespace UI
                 li.SubItems.Add(employee.Name);
                 li.SubItems.Add(employee.Email);
                 li.SubItems.Add(employee.Role.ToString());
+                li.SubItems.Add(employee.IsActive.ToString());
 
                 li.Tag = employee;   // link lecturer object to listview item
                 MainListView.Items.Add(li);
@@ -115,37 +145,62 @@ namespace UI
         //Refreshs the elements in the listview based on the currnt display case
         public void RefreshListView()
         {
-            MainListView.Items.Clear();
-            switch (CurrentCase)
+            if (showTickets)
             {
-                case ListDisplayCase.AllTickets:
-                    AddTicketsToList(ticektService.GetAllTickets());
-                    break;
-                case ListDisplayCase.SpecificEmployeeTickets:
-                    AddTicketsToList(ticektService.GetTicketsByEmployeeId(QuerryedEmployee.Id));
-                    break;
+                UpdatePercentages();
+                List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
+                if (filters != null)
+                {
+                    MainListView.Items.Clear();
+                    unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
+                    AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+                }
+                else
+                {
+                    MessageBox.Show("The date filters was incorectly entered", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MainListView.Items.Clear();
+                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
+                AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
             }
         }
 
         //Add the columns in the listview to display tickets
         public void SetupListviewTicket()
         {
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
             MainListView.Columns.Clear();
-            MainListView.Columns.Add("Title", MainListView.Width/5);
-            MainListView.Columns.Add("Status", MainListView.Width / 5);
-            MainListView.Columns.Add("Priority", MainListView.Width / 5);
-            MainListView.Columns.Add("Creation Date", MainListView.Width / 5);
-            MainListView.Columns.Add("Solution Date", MainListView.Width / 5);
+            MainListView.Columns.Add("Title", columnWidth);
+            MainListView.Columns.Add("Status", columnWidth);
+            MainListView.Columns.Add("Priority", columnWidth);
+            MainListView.Columns.Add("Creation Date", columnWidth);
+            MainListView.Columns.Add("Solution Date", columnWidth);
         }
 
+        public void SetupTicketFilterUI()
+        {
+            PriorityBox.SelectedIndex = 0;
+            StatusBox.SelectedIndex = 0;
+            SortByBoxTickets.SelectedIndex = 0;
+            RoleComboBox.SelectedIndex = 0;
+            ActivityComboBox.SelectedIndex = 0;
+            SortByBoxEmployee.SelectedIndex = 0;
+        }
         //Add the columns in the listview to display employee
         public void SetupListviewEmployee()
         {
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
             MainListView.Columns.Clear();
-            MainListView.Columns.Add("UserName", MainListView.Width / 4);
-            MainListView.Columns.Add("Name", MainListView.Width / 4);
-            MainListView.Columns.Add("Email", MainListView.Width / 4);
-            MainListView.Columns.Add("Role", MainListView.Width / 4);
+            MainListView.Columns.Add("UserName", columnWidth);
+            MainListView.Columns.Add("Name", columnWidth);
+            MainListView.Columns.Add("Email", columnWidth);
+            MainListView.Columns.Add("Role", columnWidth);
+            MainListView.Columns.Add("Active", columnWidth);
         }
 
         private void AddB_Click(object sender, EventArgs e)// add object functionality
@@ -153,7 +208,7 @@ namespace UI
             Form form;
             if (showTickets)//it opens the respective creation form based on which objects are displayed
             {
-                form = new TicketCreateForm(admin);
+                form = new TicketCreateForm(LogedEmployee.Role);
             }
             else
             {
@@ -170,7 +225,7 @@ namespace UI
                 Form form;
                 if (showTickets)//it opens the respective creation form based on which objects are displayed
                 {
-                    form = new TicketCreateForm(admin, (Ticket)MainListView.SelectedItems[0].Tag);
+                    form = new TicketCreateForm(LogedEmployee.Role, (Ticket)MainListView.SelectedItems[0].Tag);
                 }
                 else
                 {
@@ -186,10 +241,10 @@ namespace UI
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
             {
-                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selceted items", "Delete Warning", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selected items?", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                   
+
                     foreach (ListViewItem item in MainListView.SelectedItems)//goes through all selected items
                     {
                         DeleteItem(item);
@@ -207,14 +262,42 @@ namespace UI
             {
                 // "Deleted" tickets have their status set to closed
                 Ticket ticket = (Ticket)item.Tag;
-                ticket.Status = Status.closed;
-                ticektService.UpdateTicket(ticket);
+                ticketService.CloseTicket(ticket);
             }
             else
             {
                 // Employees are removed from the database
                 Employee employee = (Employee)item.Tag;
-                employeeService.DeleteEmployee(employee);
+                employeeService.DeactivateEmployee(employee);
+            }
+        }
+
+        private void ArchListB_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show($"Are you sure you want to archive the current list of tickets?", "Archive Warning", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                ticketService.ArchiveTickets(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+            }
+            RefreshListView();
+        }
+
+        private void ArchSelectedB_Click(object sender, EventArgs e)
+        {
+            if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
+            {
+                DialogResult dialogResult = MessageBox.Show($"Are you sure you want to archive the selected tickets?", "Archive Warning", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    List<Ticket> tickets = new List<Ticket>();
+                    foreach (ListViewItem item in MainListView.SelectedItems)//goes through all selected items
+                    {
+                        tickets.Add((Ticket)item.Tag);
+                    }
+                    ticketService.ArchiveTickets(tickets);
+                }
+
+                RefreshListView();
             }
         }
 
@@ -234,10 +317,116 @@ namespace UI
             form.Show();
             this.Hide();
         }
-    }
-}
 
-public enum ListDisplayCase
-{
-    AllTickets,SpecificEmployeeTickets
+        private void UpdateListButton_Click(object sender, EventArgs e)
+        {
+            FilterResultTextBox.Text = string.Empty;
+            RefreshListView();
+        }
+
+        private void FilterResultTextBox_TextChanged(object sender, EventArgs e)
+        {
+            MainListView.Items.Clear();
+            AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+        }
+
+        private void employeeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowEmployeeSpecificPanels();
+            showTickets = false;
+            QuerryedEmployee = null;
+            UpdateAccessLabel();
+            SetupListStructure();
+            RefreshListView();
+        }
+
+        private void ticketsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowTicektSpecificPanels();
+            QuerryedEmployee = null;
+            UpdateAccessLabel();
+            showTickets = true;
+            SetupListStructure();
+            RefreshListView();
+        }
+
+        private void checkBoxFilterDate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkBoxFilterDate.Checked)
+            {
+                TicketDatePanel.Hide();
+            }
+            else
+            {
+                TicketDatePanel.Show();
+            }
+        }
+        private void UpdatePercentages()
+        {
+            Dictionary<Status, float> Percentages = ticketService.GetPercentages(QuerryedEmployee);
+            if (Percentages.ContainsKey(Status.open))
+            {
+                OpenLabel.Text = $"Open: {Percentages[Status.open]}%";
+
+            }
+            else
+            {
+                OpenLabel.Text = "Open: 0%";
+            }
+            if (Percentages.ContainsKey(Status.pending))
+            {
+                PendingLabel.Text = $"Pending: {Percentages[Status.pending]}%";
+
+            }
+            else
+            {
+                PendingLabel.Text = "Pending: 0%";
+            }
+            if (Percentages.ContainsKey(Status.resolved))
+            {
+                ResolvedLabel.Text = $"Resolved: {Percentages[Status.resolved]}%";
+
+            }
+            else
+            {
+                ResolvedLabel.Text = "Resolved: 0%";
+            }
+            if (Percentages.ContainsKey(Status.closed))
+            {
+                ClosedLabel.Text = $"Closed: {Percentages[Status.closed]}%";
+
+            }
+            else
+            {
+                ClosedLabel.Text = "Closed: 0%";
+            }
+        }
+        private void UpdateAccessLabel()
+        {
+            if (QuerryedEmployee == null)
+            {
+                AccessLabel.Text = "You are accessing: All tickets";
+            }
+            else
+            {
+                AccessLabel.Text = $"You are accessing: {QuerryedEmployee.UserName} tickets";
+            }
+        }
+
+        private void SelectSpecificEmployeeTickets_Click(object sender, EventArgs e)
+        {
+            if (MainListView.SelectedItems.Count > 0) {
+                QuerryedEmployee = (Employee)MainListView.SelectedItems[0].Tag;
+                UpdateAccessLabel();
+                showTickets = true;
+                ShowTicektSpecificPanels();
+                SetupListStructure();
+                RefreshListView();
+            }
+            else
+            {
+                MessageBox.Show($"You need to select an employee to see his specific tickets", "Error", MessageBoxButtons.OK);
+            }
+        }
+    }
 }
