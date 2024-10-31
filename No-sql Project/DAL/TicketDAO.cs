@@ -24,21 +24,6 @@ namespace DAL
             _archiveCollection = GetCollection<Ticket>("Archive");
         }
 
-        //GetAllTickets(order by Status)
-        public List<Ticket> GetAllTickets()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
-        }
-
-        //GetTiketsByEmployeeId
-        public List<Ticket> GetTicketsByEmployeeId(Employee employee)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return _ticketsCollection.Find(filter).Sort(sort).ToList();
-        }
-
         //create a new ticket
         public void CreateTicket(Ticket ticket)
         {
@@ -53,26 +38,11 @@ namespace DAL
             //it updates all the atributes of the ticket
         }
 
-        //Delete tickets
-        public void DeleteTicket(Ticket ticket)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
-            _ticketsCollection.DeleteOne(filter);
-        }
-
-
-        //GetAlltickets by status
-        public List<Ticket> GetTicketsByStatus(Status Status)
-        {
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
-            return _ticketsCollection.Find(filter).ToList();
-        }
-
         // Get the status precentages for employee's tickets
         public Dictionary<Status,float> GetPercentagesForTickets(Employee employee = null)
         {
             Dictionary<Status, float> percentages = new Dictionary<Status, float>();
-            int totalAmountOfTickets ;
+            float totalAmountOfTickets ;
             FilterDefinition<Ticket> filter;
             if (employee != null) {
                  totalAmountOfTickets = GetTicketsByEmployeeId(employee).Count;
@@ -92,51 +62,68 @@ namespace DAL
             }
             return percentages;
         }
+        //GetAllTickets(order by Status)
+        private List<Ticket> GetAllTickets()
+        {
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
+        }
+
+        //GetTiketsByEmployeeId
+        private List<Ticket> GetTicketsByEmployeeId(Employee employee)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
+            return _ticketsCollection.Find(filter).Sort(sort).ToList();
+        }
 
         // INDIVIDUAL FEATURE SORIN TICKET ARCHIVING
-        public void ArchiveAllTicketsBeforeDate(DateTime Date)
-        {
-            List<Ticket> tickets = GetTicketsBeforeDate(Date);
-            TransferTickets(tickets);
-        }
-
-        public List<Ticket> GetTicketsBeforeDate(DateTime Date)
-        {
-            var filter = Builders<Ticket>.Filter.Lte(t => t.CreationTime, Date);
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
-            List<Ticket> tickets = _ticketsCollection.Find(filter).Sort(sort).ToList();
-            return tickets;
-        }
-
-        public void TransferTickets(List<Ticket> tickets)
-        {
-            foreach (Ticket ticket in tickets)
-            {
-                DeleteTicket(ticket);
-                AddInArchive(ticket);
-            }
-
-        }
 
         public void AddInArchive(Ticket ticket)
         {
             _archiveCollection.InsertOne(ticket);
         }
 
-        // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
+        //Delete tickets
+        public void DeleteTicket(Ticket ticket)
+        {
+            var filter = Builders<Ticket>.Filter.Eq(t => t.Id, ticket.Id);
+            _ticketsCollection.DeleteOne(filter);
+        }
 
-        public List<Ticket> SortTicketsByPriority()
+        // Methods to handle complexed custom and unpredictable querries from the listView
+
+        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, SortDefinition<Ticket> sort)
         {
-            //sorting and returning the filterd tickets by high, medium and low priority
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
-            return _ticketsCollection.Find(FilterDefinition<Ticket>.Empty).Sort(sort).ToList();
+            FilterDefinition<Ticket> filter;
+            if (filters.Count == 0)
+            {
+                filter = FilterDefinition<Ticket>.Empty;
+            }
+            else
+            {
+                filter = CombineFilters(filters);
+            }
+            if (sort == null)
+            {
+                return _ticketsCollection.Find(filter).ToList();
+            }
+            else
+            {
+                return _ticketsCollection.Find(filter).Sort(sort).ToList();
+            }
         }
-        public List<Ticket> GetTicketsByPriority(Priority priority)
+
+        private FilterDefinition<Ticket> CombineFilters(List<FilterDefinition<Ticket>> filters)
         {
-            //sorting and returning the filterd tickets by one priority
-            var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
-            return _ticketsCollection.Find(filter).ToList();
+            FilterDefinition<Ticket> filter = filters[0];
+            for (int i = 1; i < filters.Count; i++) 
+            {
+                filter = filter & filters[i];
+            }
+            return filter;
         }
+
     }
 }
 ; 

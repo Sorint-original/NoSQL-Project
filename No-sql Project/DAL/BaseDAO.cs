@@ -31,6 +31,5 @@ namespace DAL
             return database.GetCollection<T>(collectionName);
         }
 
-
     }
 }

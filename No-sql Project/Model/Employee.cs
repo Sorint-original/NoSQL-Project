@@ -33,10 +33,10 @@ namespace Model
         [BsonRepresentation(BsonType.String)]
         public Role Role { get; set; }
 
-        [BsonElement("IsDeleted")]
-        public bool IsDeleted { get; set; }
+        [BsonElement("IsActive")]
+        public bool IsActive { get; set; }
 
-        public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role)
+        public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role, bool IsActive = true)
         {
             this.Id = Id;
             this.UserName = UserName;
@@ -44,13 +44,14 @@ namespace Model
             this.Email = Email;
             this.Password = Password;
             this.Role = Role;
+            this.IsActive = IsActive;
         }
 
     }
 
     public enum Role
     {
-        regular, admin
+        regular=1, admin
     }
 
 }
