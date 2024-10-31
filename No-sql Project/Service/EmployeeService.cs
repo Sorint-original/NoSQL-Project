@@ -39,7 +39,7 @@ namespace Service
 
         public void DeactivateEmployee(Employee employee)
         {
-            employee.IsDeleted = true;
+            employee.IsActive = true;
             UpdateEmployee(employee);
         }
 
@@ -73,7 +73,7 @@ namespace Service
         }
         public FilterDefinition<Employee> FilterEmployeesByActivity(bool Active)
         {
-            var filter = Builders<Employee>.Filter.Eq(t => t.IsDeleted, Active);
+            var filter = Builders<Employee>.Filter.Eq(t => t.IsActive, Active);
             return filter;
         }
 

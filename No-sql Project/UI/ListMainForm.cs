@@ -128,7 +128,7 @@ namespace UI
                 li.SubItems.Add(employee.Name);
                 li.SubItems.Add(employee.Email);
                 li.SubItems.Add(employee.Role.ToString());
-                li.SubItems.Add(employee.IsDeleted.ToString());
+                li.SubItems.Add(employee.IsActive.ToString());
 
                 li.Tag = employee;   // link lecturer object to listview item
                 MainListView.Items.Add(li);
@@ -156,7 +156,7 @@ namespace UI
             else
             {
                 MainListView.Items.Clear();
-                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text,(Role)RoleComboBox.SelectedIndex,!(ActivityComboBox.SelectedIndex==0));
+                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text,(Role)RoleComboBox.SelectedIndex,ActivityComboBox.SelectedIndex==0);
                 AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
             }
         }
