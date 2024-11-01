@@ -1,5 +1,8 @@
+using DAL;
 using Model;
 using Service;
+using System.Security.Cryptography;
+using System.Text;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace UI
@@ -8,9 +11,11 @@ namespace UI
     {
 
         EmployeeService employeeService = new EmployeeService();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
         public LoginForm()
         {
             InitializeComponent();
+            PasswordTB.PasswordChar = '*'; // set password character to hide input 
         }
 
         private void LoginB_Click(object sender, EventArgs e)
@@ -23,8 +28,11 @@ namespace UI
             string username = UsernameTB.Text;
             string password = PasswordTB.Text;
 
+            //HASHING THE PASSWORD FOR COPARISON
+            string hashedPassword = employeeDAO.HashPassword(password);
+
             // Authenticate the employee
-            Employee employee = Login(username, password);
+            Employee employee = Login(username, hashedPassword);
 
             if (employee == null)
             {
@@ -39,12 +47,19 @@ namespace UI
 
         }
 
-        public Employee Login(string username, string password)
+        public Employee Login(string username, string hashedPassword)
         {
-            Employee employee = employeeService.GetEmployeesByUsername(username);
-            if (employee != null && employee.Password == password)
+            try
             {
-                return employee;  // Login successful, return employee
+                Employee employee = employeeService.GetEmployeesByUsername(username);
+                if (employee != null && employee.Password == hashedPassword)
+                {
+                    return employee;  // Login successful, return employee
+                }
+            }
+            catch (Exception)
+            {
+                // Handle any exceptions that may occur during the login process
             }
             return null;  // Invalid credentials
         }
