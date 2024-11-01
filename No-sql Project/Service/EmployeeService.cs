@@ -1,6 +1,7 @@
 ﻿using DAL;
 using Model;
 using MongoDB.Driver;
+using System.Security.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,6 +113,45 @@ namespace Service
         {
             return Builders<Employee>.Sort.Ascending(e => e.Role);
         }
+        public void HashAllPasswords()
+        {
+            List<Employee> employees = employeeDAO.GetAllEmployee();
+
+            foreach (Employee employee in employees)
+            {
+                // Check if the password is not already hashed (assuming hashed passwords have a consistent length)
+                if (employee.Password.Length != 64)
+                {
+                    employee.Password = HashPassword(employee.Password);
+                    employeeDAO.UpdateEmployee(employee);
+                }
+            }
+            Console.WriteLine("All passwords have been hashed.");
+        }
+
+        public string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+            }
+        }
+        //check the existence of the username 
+        public bool DoesUsernameExist(string username)
+        {
+            try
+            {
+                Employee employee = employeeDAO.GetEmployeeByUsername(username);
+                return employee != null;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
     }
 }
 

@@ -11,7 +11,6 @@ namespace UI
     {
 
         EmployeeService employeeService = new EmployeeService();
-        EmployeeDAO employeeDAO = new EmployeeDAO();
         public LoginForm()
         {
             InitializeComponent();
@@ -20,24 +19,29 @@ namespace UI
 
         private void LoginB_Click(object sender, EventArgs e)
         {
-            ////Getting the employee by username
-            //string Username = UsernameTB.Text;
-            //Employee employee = employeeService.GetEmployeesByUsername(Username);
-
+            
             // Getting the username and password from input
             string username = UsernameTB.Text;
             string password = PasswordTB.Text;
 
             //HASHING THE PASSWORD FOR COPARISON
-            string hashedPassword = employeeDAO.HashPassword(password);
+            string hashedPassword = employeeService.HashPassword(password);
 
             // Authenticate the employee
             Employee employee = Login(username, hashedPassword);
 
             if (employee == null)
             {
-                // Show an error message if login fails
-                MessageBox.Show("Invalid username or password. Please try again.", "ERROR");
+                //check if username exist 
+                if (!employeeService.DoesUsernameExist(username))
+                {
+                    // Show an error message if login fails
+                    MessageBox.Show("Username not found . Please try again ", "ERROR");
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect password . Please try again.", "ERROR");
+                }
                 return;
             }
             ListMainForm listMainForm = new ListMainForm(employee);  // Create an instance of the ListMainForm
