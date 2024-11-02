@@ -94,7 +94,7 @@ namespace Service
                 else
                 {
                     filters.Add(FilterAfterSpecificDate(StartDate));
-                    filters.Add(FilterAfterSpecificDate(EndDate));
+                    filters.Add(FilterBeforeSpecificDate(EndDate));
                 }
             }
             return filters;
