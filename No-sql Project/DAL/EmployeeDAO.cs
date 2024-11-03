@@ -20,7 +20,7 @@ namespace DAL
         }
 
     //GetAllEmployees(order by Username)
-    public List<Employee> GetAllEmployee()
+    public List<Employee> GetAllEmployees()
         {
             var sort = Builders<Employee>.Sort.Ascending(e => e.UserName);
             return _employeeCollection.Find(FilterDefinition<Employee>.Empty).Sort(sort).ToList();

@@ -14,7 +14,7 @@ namespace Service
     {
         EmployeeDAO employeeDAO = new EmployeeDAO();
 
-        public Employee GetEmployeesByUsername(string username)
+        public Employee GetEmployeesByUsername(string username)//used in the Login
         {
 
             return employeeDAO.GetEmployeeByUsername(username);
@@ -22,13 +22,13 @@ namespace Service
         }
 
 
-        public List<Employee> GetAllEmployee()
+        public List<Employee> GetAllEmployees()
         {
-            List<Employee> list = employeeDAO.GetAllEmployee();
+            List<Employee> list = employeeDAO.GetAllEmployees();
             return list;
         }
       
-        public void DeleteEmployee(Employee employee) 
+        public void DeleteEmployee(Employee employee) // currently not in use(the delete functionality in the form deactivates an employee by changing a variable)
         { 
             employeeDAO.DeleteEmployee(employee); 
         }
@@ -40,7 +40,7 @@ namespace Service
 
         public void DeactivateEmployee(Employee employee)
         {
-            employee.IsActive = true;
+            employee.IsActive = false;
             UpdateEmployee(employee);
         }
 
@@ -49,7 +49,7 @@ namespace Service
             return employeeDAO.CustomQuerry(filters, sort);
         }
 
-        public List<FilterDefinition<Employee>> GetFilters(string nameSearch,Role role,bool Active)
+        public List<FilterDefinition<Employee>> GetFilters(string nameSearch,Role role,bool Active) // Gets the filter for the custom querry
         {
             List<FilterDefinition<Employee>> filters = new List<FilterDefinition<Employee>>();
             //check title search
@@ -113,9 +113,9 @@ namespace Service
         {
             return Builders<Employee>.Sort.Ascending(e => e.Role);
         }
-        public void HashAllPasswords()
+        public void HashAllPasswords()//This was used for hashing all the passwords in the database the first time, currently it isn't in use
         {
-            List<Employee> employees = employeeDAO.GetAllEmployee();
+            List<Employee> employees = employeeDAO.GetAllEmployees();
 
             foreach (Employee employee in employees)
             {
@@ -137,8 +137,7 @@ namespace Service
                 return BitConverter.ToString(bytes).Replace("-", "").ToLower();
             }
         }
-        //check the existence of the username 
-        public bool DoesUsernameExist(string username)
+        public bool DoesUsernameExist(string username)//check the existence of the username 
         {
             try
             {
