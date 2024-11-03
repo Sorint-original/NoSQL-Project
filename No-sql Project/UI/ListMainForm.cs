@@ -16,12 +16,12 @@ namespace UI
     public partial class ListMainForm : Form
     {
         private bool showTickets; // If the list displays tickets or emplyees
-        private Employee LogedEmployee;
-        private TicketService ticketService;
+        private Employee LogedEmployee; // This is the employee that just logged in and is using the App
+        private TicketService ticketService; 
         private EmployeeService employeeService;
-        private Employee QuerryedEmployee;
-        private List<Ticket> unfileredTicketList;
-        private List<Label> percentagesLabels;
+        private Employee QuerryedEmployee; // This variable is used when an employee is used to filter tickets, it's used twice, when a regular employee logs in (he can see only his tickets) and when an admin inspects a specific employee's tickets, in rest is null
+        private List<Ticket> unfileredTicketList;// tickets returned after a querry, before they are displayed they are furthere filtered by the filter textbox
+        private List<Label> percentagesLabels;//List of labels for all status percentages
         public ListMainForm(Employee employee)
         {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace UI
             employeeService = new EmployeeService();
             FormSetup();
         }
-        public void FormSetup()
+        public void FormSetup()//Setup for when the fomr is firt made
         {
             showTickets = true;
             SetupListStructure();
@@ -43,7 +43,7 @@ namespace UI
             EndDateTime.Value = EndDateTime.Value.AddDays(1);
             TicketDatePanel.Hide();
         }
-        public void SetupPercentagesLabelList()
+        public void SetupPercentagesLabelList()//Gets all of the labels used to display ticket status percentages and puts them in a list for later use
         {
             percentagesLabels = new List<Label>();
             percentagesLabels.Add(OpenLabel);
@@ -51,7 +51,7 @@ namespace UI
             percentagesLabels.Add(ResolvedLabel);
             percentagesLabels.Add(ClosedLabel);
         }
-        public void RoleBasedSetup()
+        public void RoleBasedSetup()// here are the changes set based on the logged employee role
         {
             if (LogedEmployee.Role == Role.admin)
             {
@@ -99,7 +99,7 @@ namespace UI
             PercentagesPanel.Hide();
             AccessLabel.Hide();
         }
-        public void SetupListStructure()
+        public void SetupListStructure()// Setups the structure and columns for the main lisView
         {
             SetupFilterUI();
             if (showTickets)
@@ -111,7 +111,7 @@ namespace UI
                 SetupListviewEmployee();
             }
         }
-        public void SetupFilterUI()
+        public void SetupFilterUI()// sets the indexes for the filter options
         {
             PriorityBox.SelectedIndex = 0;
             StatusBox.SelectedIndex = 0;
@@ -119,6 +119,28 @@ namespace UI
             RoleComboBox.SelectedIndex = 0;
             ActivityComboBox.SelectedIndex = 0;
             SortByBoxEmployee.SelectedIndex = 0;
+        }
+        public void SetupListviewTicket()//Add the columns in the listview to display tickets
+        {
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
+            MainListView.Columns.Clear();
+            MainListView.Columns.Add("Title", columnWidth);
+            MainListView.Columns.Add("Status", columnWidth);
+            MainListView.Columns.Add("Priority", columnWidth);
+            MainListView.Columns.Add("Creation Date", columnWidth);
+            MainListView.Columns.Add("Solution Date", columnWidth);
+        }
+        public void SetupListviewEmployee()//Add the columns in the listview to display employee
+        {
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
+            MainListView.Columns.Clear();
+            MainListView.Columns.Add("UserName", columnWidth);
+            MainListView.Columns.Add("Name", columnWidth);
+            MainListView.Columns.Add("Email", columnWidth);
+            MainListView.Columns.Add("Role", columnWidth);
+            MainListView.Columns.Add("Active", columnWidth);
         }
         public void AddTicketsToList(List<Ticket> list)
         {
@@ -128,7 +150,7 @@ namespace UI
                 li.SubItems.Add(ticket.Status.ToString());
                 li.SubItems.Add(ticket.Priority.ToString());
                 li.SubItems.Add(ticket.CreationTime.ToString());
-                if (ticket.SolutionTime == DateTime.MinValue)
+                if (ticket.SolutionTime == DateTime.MinValue)//We can't make a DateTime variable null, so we are ussing the MinValue as null 
                 {
                     li.SubItems.Add("NA");
                 }
@@ -153,8 +175,7 @@ namespace UI
                 MainListView.Items.Add(li);
             }
         }
-        //Refreshs the elements in the listview based on the currnt display case
-        public void RefreshListView()
+        public void RefreshListView()//Refreshs the elements in the listview based on the currnt display case
         {
             if (showTickets)
             {
@@ -165,36 +186,11 @@ namespace UI
                 UpdateEmployees();
             }
         }
-        //Add the columns in the listview to display tickets
-        public void SetupListviewTicket()
-        {
-            int columnWidth = (MainListView.Width - 10) / 5;
-            MainListView.Items.Clear();
-            MainListView.Columns.Clear();
-            MainListView.Columns.Add("Title", columnWidth);
-            MainListView.Columns.Add("Status", columnWidth);
-            MainListView.Columns.Add("Priority", columnWidth);
-            MainListView.Columns.Add("Creation Date", columnWidth);
-            MainListView.Columns.Add("Solution Date", columnWidth);
-        }
-        //Add the columns in the listview to display employee
-        public void SetupListviewEmployee()
-        {
-            int columnWidth = (MainListView.Width - 10) / 5;
-            MainListView.Items.Clear();
-            MainListView.Columns.Clear();
-            MainListView.Columns.Add("UserName", columnWidth);
-            MainListView.Columns.Add("Name", columnWidth);
-            MainListView.Columns.Add("Email", columnWidth);
-            MainListView.Columns.Add("Role", columnWidth);
-            MainListView.Columns.Add("Active", columnWidth);
-        }
-
         public void UpdateTickets()
         {
             UpdatePercentages();
             List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
-            if (filters != null)
+            if (filters != null)// filters are null only if the User tried to filter with dates and entered them wrong
             {
                 MainListView.Items.Clear();
                 unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
@@ -261,7 +257,7 @@ namespace UI
                 RefreshListView();
             }
         }
-        private void DeleteItem(ListViewItem item)// 
+        private void DeleteItem(ListViewItem item)//
         {
             if (showTickets)
             {
@@ -276,7 +272,7 @@ namespace UI
                 employeeService.DeactivateEmployee(employee);
             }
         }
-        private void ArchListB_Click(object sender, EventArgs e)
+        private void ArchListB_Click(object sender, EventArgs e)// Archives all the tickets that are currently displayed, this means the list that was also filtered after beeing querryed
         {
             DialogResult dialogResult = MessageBox.Show($"Are you sure you want to archive the current list of tickets?", "Archive Warning", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -285,7 +281,7 @@ namespace UI
             }
             RefreshListView();
         }
-        private void ArchSelectedB_Click(object sender, EventArgs e)
+        private void ArchSelectedB_Click(object sender, EventArgs e)//Archives all the selected tickets
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
             {
@@ -322,12 +318,12 @@ namespace UI
             FilterResultTextBox.Text = string.Empty;
             RefreshListView();
         }
-        private void FilterResultTextBox_TextChanged(object sender, EventArgs e)
+        private void FilterResultTextBox_TextChanged(object sender, EventArgs e)//The list is filtered in real time when someone types in the filter box
         {
             MainListView.Items.Clear();
             AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
         }
-        private void employeeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void employeeToolStripMenuItem_Click(object sender, EventArgs e)//Switches to displaying the employee list and all the features tied to it.
         {
             ShowEmployeeSpecificPanels();
             showTickets = false;
@@ -335,7 +331,7 @@ namespace UI
             SetupListStructure();
             RefreshListView();
         }
-        private void ticketsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ticketsToolStripMenuItem_Click(object sender, EventArgs e)//Switches to displaying the ticket list and all the features tied to it.
         {
             ShowTicektSpecificPanels();
             QuerryedEmployee = null;
@@ -344,7 +340,7 @@ namespace UI
             SetupListStructure();
             RefreshListView();
         }
-        private void checkBoxFilterDate_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxFilterDate_CheckedChanged(object sender, EventArgs e)//hides and shows the date filter panel
         {
             if (!checkBoxFilterDate.Checked)
             {
@@ -358,7 +354,7 @@ namespace UI
         private void UpdatePercentages()
         {
             Dictionary<Status, float> Percentages = ticketService.GetPercentages(QuerryedEmployee);
-            for(int i = 1; i <= 4; i++)
+            for(int i = 1; i <= 4; i++)// checks for every status if there are tickets with it, and displays the precentage in it's specific label
             {
                 Status currentStatus = (Status)i;
                 if (Percentages.ContainsKey(currentStatus))
@@ -371,18 +367,18 @@ namespace UI
                 }
             }
         }
-        private void UpdateAccessLabel()
+        private void UpdateAccessLabel()//Updates the label that clarifies what tickets the user is accesing
         {
             if (QuerryedEmployee == null)
             {
-                AccessLabel.Text = "You are accessing: All tickets";
+                AccessLabel.Text = "You are accessing: All tickets";//Only the admin can acces all of them
             }
             else
             {
-                AccessLabel.Text = $"You are accessing: {QuerryedEmployee.UserName} tickets";
+                AccessLabel.Text = $"You are accessing: {QuerryedEmployee.UserName} tickets";// this is for the regular employee and when the admin views a specific employee's tickets
             }
         }
-        private void SelectSpecificEmployeeTickets_Click(object sender, EventArgs e)
+        private void SelectSpecificEmployeeTickets_Click(object sender, EventArgs e)// switches to displaying the tickets of a specific employee
         {
             if (MainListView.SelectedItems.Count > 0) {
                 QuerryedEmployee = (Employee)MainListView.SelectedItems[0].Tag;
