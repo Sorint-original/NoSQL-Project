@@ -21,6 +21,7 @@ namespace UI
         private EmployeeService employeeService;
         private Employee QuerryedEmployee;
         private List<Ticket> unfileredTicketList;
+        private List<Label> percentagesLabels;
         public ListMainForm(Employee employee)
         {
             InitializeComponent();
@@ -35,6 +36,27 @@ namespace UI
         {
             showTickets = true;
             SetupListStructure();
+            RoleBasedSetup();
+            UpdateAccessLabel();
+            SetupPercentagesLabelList();
+            ShowTicektSpecificPanels();
+            RefreshListView();
+            EndDateTime.Value = EndDateTime.Value.AddDays(1);
+            TicketDatePanel.Hide();
+
+        }
+
+        public void SetupPercentagesLabelList()
+        {
+            percentagesLabels = new List<Label>();
+            percentagesLabels.Add(OpenLabel);
+            percentagesLabels.Add(PendingLabel);
+            percentagesLabels.Add(ResolvedLabel);
+            percentagesLabels.Add(ClosedLabel);
+        }
+
+        public void RoleBasedSetup()
+        {
             if (LogedEmployee.Role == Role.admin)
             {
                 QuerryedEmployee = null;
@@ -45,12 +67,6 @@ namespace UI
                 AdminTicketPanel.Hide();
                 menuStrip.Hide();
             }
-            UpdateAccessLabel();
-            ShowTicektSpecificPanels();
-            RefreshListView();
-            EndDateTime.Value = EndDateTime.Value.AddDays(1);
-            TicketDatePanel.Hide();
-
         }
 
         public void ShowTicektSpecificPanels()
@@ -119,7 +135,6 @@ namespace UI
                 {
                     li.SubItems.Add(ticket.SolutionTime.ToString());
                 }
-
                 li.Tag = ticket;   // link lecturer object to listview item
                 MainListView.Items.Add(li);
             }
@@ -147,25 +162,35 @@ namespace UI
         {
             if (showTickets)
             {
-                UpdatePercentages();
-                List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
-                if (filters != null)
-                {
-                    MainListView.Items.Clear();
-                    unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
-                    AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
-                }
-                else
-                {
-                    MessageBox.Show("The date filters was incorectly entered", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                UpdateTickets();
             }
             else
             {
-                MainListView.Items.Clear();
-                List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
-                AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
+                UpdateEmployees();
             }
+        }
+
+        public void UpdateTickets()
+        {
+            UpdatePercentages();
+            List<FilterDefinition<Ticket>> filters = ticketService.GetFilters(QuerryedEmployee, TitleTextbox_search.Text, (Status)StatusBox.SelectedIndex, (Priority)PriorityBox.SelectedIndex, checkBoxFilterDate.Checked, StarterDateTime.Value, EndDateTime.Value);
+            if (filters != null)
+            {
+                MainListView.Items.Clear();
+                unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
+                AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+            }
+            else
+            {
+                MessageBox.Show("The date filters was incorectly entered", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void UpdateEmployees()
+        {
+            MainListView.Items.Clear();
+            List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
+            AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
         }
 
         //Add the columns in the listview to display tickets
@@ -364,43 +389,20 @@ namespace UI
         private void UpdatePercentages()
         {
             Dictionary<Status, float> Percentages = ticketService.GetPercentages(QuerryedEmployee);
-            if (Percentages.ContainsKey(Status.open))
+            for(int i = 1; i <= 4; i++)
             {
-                OpenLabel.Text = $"Open: {Percentages[Status.open]}%";
-
-            }
-            else
-            {
-                OpenLabel.Text = "Open: 0%";
-            }
-            if (Percentages.ContainsKey(Status.pending))
-            {
-                PendingLabel.Text = $"Pending: {Percentages[Status.pending]}%";
-
-            }
-            else
-            {
-                PendingLabel.Text = "Pending: 0%";
-            }
-            if (Percentages.ContainsKey(Status.resolved))
-            {
-                ResolvedLabel.Text = $"Resolved: {Percentages[Status.resolved]}%";
-
-            }
-            else
-            {
-                ResolvedLabel.Text = "Resolved: 0%";
-            }
-            if (Percentages.ContainsKey(Status.closed))
-            {
-                ClosedLabel.Text = $"Closed: {Percentages[Status.closed]}%";
-
-            }
-            else
-            {
-                ClosedLabel.Text = "Closed: 0%";
+                Status currentStatus = (Status)i;
+                if (Percentages.ContainsKey(currentStatus))
+                {
+                    percentagesLabels[i - 1].Text = $"{currentStatus}: {Percentages[currentStatus]}%";
+                }
+                else
+                {
+                    percentagesLabels[i - 1].Text = $"{currentStatus}: 0%";
+                }
             }
         }
+
         private void UpdateAccessLabel()
         {
             if (QuerryedEmployee == null)
