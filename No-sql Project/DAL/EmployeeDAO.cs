@@ -18,40 +18,6 @@ namespace DAL
         {
             _employeeCollection = GetCollection<Employee>("Employees");
         }
-        //  hash all passwords in the database
-        public void HashAllPasswords()
-        {
-            var employees = _employeeCollection.Find(FilterDefinition<Employee>.Empty).ToList();
-
-            foreach (var employee in employees)
-            {
-                // Check if the password is not already hashed (assuming hashed passwords have a consistent length)
-                if (employee.Password.Length != 64)
-                {
-                    string hashedPassword = HashPassword(employee.Password);
-                    employee.Password = hashedPassword;
-
-                    // Update the employee in the database
-                    var filter = Builders<Employee>.Filter.Eq(e => e.Id, employee.Id);
-                    _employeeCollection.ReplaceOne(filter, employee);
-                }
-            }
-            Console.WriteLine("All passwords have been hashed.");
-        }
-
-        public string HashPassword(string password)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in bytes)
-                {
-                    builder.Append(b.ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
 
     //GetAllEmployees(order by Username)
     public List<Employee> GetAllEmployee()
