@@ -60,6 +60,7 @@ namespace Service
             return ticketDAO.CustomQuerry(filters, sort);
         }
 
+        //Get the filters for the custom querry
         public List<FilterDefinition<Ticket>> GetFilters(Employee querryedEmployee, string titleSearch, Status status, Priority priority, bool FilterDate, DateTime StartDate, DateTime EndDate)
         {
             List<FilterDefinition<Ticket>> filters = new List<FilterDefinition<Ticket>>();
