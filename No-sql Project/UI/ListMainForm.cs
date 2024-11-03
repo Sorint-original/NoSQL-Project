@@ -31,7 +31,6 @@ namespace UI
             employeeService = new EmployeeService();
             FormSetup();
         }
-
         public void FormSetup()
         {
             showTickets = true;
@@ -43,9 +42,7 @@ namespace UI
             RefreshListView();
             EndDateTime.Value = EndDateTime.Value.AddDays(1);
             TicketDatePanel.Hide();
-
         }
-
         public void SetupPercentagesLabelList()
         {
             percentagesLabels = new List<Label>();
@@ -54,7 +51,6 @@ namespace UI
             percentagesLabels.Add(ResolvedLabel);
             percentagesLabels.Add(ClosedLabel);
         }
-
         public void RoleBasedSetup()
         {
             if (LogedEmployee.Role == Role.admin)
@@ -68,7 +64,6 @@ namespace UI
                 menuStrip.Hide();
             }
         }
-
         public void ShowTicektSpecificPanels()
         {
             //show ticket panels
@@ -88,7 +83,6 @@ namespace UI
             TicketDatePanel.Hide();
             EmployeePanel.Hide();
         }
-
         public void ShowEmployeeSpecificPanels()
         {
             //show employee panels
@@ -105,10 +99,9 @@ namespace UI
             PercentagesPanel.Hide();
             AccessLabel.Hide();
         }
-
         public void SetupListStructure()
         {
-            SetupTicketFilterUI();
+            SetupFilterUI();
             if (showTickets)
             {
                 SetupListviewTicket();
@@ -118,7 +111,15 @@ namespace UI
                 SetupListviewEmployee();
             }
         }
-
+        public void SetupFilterUI()
+        {
+            PriorityBox.SelectedIndex = 0;
+            StatusBox.SelectedIndex = 0;
+            SortByBoxTickets.SelectedIndex = 0;
+            RoleComboBox.SelectedIndex = 0;
+            ActivityComboBox.SelectedIndex = 0;
+            SortByBoxEmployee.SelectedIndex = 0;
+        }
         public void AddTicketsToList(List<Ticket> list)
         {
             foreach (Ticket ticket in list)
@@ -135,12 +136,10 @@ namespace UI
                 {
                     li.SubItems.Add(ticket.SolutionTime.ToString());
                 }
-                li.Tag = ticket;   // link lecturer object to listview item
+                li.Tag = ticket;   // link ticket object to listview item
                 MainListView.Items.Add(li);
             }
-
         }
-
         public void AddEmployeeToList(List<Employee> list)
         {
             foreach (Employee employee in list)
@@ -150,13 +149,10 @@ namespace UI
                 li.SubItems.Add(employee.Email);
                 li.SubItems.Add(employee.Role.ToString());
                 li.SubItems.Add(employee.IsActive.ToString());
-
-                li.Tag = employee;   // link lecturer object to listview item
+                li.Tag = employee;   // link employee object to listview item
                 MainListView.Items.Add(li);
             }
-
         }
-
         //Refreshs the elements in the listview based on the currnt display case
         public void RefreshListView()
         {
@@ -168,6 +164,30 @@ namespace UI
             {
                 UpdateEmployees();
             }
+        }
+        //Add the columns in the listview to display tickets
+        public void SetupListviewTicket()
+        {
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
+            MainListView.Columns.Clear();
+            MainListView.Columns.Add("Title", columnWidth);
+            MainListView.Columns.Add("Status", columnWidth);
+            MainListView.Columns.Add("Priority", columnWidth);
+            MainListView.Columns.Add("Creation Date", columnWidth);
+            MainListView.Columns.Add("Solution Date", columnWidth);
+        }
+        //Add the columns in the listview to display employee
+        public void SetupListviewEmployee()
+        {
+            int columnWidth = (MainListView.Width - 10) / 5;
+            MainListView.Items.Clear();
+            MainListView.Columns.Clear();
+            MainListView.Columns.Add("UserName", columnWidth);
+            MainListView.Columns.Add("Name", columnWidth);
+            MainListView.Columns.Add("Email", columnWidth);
+            MainListView.Columns.Add("Role", columnWidth);
+            MainListView.Columns.Add("Active", columnWidth);
         }
 
         public void UpdateTickets()
@@ -192,42 +212,6 @@ namespace UI
             List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
             AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
         }
-
-        //Add the columns in the listview to display tickets
-        public void SetupListviewTicket()
-        {
-            int columnWidth = (MainListView.Width - 10) / 5;
-            MainListView.Items.Clear();
-            MainListView.Columns.Clear();
-            MainListView.Columns.Add("Title", columnWidth);
-            MainListView.Columns.Add("Status", columnWidth);
-            MainListView.Columns.Add("Priority", columnWidth);
-            MainListView.Columns.Add("Creation Date", columnWidth);
-            MainListView.Columns.Add("Solution Date", columnWidth);
-        }
-
-        public void SetupTicketFilterUI()
-        {
-            PriorityBox.SelectedIndex = 0;
-            StatusBox.SelectedIndex = 0;
-            SortByBoxTickets.SelectedIndex = 0;
-            RoleComboBox.SelectedIndex = 0;
-            ActivityComboBox.SelectedIndex = 0;
-            SortByBoxEmployee.SelectedIndex = 0;
-        }
-        //Add the columns in the listview to display employee
-        public void SetupListviewEmployee()
-        {
-            int columnWidth = (MainListView.Width - 10) / 5;
-            MainListView.Items.Clear();
-            MainListView.Columns.Clear();
-            MainListView.Columns.Add("UserName", columnWidth);
-            MainListView.Columns.Add("Name", columnWidth);
-            MainListView.Columns.Add("Email", columnWidth);
-            MainListView.Columns.Add("Role", columnWidth);
-            MainListView.Columns.Add("Active", columnWidth);
-        }
-
         private void AddB_Click(object sender, EventArgs e)// add object functionality
         {
             Form form;
@@ -269,18 +253,14 @@ namespace UI
                 DialogResult dialogResult = MessageBox.Show($"Are you sure you want to delete the selected items?", "Delete Warning", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-
                     foreach (ListViewItem item in MainListView.SelectedItems)//goes through all selected items
                     {
                         DeleteItem(item);
                     }
-
                 }
-
                 RefreshListView();
             }
         }
-
         private void DeleteItem(ListViewItem item)// 
         {
             if (showTickets)
@@ -291,12 +271,11 @@ namespace UI
             }
             else
             {
-                // Employees are removed from the database
+                // Employees are deactivated
                 Employee employee = (Employee)item.Tag;
                 employeeService.DeactivateEmployee(employee);
             }
         }
-
         private void ArchListB_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show($"Are you sure you want to archive the current list of tickets?", "Archive Warning", MessageBoxButtons.YesNo);
@@ -306,7 +285,6 @@ namespace UI
             }
             RefreshListView();
         }
-
         private void ArchSelectedB_Click(object sender, EventArgs e)
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
@@ -321,11 +299,9 @@ namespace UI
                     }
                     ticketService.ArchiveTickets(tickets);
                 }
-
                 RefreshListView();
             }
         }
-
         private void MainListView_SelectedIndexChanged(object sender, EventArgs e)// this methods activates each time the user presses and selects or unelects an element in the listview
         {
             if (showTickets && MainListView.SelectedItems.Count > 0)
@@ -335,36 +311,30 @@ namespace UI
                 DescriptionBox.Text = ticket.Description;
             }
         }
-
         private void LogoutB_Click(object sender, EventArgs e)
         {
             LoginForm form = new LoginForm();
             form.Show();
             this.Hide();
         }
-
         private void UpdateListButton_Click(object sender, EventArgs e)
         {
             FilterResultTextBox.Text = string.Empty;
             RefreshListView();
         }
-
         private void FilterResultTextBox_TextChanged(object sender, EventArgs e)
         {
             MainListView.Items.Clear();
             AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
         }
-
         private void employeeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowEmployeeSpecificPanels();
             showTickets = false;
             QuerryedEmployee = null;
-            UpdateAccessLabel();
             SetupListStructure();
             RefreshListView();
         }
-
         private void ticketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowTicektSpecificPanels();
@@ -374,7 +344,6 @@ namespace UI
             SetupListStructure();
             RefreshListView();
         }
-
         private void checkBoxFilterDate_CheckedChanged(object sender, EventArgs e)
         {
             if (!checkBoxFilterDate.Checked)
@@ -402,7 +371,6 @@ namespace UI
                 }
             }
         }
-
         private void UpdateAccessLabel()
         {
             if (QuerryedEmployee == null)
@@ -414,7 +382,6 @@ namespace UI
                 AccessLabel.Text = $"You are accessing: {QuerryedEmployee.UserName} tickets";
             }
         }
-
         private void SelectSpecificEmployeeTickets_Click(object sender, EventArgs e)
         {
             if (MainListView.SelectedItems.Count > 0) {
