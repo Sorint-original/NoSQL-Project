@@ -70,9 +70,10 @@ namespace Service
                 filters.Add(FilterTicketsByEmployee(querryedEmployee));
             }
             //check title search
-            if (titleSearch != null)
+            if (!string.IsNullOrWhiteSpace(titleSearch))
             {
-
+                var titleFilter = Builders<Ticket>.Filter.Regex("Title", new MongoDB.Bson.BsonRegularExpression(titleSearch, "i")); // 'i' for case-insensitive
+                filters.Add(titleFilter);
             }
 
             //check Status filter 
