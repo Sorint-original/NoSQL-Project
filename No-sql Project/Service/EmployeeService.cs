@@ -53,9 +53,10 @@ namespace Service
         {
             List<FilterDefinition<Employee>> filters = new List<FilterDefinition<Employee>>();
             //check title search
-            if (nameSearch != null)
+            if (!string.IsNullOrWhiteSpace(nameSearch))
             {
-
+                var nameFilter = Builders<Employee>.Filter.Regex("Name", new MongoDB.Bson.BsonRegularExpression(nameSearch, "i")); // 'i' for case-insensitive
+                filters.Add(nameFilter);
             }
             //check Role filter
             if((int)role != 0)
