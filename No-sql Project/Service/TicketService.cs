@@ -25,6 +25,10 @@ namespace Service
             ticket.Status = Status.closed;
             UpdateTicket(ticket);
         }
+        public Dictionary<Status, float> GetPercentages(Employee employee)
+        {
+            return ticketDAO.GetPercentagesForTickets(employee);
+        }
 
         //Individual FEATURE SORIN ARCHIVING
         public void ArchiveTickets(List<Ticket> tickets)
@@ -72,8 +76,7 @@ namespace Service
             //check title search
             if (!string.IsNullOrWhiteSpace(titleSearch))
             {
-                var titleFilter = Builders<Ticket>.Filter.Regex("Title", new MongoDB.Bson.BsonRegularExpression(titleSearch, "i")); // 'i' for case-insensitive
-                filters.Add(titleFilter);
+                filters.Add(FilterTitle(titleSearch));
             }
 
             //check Status filter 
@@ -174,7 +177,7 @@ namespace Service
             return filter;
         }
 
-        // INDIVIDUAL FEATURE BRIAN PRIORITY SORTING
+        // INDIVIDUAL FEATURE BRIAN PRIORITY FILTERING
         public SortDefinition<Ticket> SortByPriority()
         {
             //sorting and returning the filterd tickets by high, medium and low priority
@@ -187,9 +190,12 @@ namespace Service
             var filter = Builders<Ticket>.Filter.Eq(t => t.Priority, priority);
             return filter;
         }
-        public Dictionary<Status, float> GetPercentages(Employee employee)
+
+        //INDIVIDUAL FEATURE AYAZ FILTER TITLE
+
+        public FilterDefinition<Ticket> FilterTitle(string title)
         {
-            return ticketDAO.GetPercentagesForTickets(employee);
+            return Builders<Ticket>.Filter.Regex("Title", new MongoDB.Bson.BsonRegularExpression(title, "i")); // 'i' for case-insensitive
         }
     }
 }

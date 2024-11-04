@@ -55,8 +55,7 @@ namespace Service
             //check title search
             if (!string.IsNullOrWhiteSpace(nameSearch))
             {
-                var nameFilter = Builders<Employee>.Filter.Regex("Name", new MongoDB.Bson.BsonRegularExpression(nameSearch, "i")); // 'i' for case-insensitive
-                filters.Add(nameFilter);
+                filters.Add(FilterName(nameSearch));
             }
             //check Role filter
             if((int)role != 0)
@@ -77,6 +76,11 @@ namespace Service
         {
             var filter = Builders<Employee>.Filter.Eq(t => t.IsActive, Active);
             return filter;
+        }
+
+        public FilterDefinition<Employee> FilterName(string name)
+        {
+            return Builders<Employee>.Filter.Regex("Name", new MongoDB.Bson.BsonRegularExpression(name, "i")); // 'i' for case-insensitive
         }
 
         public SortDefinition<Employee> GetSort(int Index)
