@@ -17,7 +17,7 @@ namespace UI
     {
         private bool showTickets; // If the list displays tickets or emplyees
         private Employee LogedEmployee; // This is the employee that just logged in and is using the App
-        private TicketService ticketService; 
+        private TicketService ticketService;
         private EmployeeService employeeService;
         private Employee QuerryedEmployee; // This variable is used when an employee is used to filter tickets, it's used twice, when a regular employee logs in (he can see only his tickets) and when an admin inspects a specific employee's tickets, in rest is null
         private List<Ticket> unfileredTicketList;// tickets returned after a querry, before they are displayed they are furthere filtered by the filter textbox
@@ -349,7 +349,7 @@ namespace UI
         private void UpdatePercentages()
         {
             Dictionary<Status, float> Percentages = ticketService.GetPercentages(QuerryedEmployee);
-            for(int i = 1; i <= 4; i++)// checks for every status if there are tickets with it, and displays the precentage in it's specific label
+            for (int i = 1; i <= 4; i++)// checks for every status if there are tickets with it, and displays the precentage in it's specific label
             {
                 Status currentStatus = (Status)i;
                 if (Percentages.ContainsKey(currentStatus))
@@ -375,7 +375,8 @@ namespace UI
         }
         private void SelectSpecificEmployeeTickets_Click(object sender, EventArgs e)// switches to displaying the tickets of a specific employee
         {
-            if (MainListView.SelectedItems.Count > 0) {
+            if (MainListView.SelectedItems.Count > 0)
+            {
                 QuerryedEmployee = (Employee)MainListView.SelectedItems[0].Tag;
                 UpdateAccessLabel();
                 showTickets = true;
