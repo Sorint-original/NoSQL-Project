@@ -31,7 +31,7 @@ namespace UI
             employeeService = new EmployeeService();
             FormSetup();
         }
-        public void FormSetup()//Setup for when the fomr is firt made
+        public void FormSetup()//Setup for when the fomr is first made
         {
             showTickets = true;
             SetupListStructure();
@@ -202,6 +202,7 @@ namespace UI
         }
         public void UpdateEmployees()
         {
+            //updates the listview with filtered employees
             MainListView.Items.Clear();
             List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
             AddEmployeesToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
