@@ -64,9 +64,8 @@
             UsernameTB.ForeColor = Color.FromArgb(0, 117, 214);
             UsernameTB.Location = new Point(89, 224);
             UsernameTB.Margin = new Padding(3, 4, 3, 4);
-            UsernameTB.Multiline = true;
             UsernameTB.Name = "UsernameTB";
-            UsernameTB.Size = new Size(218, 25);
+            UsernameTB.Size = new Size(218, 20);
             UsernameTB.TabIndex = 2;
             // 
             // PasswordTB
@@ -77,9 +76,8 @@
             PasswordTB.ForeColor = Color.FromArgb(0, 117, 214);
             PasswordTB.Location = new Point(89, 273);
             PasswordTB.Margin = new Padding(3, 4, 3, 4);
-            PasswordTB.Multiline = true;
             PasswordTB.Name = "PasswordTB";
-            PasswordTB.Size = new Size(218, 25);
+            PasswordTB.Size = new Size(218, 20);
             PasswordTB.TabIndex = 2;
             // 
             // LoginB
