@@ -181,7 +181,7 @@ namespace DAL
         //BRIAN INDIVIDUAL FEATURE
         public string SortByPriority( )
         {
-            return "{$addFields: {_order: {$indexOfArray:[[\"All\",\"Low\",\"Normal\",\"High\"],\"Priority\"]}}}";
+            return "{$addFields: {_order: {$indexOfArray:[[\"high\",\"normal\",\"low\"],\"$Priority\"]}}}";
         }
     }
 }
