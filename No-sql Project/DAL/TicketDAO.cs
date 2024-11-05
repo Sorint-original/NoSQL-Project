@@ -92,7 +92,7 @@ namespace DAL
 
         // Methods to handle complexed custom and unpredictable querries from the listView
 
-        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, SortDefinition<Ticket> sort)
+        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, int SortIndex)
         {
             FilterDefinition<Ticket> filter;
             if (filters.Count == 0)
@@ -103,13 +103,14 @@ namespace DAL
             {
                 filter = CombineFilters(filters);
             }
-            if (sort == null)
+            SortDefinition<Ticket> sort = GetSort(SortIndex);
+            if (sort != null)
             {
-                return _ticketsCollection.Find(filter).ToList();
+                return _ticketsCollection.Find(filter).Sort(sort).ToList();
             }
             else
             {
-                return _ticketsCollection.Find(filter).Sort(sort).ToList();
+                return CustomQuerryWithEnumSort(filter,SortIndex);
             }
         }
 
@@ -123,6 +124,65 @@ namespace DAL
             return filter;
         }
 
+        public SortDefinition<Ticket> GetSort(int Index)
+        {
+            switch (Index)// The index is 0 or 1 if it sorts by date, if it sorts by enum it will be 2 for status and 3 for priority 
+            {
+                case 0:
+                    return SortByCreationDateDescending();
+                case 1:
+                    return SortByCreationDateAscending();
+            }
+            return null;
+        }
+        // get sort based on creation date
+        public SortDefinition<Ticket> SortByCreationDateAscending()
+        {
+            var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
+            return sort;
+        }
+
+        public SortDefinition<Ticket> SortByCreationDateDescending()
+        {
+            var sort = Builders<Ticket>.Sort.Descending(t => t.CreationTime);
+            return sort;
+        }
+
+        private List<Ticket> CustomQuerryWithEnumSort(FilterDefinition<Ticket> filter, int SortIndex)
+        {
+            string addorder;
+            if (SortIndex == 2)
+            {
+                //sort by status
+                addorder=SortByStatus();
+            }
+            else
+            {
+                //sort by priority
+                addorder=SortByPriority();
+            }
+            string unsetorder = "{ $unset: \"_order\" }";
+            SortDefinition<Ticket> sort = Builders<Ticket>.Sort.Ascending(t => t._order);
+            List<Ticket> list =
+                _ticketsCollection.Aggregate()
+                .Match(filter)
+                .AppendStage<Ticket>(addorder)
+                .Sort(sort)
+                .AppendStage<Ticket>(unsetorder)
+                .ToList();
+            return list;
+        }
+
+        // get sort based on status
+        public string SortByStatus()
+        {
+            return "{$addFields: {_order: {$indexOfArray:[[\"open\",\"pending\",\"resolved\",\"closed\"],\"$Status\"]}}}";
+        }
+        //BRIAN INDIVIDUAL FEATURE
+        public string SortByPriority( )
+        {
+            return "{$addFields: {_order: {$indexOfArray:[[\"high\",\"normal\",\"low\"],\"$Priority\"]}}}";
+        }
     }
 }
 ; 

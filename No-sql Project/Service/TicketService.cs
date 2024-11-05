@@ -59,9 +59,9 @@ namespace Service
             return filteredTickets;
         }
 
-        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, SortDefinition<Ticket> sort)
+        public List<Ticket> CustomQuerry(List<FilterDefinition<Ticket>> filters, int SortIndex)
         {
-            return ticketDAO.CustomQuerry(filters, sort);
+            return ticketDAO.CustomQuerry(filters, SortIndex);
         }
 
         //Get the filters for the custom querry
@@ -118,29 +118,12 @@ namespace Service
             return true;
         }
 
-        public SortDefinition<Ticket> GetSort(int Index)
-        {
-            switch (Index)
-            {
-                case 0:
-                    return SortByCreationDateDescending();
-                case 1:
-                    return SortByCreationDateAscending();
-            }
-            return null;
-        }
-        //Methods that return filtres or sorts for custom querrys in listView
+        //Methods that return filtres for custom querrys in listView
         //get filter based on employee
         public FilterDefinition<Ticket> FilterTicketsByEmployee(Employee employee)
         {
             var filter = Builders<Ticket>.Filter.Eq(t => t.EmployeeId, employee.Id);
             return filter;
-        }
-        // get sort based on status
-        public SortDefinition<Ticket> SortByStatus()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Status);
-            return sort;
         }
 
         //Filter tickets by status
@@ -148,19 +131,6 @@ namespace Service
         {
             var filter = Builders<Ticket>.Filter.Eq(t => t.Status, Status);
             return filter;
-        }
-
-        // get sort based on creation date
-        public SortDefinition<Ticket> SortByCreationDateAscending()
-        {
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.CreationTime);
-            return sort;
-        }
-
-        public SortDefinition<Ticket> SortByCreationDateDescending()
-        {
-            var sort = Builders<Ticket>.Sort.Descending(t => t.CreationTime);
-            return sort;
         }
 
         //Filter tickets created before a specific date
@@ -178,12 +148,6 @@ namespace Service
         }
 
         // INDIVIDUAL FEATURE BRIAN PRIORITY FILTERING
-        public SortDefinition<Ticket> SortByPriority()
-        {
-            //sorting and returning the filterd tickets by high, medium and low priority
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
-            return sort;
-        }
         public FilterDefinition<Ticket> FilterByPriority(Priority priority)
         {
             //sorting and returning the filterd tickets by one priority
