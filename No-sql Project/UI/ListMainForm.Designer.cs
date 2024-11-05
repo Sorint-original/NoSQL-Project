@@ -321,7 +321,7 @@
             // 
             SortByBoxTickets.DropDownStyle = ComboBoxStyle.DropDownList;
             SortByBoxTickets.FormattingEnabled = true;
-            SortByBoxTickets.Items.AddRange(new object[] { "New to Old", "Old to New","Staus","Priority" });
+            SortByBoxTickets.Items.AddRange(new object[] { "New to Old", "Old to New", "Status", "Priority" });
             SortByBoxTickets.Location = new Point(405, 39);
             SortByBoxTickets.Name = "SortByBoxTickets";
             SortByBoxTickets.Size = new Size(110, 28);
