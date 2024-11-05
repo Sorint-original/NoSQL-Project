@@ -41,7 +41,6 @@ namespace UI
             ShowTicektSpecificPanels();
             RefreshListView();
             EndDateTime.Value = EndDateTime.Value.AddDays(1);
-            TicketDatePanel.Hide();
         }
         public void SetupPercentagesLabelList()//Gets all of the labels used to display ticket status percentages and puts them in a list for later use
         {
