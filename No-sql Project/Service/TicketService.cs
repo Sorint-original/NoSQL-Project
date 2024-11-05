@@ -126,10 +126,6 @@ namespace Service
                     return SortByCreationDateDescending();
                 case 1:
                     return SortByCreationDateAscending();
-                case 2:
-                    return SortByStatus();
-                case 3: 
-                    return SortByPriority();
             }
             return null;
         }
