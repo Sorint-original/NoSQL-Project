@@ -19,8 +19,8 @@ namespace DAL
             _employeeCollection = GetCollection<Employee>("Employees");
         }
 
-    //GetAllEmployees(order by Username)
-    public List<Employee> GetAllEmployees()
+        //GetAllEmployees(order by Username)
+        public List<Employee> GetAllEmployees()
         {
             var sort = Builders<Employee>.Sort.Ascending(e => e.UserName);
             return _employeeCollection.Find(FilterDefinition<Employee>.Empty).Sort(sort).ToList();

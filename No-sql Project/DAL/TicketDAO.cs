@@ -78,7 +78,6 @@ namespace DAL
         }
 
         // INDIVIDUAL FEATURE SORIN TICKET ARCHIVING
-
         public void AddInArchive(Ticket ticket)
         {
             _archiveCollection.InsertOne(ticket);
