@@ -40,7 +40,7 @@ namespace Model
         public DateTime CreationTime { get; set; }
 
         [BsonElement("Solution_Date")]
-        public Nullable<DateTime> SolutionTime { get; set; }
+        public DateTime SolutionTime { get; set; }
         [BsonIgnoreIfNull]// this is used only in the database is null 100% in the database, and used only for crazy sorts that use enums
         public int _order;
        
