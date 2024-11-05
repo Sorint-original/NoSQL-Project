@@ -150,24 +150,20 @@ namespace DAL
 
         private List<Ticket> CustomQuerryWithEnumSort(FilterDefinition<Ticket> filter, int SortIndex)
         {
+            string addorder;
             if (SortIndex == 2)
             {
                 //sort by status
-                return SortByStatus(filter);
+                addorder=SortByStatus();
             }
-            else  {
+            else
+            {
                 //sort by priority
-                return SortByPriority(filter);
+                addorder=SortByPriority();
             }
-        }
-
-        // get sort based on status
-        public List<Ticket> SortByStatus(FilterDefinition<Ticket> filter)
-        {
-            string addorder = "{$addFields: {_order: {$indexOfArray:[[\"open\",\"pending\",\"resolved\",\"closed\"],\"$Status\"]}}}";
             string unsetorder = "{ $unset: \"_order\" }";
             SortDefinition<Ticket> sort = Builders<Ticket>.Sort.Ascending(t => t._order);
-            List<Ticket> list = 
+            List<Ticket> list =
                 _ticketsCollection.Aggregate()
                 .Match(filter)
                 .AppendStage<Ticket>(addorder)
@@ -176,11 +172,16 @@ namespace DAL
                 .ToList();
             return list;
         }
-        //BRIAN INDIVIDUAL FEATURE
-        public List<Ticket> SortByPriority(FilterDefinition<Ticket> filter)
+
+        // get sort based on status
+        public string SortByStatus()
         {
-            List<Ticket> list = new List<Ticket>();
-            return list;
+            return "{$addFields: {_order: {$indexOfArray:[[\"open\",\"pending\",\"resolved\",\"closed\"],\"$Status\"]}}}";
+        }
+        //BRIAN INDIVIDUAL FEATURE
+        public string SortByPriority( )
+        {
+            return "";
         }
     }
 }
