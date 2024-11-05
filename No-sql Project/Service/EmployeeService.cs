@@ -149,6 +149,10 @@ namespace Service
                 return false;
             }
         }
+        public void CreateEmployee(Employee employee)
+        {
+            employeeDAO.CreateEmployee(employee);
+        }
 
 
     }
