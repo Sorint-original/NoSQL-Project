@@ -192,7 +192,7 @@ namespace UI
             if (filters != null)// filters are null only if the User tried to filter with dates and entered them wrong
             {
                 MainListView.Items.Clear();
-                unfileredTicketList = ticketService.CustomQuerry(filters, ticketService.GetSort(SortByBoxTickets.SelectedIndex));
+                unfileredTicketList = ticketService.CustomQuerry(filters, SortByBoxTickets.SelectedIndex);
                 AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
             }
             else
