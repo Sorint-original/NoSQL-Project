@@ -126,6 +126,10 @@ namespace Service
                     return SortByCreationDateDescending();
                 case 1:
                     return SortByCreationDateAscending();
+                case 2:
+                    return SortByStatus();
+                case 3:
+                    return SortByPriority();
             }
             return null;
         }
@@ -181,7 +185,7 @@ namespace Service
         public SortDefinition<Ticket> SortByPriority()
         {
             //sorting and returning the filterd tickets by high, medium and low priority
-            var sort = Builders<Ticket>.Sort.Ascending(t => t.Priority);
+            var sort = Builders<Ticket>.Sort.Descending(t => t.Priority);
             return sort;
         }
         public FilterDefinition<Ticket> FilterByPriority(Priority priority)
