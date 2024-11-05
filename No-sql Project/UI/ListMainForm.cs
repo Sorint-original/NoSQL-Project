@@ -162,7 +162,7 @@ namespace UI
                 MainListView.Items.Add(li);
             }
         }
-        public void AddEmployeeToList(List<Employee> list)
+        public void AddEmployeesToList(List<Employee> list)
         {
             foreach (Employee employee in list)
             {
@@ -205,7 +205,7 @@ namespace UI
         {
             MainListView.Items.Clear();
             List<FilterDefinition<Employee>> filters = employeeService.GetFilters(NameSearchBox.Text, (Role)RoleComboBox.SelectedIndex, ActivityComboBox.SelectedIndex == 0);
-            AddEmployeeToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
+            AddEmployeesToList(employeeService.CustomQuerry(filters, employeeService.GetSort(SortByBoxEmployee.SelectedIndex)));
         }
         private void AddB_Click(object sender, EventArgs e)// add object functionality
         {
