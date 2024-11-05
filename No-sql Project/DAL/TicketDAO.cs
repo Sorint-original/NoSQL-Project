@@ -181,6 +181,7 @@ namespace DAL
         //BRIAN INDIVIDUAL FEATURE
         public string SortByPriority( )
         {
+            //will sort all tickets by high, normal and low priority
             return "{$addFields: {_order: {$indexOfArray:[[\"high\",\"normal\",\"low\"],\"$Priority\"]}}}";
         }
     }
