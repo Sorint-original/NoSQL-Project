@@ -40,11 +40,12 @@
             EmployeePassword = new TextBox();
             EmployeeEmail = new TextBox();
             EmployeeRole = new ComboBox();
+            cmbActiveStatus = new ComboBox();
             SuspendLayout();
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(151, 368);
+            btnSave.Location = new Point(142, 426);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
             btnSave.TabIndex = 0;
@@ -54,7 +55,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(293, 368);
+            btnCancel.Location = new Point(284, 426);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(112, 34);
             btnCancel.TabIndex = 1;
@@ -144,11 +145,21 @@
             EmployeeRole.Size = new Size(182, 33);
             EmployeeRole.TabIndex = 11;
             // 
+            // cmbActiveStatus
+            // 
+            cmbActiveStatus.FormattingEnabled = true;
+            cmbActiveStatus.Items.AddRange(new object[] { "Active", "Not Active" });
+            cmbActiveStatus.Location = new Point(219, 354);
+            cmbActiveStatus.Name = "cmbActiveStatus";
+            cmbActiveStatus.Size = new Size(182, 33);
+            cmbActiveStatus.TabIndex = 12;
+            // 
             // EmployeeCreateForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(539, 450);
+            ClientSize = new Size(539, 512);
+            Controls.Add(cmbActiveStatus);
             Controls.Add(EmployeeRole);
             Controls.Add(EmployeeEmail);
             Controls.Add(EmployeePassword);
@@ -181,5 +192,6 @@
         private TextBox EmployeePassword;
         private TextBox EmployeeEmail;
         private ComboBox EmployeeRole;
+        private ComboBox cmbActiveStatus;
     }
 }
