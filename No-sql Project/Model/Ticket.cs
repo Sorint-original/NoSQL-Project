@@ -41,7 +41,9 @@ namespace Model
 
         [BsonElement("Solution_Date")]
         public DateTime SolutionTime { get; set; }
+
         [BsonIgnoreIfNull]// this is used only in the database is null 100% in the database, and used only for crazy sorts that use enums
+        [BsonElement("_order")]
         public int _order;
        
 
