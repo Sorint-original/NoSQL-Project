@@ -201,7 +201,6 @@ namespace UI
                 MessageBox.Show("The date filters was incorectly entered", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         public void UpdateEmployees()
         {
             MainListView.Items.Clear();
@@ -222,7 +221,6 @@ namespace UI
             form.ShowDialog();
             RefreshListView();
         }
-
         private void UpdateB_Click(object sender, EventArgs e)//Update button functionality
         {
             if (MainListView.SelectedItems.Count > 0) // if nothing is selected in the list it does nothing
@@ -240,8 +238,6 @@ namespace UI
                 RefreshListView();
             }
         }
-
-
         private void DeleteB_Click(object sender, EventArgs e) // Delete button functionality
         {
             if (MainListView.SelectedItems.Count > 0)// if nothing is selected in the list it does nothing
