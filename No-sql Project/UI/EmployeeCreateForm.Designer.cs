@@ -50,7 +50,7 @@
             btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
-            btnSave.Click += button1_Click;
+            btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
@@ -60,7 +60,7 @@
             btnCancel.TabIndex = 1;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += button2_Click;
+            btnCancel.Click += btnCancel_Click;
             // 
             // label1
             // 
