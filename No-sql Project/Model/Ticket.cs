@@ -13,6 +13,7 @@ namespace Model
 {
     public class Ticket
     {
+        [BsonId]
         [BsonElement("_id")]
         public ObjectId Id { get; set; }
 

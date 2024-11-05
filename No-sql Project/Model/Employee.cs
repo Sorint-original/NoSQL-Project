@@ -13,6 +13,7 @@ namespace Model
 {
     public class Employee
     {
+        [BsonId]
         [BsonElement("_id")]
         public ObjectId Id { get; set; }
 
