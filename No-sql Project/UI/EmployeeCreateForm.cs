@@ -28,6 +28,12 @@ namespace UI
                 existingEmployee = employee;
                 PopulateFormFields(employee);
                 btnSave.Text = "Update"; // Change the button text to indicate editing mode
+                cmbActiveStatus.Visible = true;
+                cmbActiveStatus.SelectedItem = employee.IsActive ? "Active" : "Not Active";
+            }
+            else
+            {
+                cmbActiveStatus.Visible = false;
             }
         }
         private void PopulateFormFields(Employee employee)
@@ -95,8 +101,6 @@ namespace UI
         {
             if (!ValidateForm()) return;
 
-            
-
             if (existingEmployee != null)
             {
                 // Collect data from input fields
@@ -104,14 +108,15 @@ namespace UI
                 string name = EmployeeName.Text;
                 string email = EmployeeEmail.Text;
                 string password = EmployeePassword.Text;
-                //EmployeeRole.DataSource = Enum.GetValues(typeof(Role));
                 Role role = (Role)EmployeeRole.SelectedItem;
+                bool isActive = cmbActiveStatus.Visible && cmbActiveStatus.SelectedItem.ToString() == "Active";
 
                 existingEmployee.UserName = username;
                 existingEmployee.Name = name;
                 existingEmployee.Email = email;
                 existingEmployee.Password = password;
                 existingEmployee.Role = role;
+                existingEmployee.IsActive = isActive;
 
                 try
                 {
@@ -133,18 +138,22 @@ namespace UI
                 string password = EmployeePassword.Text;
                 EmployeeRole.DataSource = Enum.GetValues(typeof(Role));
                 Role role = (Role)EmployeeRole.SelectedItem;
+                bool isActive = cmbActiveStatus.Visible && cmbActiveStatus.SelectedItem.ToString() == "Active";
 
                 if (employeeService.DoesUsernameExist(username))
                 {
                     MessageBox.Show("This username is already in use. Please choose a different username.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                string hashedPassword = employeeService.HashPassword(password);
+
                 Employee newEmployee = new Employee(
                     ObjectId.GenerateNewId(),
                     username,
                     name,
                     email,
-                    password,
+                    hashedPassword,
                     role,
                     true
                 );
