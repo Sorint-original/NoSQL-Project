@@ -194,6 +194,7 @@ namespace UI
                 MainListView.Items.Clear();
                 unfileredTicketList = ticketService.CustomQuerry(filters, SortByBoxTickets.SelectedIndex);
                 AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+                DescriptionBox.Text = ""; // resets the description displayed of the previous selected element
             }
             else
             {
@@ -212,7 +213,7 @@ namespace UI
             Form form;
             if (showTickets)//it opens the respective creation form based on which objects are displayed
             {
-                form = new TicketCreateForm(LogedEmployee.Role);
+                form = new TicketCreateForm(LogedEmployee);
             }
             else
             {
@@ -228,7 +229,7 @@ namespace UI
                 Form form;
                 if (showTickets)//it opens the respective creation form based on which objects are displayed
                 {
-                    form = new TicketCreateForm(LogedEmployee.Role, (Ticket)MainListView.SelectedItems[0].Tag);
+                    form = new TicketCreateForm(LogedEmployee, (Ticket)MainListView.SelectedItems[0].Tag);
                 }
                 else
                 {
@@ -259,6 +260,9 @@ namespace UI
             {
                 // "Deleted" tickets have their status set to closed
                 Ticket ticket = (Ticket)item.Tag;
+                if (ticket.SolutionTime == DateTime.MinValue) { // closing a ticket "solves" it so a solution time is set if it wasn't already solved
+                    ticket.SolutionTime = DateTime.Now;
+                }
                 ticketService.CloseTicket(ticket);
             }
             else
@@ -355,7 +359,7 @@ namespace UI
                 Status currentStatus = (Status)i;
                 if (Percentages.ContainsKey(currentStatus))
                 {
-                    percentagesLabels[i - 1].Text = $"{currentStatus}: {Percentages[currentStatus]}%";
+                    percentagesLabels[i - 1].Text = $"{currentStatus}: {Percentages[currentStatus]:0.00}%";
                 }
                 else
                 {
@@ -390,5 +394,6 @@ namespace UI
                 MessageBox.Show($"You need to select an employee to see his specific tickets", "Error", MessageBoxButtons.OK);
             }
         }
+
     }
 }
