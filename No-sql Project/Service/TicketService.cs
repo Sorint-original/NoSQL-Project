@@ -15,6 +15,11 @@ namespace Service
             ticketDAO = new TicketDAO();
         }
 
+        public void CreateTicket(Ticket ticket)
+        {
+            ticketDAO.CreateTicket(ticket); 
+        }
+
         public void UpdateTicket(Ticket ticket)
         {
             ticketDAO.UpdateTicket(ticket);

@@ -1,4 +1,6 @@
 ﻿using Model;
+using MongoDB.Bson;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +15,119 @@ namespace UI
 {
     public partial class TicketCreateForm : Form
     {
-        public TicketCreateForm(Role role, Ticket ticket = null)
+        private Ticket ticketInput = null;
+        private Employee logedEmployee;
+        private TicketService ticketService;
+        public TicketCreateForm(Employee logedEmployee, Ticket ticket = null)
         {
             InitializeComponent();
+            ticketService = new TicketService();
+            this.logedEmployee = logedEmployee;
+            PriorityBox.SelectedIndex = 0;
+            StatusBox.SelectedIndex = 0;
+
+            if(logedEmployee.Role == Role.regular)
+            {
+                StatusPanel.Hide();
+            }
+            else
+            {
+                StatusPanel.Show();
+            }
+            if (ticket != null) {
+                UpdateTicket(ticket);
+            }
         }
+
+        private void UpdateTicket(Ticket ticket)
+        {
+            ticketInput = ticket;
+            TickeTitleBox.Text = ticket.Title;
+            DescriptionBox.Text = ticket.Description;
+            PriorityBox.SelectedIndex = (int)ticket.Priority -1;
+            StatusBox.SelectedIndex = (int)ticket.Status - 1;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private Status GetStatus()
+        {
+            return (Status)(StatusBox.SelectedIndex+1);
+        }
+
+        private Priority GetPriority()
+        {
+            return (Priority)(PriorityBox.SelectedIndex + 1);
+        }
+
+        private void AddTicket()
+        {
+            try
+            {
+                Ticket ticket = new Ticket(ObjectId.GenerateNewId(), logedEmployee.Id, TickeTitleBox.Text, DescriptionBox.Text, GetStatus(), GetPriority(), DateTime.Now, DateTime.MinValue);
+
+                ticketService.CreateTicket(ticket);
+                MessageBox.Show("Tciket created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateTicket()
+        {
+            try
+            {
+                ticketService.UpdateTicket(ticketInput);
+                MessageBox.Show("Tciket created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(TickeTitleBox.Text) || string.IsNullOrEmpty(DescriptionBox.Text))
+            {
+                MessageBox.Show("Ttile and ddescription can't be empty", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                if (ticketInput == null)
+                {
+                    AddTicket();
+                }
+                else
+                {
+                    ticketInput.Title = TickeTitleBox.Text;
+                    ticketInput.Description = DescriptionBox.Text;
+                    ticketInput.Priority = GetPriority();
+                    if (ticketInput.Status != GetStatus())
+                    {
+                        if (ticketInput.Status < Status.resolved && GetStatus() >= Status.resolved)//Thhe ticket has been solved or closed
+                        {
+                            ticketInput.SolutionTime = DateTime.Now;    
+                        }
+                        else if(ticketInput.Status >= Status.resolved && GetStatus() < Status.resolved)// the solution or closed status have been undone
+                        {
+                            ticketInput.SolutionTime = DateTime.MinValue;
+                        }
+                        ticketInput.Status = GetStatus();
+                    }
+                    UpdateTicket();
+
+                }
+
+            }
+        }
+
     }
 }
