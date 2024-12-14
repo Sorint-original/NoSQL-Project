@@ -73,7 +73,7 @@ namespace UI
                     ticket.SolutionTime = DateTime.Now;
                 }
                 ticketService.CreateTicket(ticket);
-                MessageBox.Show("Tciket created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Ticket created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
@@ -87,7 +87,7 @@ namespace UI
             try
             {
                 ticketService.UpdateTicket(ticketInput);
-                MessageBox.Show("Tciket created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Ticket updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
