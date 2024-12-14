@@ -68,7 +68,10 @@ namespace UI
             try
             {
                 Ticket ticket = new Ticket(ObjectId.GenerateNewId(), logedEmployee.Id, TickeTitleBox.Text, DescriptionBox.Text, GetStatus(), GetPriority(), DateTime.Now, DateTime.MinValue);
-
+                if(ticket.Status > Status.pending)// in case an admin creates a ticket that is already completed(it happens especially when we created filler data)
+                {
+                    ticket.SolutionTime = DateTime.Now;
+                }
                 ticketService.CreateTicket(ticket);
                 MessageBox.Show("Tciket created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
