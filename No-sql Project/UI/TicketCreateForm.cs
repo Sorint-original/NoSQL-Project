@@ -26,7 +26,7 @@ namespace UI
             PriorityBox.SelectedIndex = 0;
             StatusBox.SelectedIndex = 0;
 
-            if(logedEmployee.Role == Role.regular)
+            if(logedEmployee.Role == Role.regular)//Only an admin could change the status of a ticket
             {
                 StatusPanel.Hide();
             }
@@ -39,7 +39,7 @@ namespace UI
             }
         }
 
-        private void UpdateTicket(Ticket ticket)
+        private void UpdateTicket(Ticket ticket)// fills the form witht the proprieties of the tickt that is being updated
         {
             ticketInput = ticket;
             TickeTitleBox.Text = ticket.Title;
@@ -48,17 +48,17 @@ namespace UI
             StatusBox.SelectedIndex = (int)ticket.Status - 1;
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)// canels and exits the ticket creator
         {
             this.Close();
         }
 
-        private Status GetStatus()
+        private Status GetStatus()// gets status from status combo box
         {
             return (Status)(StatusBox.SelectedIndex+1);
         }
 
-        private Priority GetPriority()
+        private Priority GetPriority()// gets priority from priority combo box
         {
             return (Priority)(PriorityBox.SelectedIndex + 1);
         }
