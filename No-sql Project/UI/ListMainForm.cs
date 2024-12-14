@@ -194,6 +194,7 @@ namespace UI
                 MainListView.Items.Clear();
                 unfileredTicketList = ticketService.CustomQuerry(filters, SortByBoxTickets.SelectedIndex);
                 AddTicketsToList(ticketService.FilterTickets(unfileredTicketList, FilterResultTextBox.Text));
+                DescriptionBox.Text = ""; // resets the description displayed of the previous selected element
             }
             else
             {
@@ -358,7 +359,7 @@ namespace UI
                 Status currentStatus = (Status)i;
                 if (Percentages.ContainsKey(currentStatus))
                 {
-                    percentagesLabels[i - 1].Text = $"{currentStatus}: {Percentages[currentStatus]}%";
+                    percentagesLabels[i - 1].Text = $"{currentStatus}: {Percentages[currentStatus]:0.00}%";
                 }
                 else
                 {
