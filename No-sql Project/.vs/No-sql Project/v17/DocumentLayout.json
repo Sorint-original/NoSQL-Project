@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\ui\\employeecreateform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|solutionrelative:ui\\employeecreateform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\ui\\ticketcreateform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|solutionrelative:ui\\ticketcreateform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|c:\\users\\pssor\\onedrive\\desktop\\work\\github\\nosql-project\\no-sql project\\ui\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|solutionrelative:ui\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BB3E2DC6-1FF1-42B9-B9F1-1F30286AD630}|Model\\Model.csproj|c:\\users\\pssor\\onedrive\\desktop\\work\\github\\nosql-project\\no-sql project\\model\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB3E2DC6-1FF1-42B9-B9F1-1F30286AD630}|Model\\Model.csproj|solutionrelative:model\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -25,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D09EB37A-B41A-4C3C-BA64-50EBB0414E64}|DAL\\DAL.csproj|c:\\users\\pssor\\onedrive\\desktop\\work\\github\\nosql-project\\no-sql project\\dal\\dal.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{D09EB37A-B41A-4C3C-BA64-50EBB0414E64}|DAL\\DAL.csproj|solutionrelative:dal\\dal.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\ui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A9E1AA90-3A49-49A0-AD1A-4D1F4F674615}|UI\\UI.csproj|solutionrelative:ui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +58,43 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "LoginForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\LoginForm.cs",
+              "RelativeDocumentMoniker": "UI\\LoginForm.cs",
+              "ToolTip": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\LoginForm.cs [Design]",
+              "RelativeToolTip": "UI\\LoginForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T13:55:24.296Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TicketCreateForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\TicketCreateForm.cs",
+              "RelativeDocumentMoniker": "UI\\TicketCreateForm.cs",
+              "ToolTip": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\TicketCreateForm.cs [Design]",
+              "RelativeToolTip": "UI\\TicketCreateForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T13:55:22.751Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EmployeeCreateForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\EmployeeCreateForm.cs",
+              "RelativeDocumentMoniker": "UI\\EmployeeCreateForm.cs",
+              "ToolTip": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\EmployeeCreateForm.cs [Design]",
+              "RelativeToolTip": "UI\\EmployeeCreateForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T13:55:17.265Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Employee.cs",
               "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Model\\Employee.cs",
               "RelativeDocumentMoniker": "Model\\Employee.cs",
@@ -62,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "DAL.csproj",
               "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\DAL\\DAL.csproj",
               "RelativeDocumentMoniker": "DAL\\DAL.csproj",
@@ -74,20 +118,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Ticket.cs",
               "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Model\\Ticket.cs",
               "RelativeDocumentMoniker": "Model\\Ticket.cs",
               "ToolTip": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\Model\\Ticket.cs",
               "RelativeToolTip": "Model\\Ticket.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwCgAAAAZAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T13:06:23.962Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-02T13:06:23.962Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "TicketDAO.cs",
               "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\DAL\\TicketDAO.cs",
               "RelativeDocumentMoniker": "DAL\\TicketDAO.cs",
@@ -99,7 +142,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "BaseDAO.cs",
               "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\DAL\\BaseDAO.cs",
               "RelativeDocumentMoniker": "DAL\\BaseDAO.cs",
@@ -107,12 +150,11 @@
               "RelativeToolTip": "DAL\\BaseDAO.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T13:05:16.935Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-02T13:05:16.935Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "EmployeeDAO.cs",
               "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\DAL\\EmployeeDAO.cs",
               "RelativeDocumentMoniker": "DAL\\EmployeeDAO.cs",
@@ -121,17 +163,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-02T13:05:14.32Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\Form1.cs",
-              "RelativeDocumentMoniker": "UI\\Form1.cs",
-              "ToolTip": "C:\\Users\\pssor\\OneDrive\\Desktop\\work\\github\\NoSQL-Project\\No-sql Project\\UI\\Form1.cs [Design]",
-              "RelativeToolTip": "UI\\Form1.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T12:05:19.674Z"
             }
           ]
         }
