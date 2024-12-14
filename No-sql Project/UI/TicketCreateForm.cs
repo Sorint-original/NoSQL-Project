@@ -35,11 +35,11 @@ namespace UI
                 StatusPanel.Show();
             }
             if (ticket != null) {
-                UpdateTicket(ticket);
+                UpdateTicketSetup(ticket);
             }
         }
 
-        private void UpdateTicket(Ticket ticket)// fills the form witht the proprieties of the tickt that is being updated
+        private void UpdateTicketSetup(Ticket ticket)// fills the form witht the proprieties of the tickt that is being updated
         {
             ticketInput = ticket;
             TickeTitleBox.Text = ticket.Title;
