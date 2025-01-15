@@ -114,7 +114,14 @@ namespace UI
                 existingEmployee.UserName = username;
                 existingEmployee.Name = name;
                 existingEmployee.Email = email;
-                existingEmployee.Password = password;
+                if(existingEmployee.Password != password)
+                {
+                    existingEmployee.Password = employeeService.HashPassword(password);
+                }
+                else
+                {
+                    existingEmployee.Password = password;
+                }
                 existingEmployee.Role = role;
                 existingEmployee.IsActive = isActive;
 
