@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 
 namespace Model
 {
-    internal class Employee
+    public class Employee
     {
+        [BsonId]
         [BsonElement("_id")]
         public ObjectId Id { get; set; }
 
@@ -27,10 +30,14 @@ namespace Model
         public string Password { get; set; }
 
         [BsonElement("Role")]
+        [JsonConverter(typeof(StringEnumConverter))]
         [BsonRepresentation(BsonType.String)]
         public Role Role { get; set; }
 
-        public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role)
+        [BsonElement("IsActive")]
+        public bool IsActive { get; set; }
+
+        public Employee(ObjectId Id, string UserName, string Name, string Email, string Password, Role Role, bool IsActive = true)
         {
             this.Id = Id;
             this.UserName = UserName;
@@ -38,12 +45,14 @@ namespace Model
             this.Email = Email;
             this.Password = Password;
             this.Role = Role;
+            this.IsActive = IsActive;
         }
 
     }
 
-    enum Role
+    public enum Role
     {
-        regular, admin
+        regular=1, admin
     }
+
 }
